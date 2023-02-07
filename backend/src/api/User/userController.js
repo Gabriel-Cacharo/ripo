@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const { SERVER_ERR_MESSAGE } = require('../../utils/errorsCode');
+
 const { findOneUserWhere, createUser } = require('./userDatabase');
 
 module.exports = {
@@ -56,7 +58,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
 
-      throw new Error('Ocorreu um erro ao fazer login. Tente novamente mais tarde.');
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 };

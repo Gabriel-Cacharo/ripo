@@ -1,4 +1,4 @@
-const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE } = require('../../utils/errorsCode');
+const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
 
 const { registerValidation, loginValidation } = require('./userValidations');
 const { registerController, loginController } = require('./userController');
@@ -16,7 +16,6 @@ module.exports = {
     try {
       registerValidation.parse(req.body);
     } catch (err) {
-      console.log(err);
       return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
     }
 
@@ -48,7 +47,7 @@ module.exports = {
 
       return res.status(200).json(loginUserResponse);
     } catch (err) {
-      return res.status(400).json({ error: err.message });
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
   },
 };
