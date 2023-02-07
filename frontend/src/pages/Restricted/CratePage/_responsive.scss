@@ -1,0 +1,155 @@
+@media (max-width: 1200px) {
+  .cratePageContainer .myCratesSection .middleContainer .openCrateContainer {
+    img {
+      height: 230px;
+    }
+
+    .textsContainer {
+      h4 {
+        font-size: 1.2rem;
+      }
+
+      b {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 950px) {
+  .cratePageContainer .myCratesSection .middleContainer {
+    flex-direction: column;
+
+    .userCratesContainer {
+      max-width: 100%;
+      margin-bottom: 50px;
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .cratePageContainer {
+    .buyCratesSection {
+      .buyCrateContainer > img {
+        height: 200px;
+      }
+    }
+  }
+}
+
+@media (max-width: 690px) {
+  .cratePageContainer {
+    .redeemCrateContainer .middleContainer {
+      img {
+        height: 230px;
+      }
+    }
+
+    .buyCratesSection {
+      .buyCrateContainer {
+        > img {
+          margin-right: 30px;
+        }
+
+        .textsContainer {
+          p {
+            font-size: 1rem;
+          }
+
+          .textsInformationContainer {
+            .userCoins {
+              h5 {
+                font-size: 1.2rem;
+              }
+
+              img {
+                height: 30px;
+              }
+            }
+
+            button {
+              width: 220px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 580px) {
+  .cratePageContainer {
+    .myCratesSection .middleContainer {
+      .userCratesContainer {
+        justify-content: center;
+      }
+
+      .openCrateContainer {
+        img {
+          height: 150px;
+        }
+      }
+    }
+
+    .buyCratesSection .buyCrateContainer {
+      flex-direction: column;
+
+      text-align: center;
+
+      .textsContainer {
+        margin-top: 40px;
+
+        .textsInformationContainer {
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .cratePageContainer {
+    .redeemCrateContainer .middleContainer {
+      flex-direction: column;
+
+      img {
+        margin: 0;
+        margin-bottom: 20px;
+      }
+
+      .textsContainer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .myCratesSection .middleContainer .openCrateContainer {
+      flex-direction: column;
+
+      .textsContainer {
+        align-items: center;
+
+        h4 {
+          margin-top: 20px;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 390px) {
+  .cratePageContainer {
+    .buyCratesSection .buyCrateContainer .textsContainer .textsInformationContainer {
+      flex-direction: column;
+
+      .userCoins {
+        margin: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,137 @@
+// Give 100% of width for homeContainer and reduce the size of leftTextsContainer
+@media (max-width: 1100px) {
+  .homeContainer {
+    width: 100%;
+
+    .leftTextsContainer {
+      width: 230px;
+    }
+  }
+}
+
+// Just reduce the texts
+@media (max-width: 900px) {
+  .homeContainer {
+    .leftTextsContainer {
+      width: 150px;
+      padding-left: 50px;
+    }
+
+    .rightTextsContainer {
+      h5 {
+        font-size: 1rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+
+      .rightTextsButtonsContainer {
+        button {
+          font-size: 0.9rem;
+          padding: 8px 17px;
+        }
+
+        p {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
+
+// Switch leftTextsContainer for row mode
+@media (max-width: 820px) {
+  .homeContainer {
+    .leftTextsContainer {
+      width: 220px;
+
+      padding-left: 20px;
+
+      h3 {
+        font-size: 4.5rem;
+        align-self: flex-start;
+      }
+
+      p {
+        font-size: 2rem;
+        margin-top: -20px;
+        margin-left: 10px;
+        margin-right: 0;
+        transform: rotate(0);
+      }
+    }
+
+    .rightTextsContainer {
+      padding-right: 0px;
+    }
+
+    .slideImagesCenter {
+      width: 300px;
+      height: 300px;
+
+      background-position: 50% 100%;
+      background-size: 250px;
+
+      .imageSlide {
+        img {
+          width: 150px;
+          height: 320px;
+        }
+      }
+    }
+  }
+}
+
+// Switch to Flex Column
+@media (max-width: 750px) {
+  .homeContainer {
+    flex-direction: column;
+
+    .leftTextsContainer {
+      margin-bottom: 0;
+
+      h3 {
+        font-size: 6rem;
+      }
+    }
+
+    .slideImagesCenter {
+      margin-top: 40px;
+      margin-bottom: 100px;
+    }
+
+    .rightTextsContainer {
+      text-align: center;
+
+      h5 {
+        font-size: 1.1rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .rightTextsButtonsContainer {
+        justify-content: center;
+
+        button {
+          font-size: 1.05rem;
+          padding: 10px 22px;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .homeContainer {
+    > span {
+      top: 260px;
+    }
+  }
+}

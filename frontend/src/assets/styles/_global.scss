@@ -1,0 +1,25 @@
+body {
+  background-color: $light-grey;
+  color: $white;
+}
+
+* {
+  font-family: 'Myriad Pro';
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: $dark-grey;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-color;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $white;
+}

@@ -1,0 +1,137 @@
+@media (max-width: 1270px) {
+  // Register
+  .registerContainer .leftTextsContainer {
+    p {
+      // margin-top: 80px;
+      margin-right: 0;
+      text-align: end;
+    }
+  }
+
+  // Login
+  .loginContainer .leftTextsContainer {
+    p {
+      margin-top: 60px;
+      margin-left: 0;
+      text-align: start;
+    }
+  }
+}
+
+@media (max-width: 970px) {
+  // Register
+  .registerContainer {
+    flex-direction: column;
+
+    .leftTextsContainer {
+      display: none;
+    }
+
+    .formRegisterContainer {
+      clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+      width: 100%;
+      animation: none;
+
+      .formRegister {
+        margin-left: 0;
+      }
+    }
+
+    > span {
+      top: 110px;
+    }
+  }
+
+  // Login
+  .loginContainer {
+    flex-direction: column-reverse;
+
+    .leftTextsContainer {
+      display: none;
+    }
+
+    .formLoginContainer {
+      clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+      width: 100%;
+      animation: none;
+
+      .formLogin {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 620px) {
+  // Register
+  .registerContainer .formRegisterContainer {
+    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+  }
+
+  // Login
+  .loginContainer .formLoginContainer {
+    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+  }
+}
+
+@media (max-width: 500px) {
+  // Register
+  .registerContainer {
+    .formRegisterContainer .formRegister {
+      width: 60%;
+
+      .buttonsFormRegister {
+        flex-direction: column;
+
+        > button {
+          margin-top: 20px;
+          width: 100%;
+        }
+      }
+    }
+
+    > span {
+      top: 270px;
+      font-size: 0.9rem;
+      max-width: 200px;
+
+      img {
+        height: 80%;
+      }
+    }
+  }
+
+  // Login
+  .loginContainer .formLoginContainer .formLogin {
+    width: 60%;
+
+    .buttonsFormLogin {
+      flex-direction: column;
+
+      > button {
+        margin: 20px 0px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 370px) {
+  // Register
+  .registerContainer .formRegisterContainer .formRegister {
+    .buttonsFormRegister {
+      p {
+        flex-direction: column;
+      }
+    }
+  }
+
+  // Login
+  .loginContainer .formLoginContainer .formLogin {
+    .buttonsFormLogin {
+      p {
+        flex-direction: column;
+      }
+    }
+  }
+}

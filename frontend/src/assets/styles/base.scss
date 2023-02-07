@@ -1,0 +1,33 @@
+@import './colors.scss';
+@import './fonts.scss';
+@import './reset.scss';
+
+@import './classNames';
+
+@import './global.scss';
+
+@import '../../components/Header/styles.scss';
+@import '../../components/Header/responsive.scss';
+
+@import '../../components/NumbersContainer/styles';
+@import '../../components/NumbersContainer/responsive';
+
+@import '../../pages/Home/styles';
+@import '../../pages/Home/components/Slider/styles';
+@import '../../pages/Home/responsive';
+
+@import '../../pages/Auth/styles';
+@import '../../pages/Auth/responsive';
+
+@import '../../pages/Collection/styles';
+@import '../../pages/Collection/responsive';
+
+@import '../../pages/About/styles';
+
+@import '../../pages/Restricted/CratePage/styles';
+@import '../../pages/Restricted/CratePage/responsive';
+
+@import '../../pages/Restricted/CreateRipo/styles';
+@import '../../pages/Restricted/CreateRipo/responsive';
+
+@import '../../pages/Restricted/FactionPage/styles';

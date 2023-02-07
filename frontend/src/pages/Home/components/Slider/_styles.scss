@@ -1,0 +1,14 @@
+.imageSlide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 200px;
+    height: 400px;
+  }
+}
+
+.react-slideshow-container .default-nav {
+  align-self: flex-end;
+}
