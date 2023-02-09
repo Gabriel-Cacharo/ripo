@@ -8,7 +8,6 @@ class User extends Model {
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
-          unique: true,
         },
         username: DataTypes.STRING,
         email: DataTypes.STRING,
@@ -19,8 +18,13 @@ class User extends Model {
       },
       {
         sequelize,
+        tableName: 'users',
       }
     );
+  }
+
+  static associate(models) {
+    this.belongsToMany(models.Crate, { foreignKey: 'userId', through: 'userCrates', as: 'crates', unique: false });
   }
 }
 

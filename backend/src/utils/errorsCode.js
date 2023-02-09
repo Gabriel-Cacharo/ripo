@@ -7,6 +7,8 @@ const SERVER_ERR_MESSAGE = 'Ocorreu um erro no servidor, tente novamente mais ta
 const NOT_AUTHORIZED_CODE = 401;
 const NOT_AUTHORIZED_MESSAGE = 'Não autorizado.';
 
+const USER_NOT_EXISTS_MESSAGE = 'Usuário não encontrado.';
+
 module.exports = {
   ZOD_ERR_CODE,
   ZOD_ERR_MESSAGE,
@@ -14,4 +16,5 @@ module.exports = {
   SERVER_ERR_MESSAGE,
   NOT_AUTHORIZED_CODE,
   NOT_AUTHORIZED_MESSAGE,
+  USER_NOT_EXISTS_MESSAGE,
 };
