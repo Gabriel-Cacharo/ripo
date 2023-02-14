@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import jsCookie from 'js-cookie';
 
 import { api } from '../services/api';
+import { toast } from 'react-toastify';
 
 export const AuthContext = createContext({});
 
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   const contextLoginFunction = async (email, password) => {
     try {
-      const apiLoginResponse = await api.post('api/login', {
+      const apiLoginResponse = await api.post('/auth/login', {
         email,
         password,
       });
@@ -42,15 +43,17 @@ export const AuthProvider = ({ children }) => {
         userName: apiLoginResponse.data.username,
       };
 
-      jsCookie.set('jwt', apiLoginResponse.data.token, { expires: 1 });
+      jsCookie.set('jwt', apiLoginResponse.data.token, { expires: 2 });
       localStorage.setItem('user', JSON.stringify(loggedUserInfo));
       api.defaults.headers.common['Authorization'] = `Bearer ${apiLoginResponse.data.token}`;
 
       setUser(loggedUserInfo);
 
+      toast.success('Você fez login com sucesso');
+      navigate('/crate');
+
       return;
     } catch (error) {
-      console.log('error');
       return {
         type: 'error',
         error: error.response.data,
@@ -60,21 +63,55 @@ export const AuthProvider = ({ children }) => {
 
   const contextRegisterFunction = async (email, password, username) => {
     try {
-      const apiRegisterResponse = await api.post('api/register', {
+      const apiRegisterResponse = await api.post('/auth/register', {
         email,
         username,
         password,
       });
+
+      let registeredUserInfo = {
+        email,
+        id: apiRegisterResponse.data.user.id,
+        coins: '0',
+        userName: apiRegisterResponse.data.username,
+      };
+
+      jsCookie.set('jwt', apiRegisterResponse.data.token, { expires: 2 });
+      localStorage.setItem('user', JSON.stringify(registeredUserInfo));
+      api.defaults.headers.common['Authorization'] = `Bearer ${apiRegisterResponse.data.token}`;
+
+      setUser(registeredUserInfo);
+
+      toast.success('Sua conta foi criada com sucesso');
+      navigate('/crate');
+
+      return;
     } catch (error) {
       return {
         type: 'error',
-        error: error.response.data,
+        error: error.response.data.error,
       };
     }
   };
 
+  const contextLogoutFunction = () => {
+    try {
+      setUser(null);
+      api.defaults.headers.common['Authorization'] = ``;
+      jsCookie.remove('jwt');
+      localStorage.removeItem('user');
+
+      toast.success('Você se deslogou com sucesso');
+      navigate('/');
+    } catch (err) {
+      toast.error('Ocorreu um erro ao se deslogar. Tente novamente mais tarde');
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, loading, contextLoginFunction, contextRegisterFunction }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated: !!user, loading, contextLoginFunction, contextRegisterFunction, contextLogoutFunction }}
+    >
       {children}
     </AuthContext.Provider>
   );

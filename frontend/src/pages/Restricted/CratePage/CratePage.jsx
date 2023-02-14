@@ -24,49 +24,44 @@ const CratePage = () => {
 
   const [userCrates, setUserCrates] = useState([]);
   const [crateSelected, setCrateSelected] = useState();
-  const [someOpenedCrate, setSomeOpenedCrate] = useState(false);
+  const [crateOpenedContent, setCrateOpenedContent] = useState();
 
   const [animationState, setAnimationState] = useState({
     isStopped: false,
     isPaused: false,
   });
 
-  const [loading, setLoading] = useState(false);
+  const [redeemCrateLoading, setRedeemCrateLoading] = useState(false);
+  const [openCrateLoading, setOpenCrateLoading] = useState(false);
 
   const timeRemaining = Cookies.get('timeRemaining');
 
   useEffect(() => {
-    // if (timeRemaining) {
-    //   const timeRemainingSplit = timeRemaining.split('-');
-    //   const timeRemainingHours = timeRemainingSplit[0].replace('h', ' ').replace('m', '');
-    //   const timeRemainingFormatted = timeRemainingHours.split(' ');
-
-    //   const hourLocalStoragePut = timeRemainingSplit[1].split(':');
-
-    //   console.log(newDate.format('HH:mm'));
-    // }
-
     getUserCratesFunction();
   }, []);
 
   const getUserCratesFunction = async () => {
-    const userInfos = JSON.parse(localStorage.getItem('user'));
+    try {
+      const userCratesResponse = await api(`/crates/getUserCrates`);
 
-    const userCratesResponse = await api(`api/users/crates?id=${userInfos.id}`);
-
-    setUserCrates(userCratesResponse.data);
+      setUserCrates(userCratesResponse.data);
+    } catch (err) {
+      setUserCrates([]);
+    }
   };
 
   const redeemCrateFunction = async () => {
-    setLoading(true);
+    setRedeemCrateLoading(true);
 
     try {
-      await api('/api/users/getcrate');
+      await api.post(`/crates/redeem`);
 
       getUserCratesFunction();
+
       toast.success('Você resgatou uma caixa com sucesso!');
+      setRedeemCrateLoading(false);
     } catch (err) {
-      const cooldownTime = err.response.data.tempo.replace('h', ' ').replace('m', '').split(' ');
+      const cooldownTime = err.response.data.error.replace('h', ' ').replace('m', '').split(' ');
 
       const hoursUserCanRedeemAgain = moment()
         .add(cooldownTime[0], 'hours')
@@ -85,12 +80,76 @@ const CratePage = () => {
       Cookies.set('timeRemaining', hoursUserCanRedeemAgain, {
         expires: timeOfDayUserCanRedeemAgain,
       });
-      toast.error(`Você deve esperar ${err.response.data.tempo} para resgatar uma caixa novamente!`);
-      setLoading(false);
+
+      toast.error(`Você deve esperar ${err.response.data.error} para resgatar uma caixa novamente!`);
+      setRedeemCrateLoading(false);
     }
   };
 
-  const openCrateFunction = () => {};
+  const buyCrateFunction = async () => {
+    try {
+      await api.post(`/crates/buy?crateId=1`);
+
+      getUserCratesFunction();
+      toast.success('Você comprou a caixa com sucesso');
+    } catch (err) {
+      toast.error(err.response.data.error);
+    }
+  };
+
+  const openCrateFunction = async () => {
+    setOpenCrateLoading(true);
+    setCrateOpenedContent('');
+
+    try {
+      await api.post(`/crates/open?crateId=${crateSelected.id}`).then((response) => {
+        setTimeout(() => {
+          setCrateOpenedContent(response.data);
+          setCrateSelected('');
+          setOpenCrateLoading(false);
+
+          getUserCratesFunction();
+        }, 5000);
+      });
+    } catch (err) {
+      setOpenCrateLoading(false);
+      toast.error(err.response.data.error);
+    }
+  };
+
+  const renderCrateImage = () => {
+    return openCrateLoading ? (
+      <div data-aos="fade-in">
+        <Lottie
+          options={animationLoadingLargeSettings}
+          height={400}
+          width={400}
+          isStopped={animationState.isStopped}
+          isPaused={animationState.isPaused}
+        ></Lottie>
+      </div>
+    ) : !openCrateLoading && !crateOpenedContent ? (
+      <img src={CrateImage} alt="Crate Image" />
+    ) : (
+      <img data-aos="zoom-in" src={crateOpenedContent.ripoImage} alt="Crate Image" style={{ marginRight: '30px' }} />
+    );
+  };
+
+  const renderCrateTexts = () => {
+    return (
+      <div className="textsContainer">
+        {!crateOpenedContent && !openCrateLoading ? (
+          <h4>Selecione uma caixa para abrir</h4>
+        ) : !crateOpenedContent && openCrateLoading ? (
+          <h4>Abrindo a caixa...</h4>
+        ) : (
+          <h4 data-aos="fade-up">
+            🎉🎉 Parabéns! Você ganhou um ripo <b>{crateOpenedContent.rarity}</b>
+          </h4>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="cratePageContainer">
@@ -110,10 +169,10 @@ const CratePage = () => {
             </p>
             <button
               onClick={redeemCrateFunction}
-              disabled={timeRemaining || loading}
+              disabled={timeRemaining || redeemCrateLoading}
               className={timeRemaining && 'disabled'}
             >
-              {loading ? (
+              {redeemCrateLoading ? (
                 <Lottie
                   options={animationLoadingSmallSettings}
                   height={70}
@@ -162,45 +221,22 @@ const CratePage = () => {
           </div>
 
           <div className="openCrateContainer">
-            {crateSelected ? (
+            {crateSelected && !openCrateLoading ? (
               <>
                 <img src={CrateImage} alt="Crate Image" />
 
                 <div className="textsContainer">
                   <h4>
-                    Tente a sorte abrindo a caixa <b>{crateSelected.crate.attributes.rarity}</b>
+                    Tente a sorte abrindo a caixa <b>{crateSelected.rarity}</b>
                   </h4>
-                  <button></button>
+                  <button type="button" onClick={() => openCrateFunction()}></button>
                 </div>
               </>
             ) : (
               <>
-                {loading ? (
-                  <div data-aos="fade-in">
-                    <Lottie
-                      options={animationLoadingLargeSettings}
-                      height={400}
-                      width={400}
-                      isStopped={animationState.isStopped}
-                      isPaused={animationState.isPaused}
-                    ></Lottie>
-                  </div>
-                ) : !loading && !someOpenedCrate ? (
-                  <img src={CrateImage} alt="Crate Image" />
-                ) : (
-                  <img data-aos="zoom-in" src={CharacterImage} alt="Crate Image" style={{ marginRight: '30px' }} />
-                )}
+                {renderCrateImage()}
 
-                <div className="textsContainer">
-                  {!someOpenedCrate ? (
-                    <h4>Selecione uma caixa para abrir</h4>
-                  ) : (
-                    <h4 data-aos="fade-up">
-                      🎉🎉 Parabéns! Você ganhou uma caixa <b>Rara</b>
-                    </h4>
-                  )}
-                  <button></button>
-                </div>
+                {renderCrateTexts()}
               </>
             )}
           </div>
@@ -208,8 +244,8 @@ const CratePage = () => {
 
         <div className="crateContentContainer" {...events} ref={ref}>
           {crateSelected ? (
-            crateSelected.crate.drops.map((drop, index) => {
-              return <img key={index} src={drop.image} />;
+            crateSelected.riposDrop.map((drop, index) => {
+              return <img key={index} src={drop} />;
             })
           ) : (
             <>
@@ -240,7 +276,7 @@ const CratePage = () => {
                 <h5>1.000</h5>
               </div>
 
-              <button></button>
+              <button type="button" onClick={buyCrateFunction}></button>
             </div>
           </div>
         </div>

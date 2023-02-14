@@ -23,7 +23,7 @@ function Register() {
     message: '',
   });
 
-  const [isLoginPage, setIsLoginPage] = useState(false);
+  const [isLoginPage, setIsLoginPage] = useState(true);
 
   const setIsLoginPageFunction = () => {
     setIsLoginPage((c) => !c);
@@ -71,10 +71,11 @@ function Register() {
     }
 
     const registerResponse = await contextRegisterFunction(email, password, username);
-    if (registerResponse && registerResponse === 'error') {
+
+    if (registerResponse && registerResponse.type === 'error') {
       setError({
         type: 'all',
-        message: err.response.data.error,
+        message: registerResponse.error,
       });
     }
   };

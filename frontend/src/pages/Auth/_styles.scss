@@ -350,12 +350,6 @@
             background: transparent;
             color: $white;
             margin-left: 2px;
-
-            transition: all 200ms ease-in-out;
-
-            &:hover {
-              transform: translateX(0.2rem);
-            }
           }
         }
 
@@ -388,9 +382,9 @@
         margin-top: 15px;
         width: 100%;
         text-align: center;
-  
+
         color: rgb(220, 42, 42);
-  
+
         font-size: 1rem;
       }
     }

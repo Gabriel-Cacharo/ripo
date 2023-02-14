@@ -12,7 +12,7 @@ import { FiLogOut } from 'react-icons/fi';
 import { AuthContext } from '../../context/AuthContext';
 
 function Header() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, contextLogoutFunction } = useContext(AuthContext);
 
   const userCoins = localStorage.getItem('user');
 
@@ -53,7 +53,7 @@ function Header() {
       <div className="rightHeaderButtons">
         {!isAuthenticated ? (
           <Link to="/auth" className="signInButton">
-            <FaUserAlt className="iconMarginRight" /> CADASTRAR
+            <FaUserAlt className="iconMarginRight" /> ENTRAR
           </Link>
         ) : (
           <div className="userCoinsContainer">
@@ -63,10 +63,12 @@ function Header() {
         )}
 
         <DropdownMenu.Root open={dropdownMenuIsOpen}>
-          <DropdownMenu.Trigger style={{ background: 'transparent' }}>
-            <button className="menuButton" onClick={() => setDropdownMenuIsOpen((s) => !s)}>
-              <img src={MenuButtonImage} alt="Menu Button" />
-            </button>
+          <DropdownMenu.Trigger
+            className="menuButton"
+            style={{ background: 'transparent' }}
+            onClick={() => setDropdownMenuIsOpen((s) => !s)}
+          >
+            <img src={MenuButtonImage} alt="Menu Button" />
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Portal>
@@ -75,7 +77,7 @@ function Header() {
               onInteractOutside={() => setDropdownMenuIsOpen((s) => !s)}
             >
               <DropdownMenu.Item className="dropdownMenuItem">
-                <button>
+                <button type="button" onClick={contextLogoutFunction}>
                   <FiLogOut className="iconMarginRight" />
                   Sair
                 </button>
