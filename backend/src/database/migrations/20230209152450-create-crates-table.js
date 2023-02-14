@@ -14,6 +14,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      price: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       rarity: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -18,6 +18,11 @@ class Ripo extends Model {
       }
     );
   }
+
+  static associate(models) {
+    this.belongsToMany(models.Crate, { through: 'id' });
+    this.belongsToMany(models.User, { foreignKey: 'ripoId', through: 'userRipos', as: 'users', unique: false });
+  }
 }
 
 module.exports = Ripo;

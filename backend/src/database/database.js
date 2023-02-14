@@ -15,6 +15,7 @@ Ripo.init(connection);
 // Relations
 User.associate(connection.models);
 Crate.associate(connection.models);
+Ripo.associate(connection.models);
 
 module.exports = {
   connection,

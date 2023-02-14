@@ -10,6 +10,7 @@ class Crate extends Model {
           primaryKey: true,
         },
         type: DataTypes.STRING,
+        price: DataTypes.STRING,
         rarity: DataTypes.STRING,
         canDropRipo: DataTypes.BOOLEAN,
         riposDrop: DataTypes.ARRAY(DataTypes.STRING),
@@ -26,6 +27,7 @@ class Crate extends Model {
 
   static associate(models) {
     this.belongsToMany(models.User, { foreignKey: 'crateId', through: 'userCrates', as: 'users', unique: false });
+    this.belongsToMany(models.Ripo, { through: 'id' });
   }
 }
 
