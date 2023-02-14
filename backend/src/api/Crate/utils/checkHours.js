@@ -13,6 +13,11 @@ async function checkHours(lastRedeemCrateHours) {
   totalMinutes = Math.floor(totalSeconds / 60);
   totalSeconds = totalSeconds - totalMinutes * 60;
 
+  if (totalHours <= 0) {
+    totalHours = 0;
+    totalMinutes = 0;
+  }
+
   return [totalHours, totalMinutes];
 }
 
