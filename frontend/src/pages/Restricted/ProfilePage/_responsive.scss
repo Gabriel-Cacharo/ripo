@@ -1,0 +1,11 @@
+@media (max-width: 850px) {
+  .factionPageContainer {
+    .facMembersInformationContainer {
+      flex-direction: column;
+
+      .facOwnerImage {
+        margin: 0;
+      }
+    }
+  }
+}

@@ -10,6 +10,13 @@ import CrateOpenedImage from '../../../assets/images/Caixa_aberta.png';
 import CoinsIcon from '../../../assets/images/Coins_Icon.png';
 import CharacterImage from '../../../assets/images/Boneco_Ind.png';
 import RedeemCrateImage from '../../../assets/images/segurandoCaixa.png';
+import BrilhoRaro from '../../../assets/images/Brilho_Raro.png';
+import BrilhoLendario from '../../../assets/images/Brilho_Lendario.png';
+import BrilhoComum from '../../../assets/images/Brilho_Comum.png';
+import BrilhoIncomum from '../../../assets/images/Brilho_Incomum.png';
+import Placa from '../../../assets/images/lendario_Caixa.png';
+
+import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 
 import {
   animationLoadingLargeSettings,
@@ -61,6 +68,11 @@ const CratePage = () => {
       toast.success('Você resgatou uma caixa com sucesso!');
       setRedeemCrateLoading(false);
     } catch (err) {
+      if (!err.response) {
+        setRedeemCrateLoading(false);
+        return toast.error('Ocorreu um erro ao resgatar a caixa. Tente novamente mais tarde');
+      }
+
       const cooldownTime = err.response.data.error.replace('h', ' ').replace('m', '').split(' ');
 
       const hoursUserCanRedeemAgain = moment()
@@ -81,7 +93,12 @@ const CratePage = () => {
         expires: timeOfDayUserCanRedeemAgain,
       });
 
-      toast.error(`Você deve esperar ${err.response.data.error} para resgatar uma caixa novamente!`);
+      if (err.response.data.error.includes('servidor')) {
+        toast.error(err.response.data.error);
+      } else {
+        toast.error(`Você deve esperar ${err.response.data.error} para resgatar uma caixa novamente!`);
+      }
+
       setRedeemCrateLoading(false);
     }
   };
@@ -122,16 +139,19 @@ const CratePage = () => {
       <div data-aos="fade-in">
         <Lottie
           options={animationLoadingLargeSettings}
-          height={400}
-          width={400}
+          height={window.innerWidth >= 650 ? 400 : 300}
+          width={window.innerWidth >= 650 ? 400 : 300}
           isStopped={animationState.isStopped}
           isPaused={animationState.isPaused}
         ></Lottie>
       </div>
     ) : !openCrateLoading && !crateOpenedContent ? (
-      <img src={CrateImage} alt="Crate Image" />
+      <img src={CrateImage} alt="Crate Image" data-aos="zoom-out" />
     ) : (
-      <img data-aos="zoom-in" src={crateOpenedContent.ripoImage} alt="Crate Image" style={{ marginRight: '30px' }} />
+      <div className="drawnItemContainer" style={{ backgroundImage: `url(${BrilhoLendario})` }}>
+        <img src={Placa} alt="Item Rarity" className="itemRarity" />
+        <img data-aos="zoom-in" src={crateOpenedContent.drawnRipo.ripoImage} alt="Crate Image" />
+      </div>
     );
   };
 
@@ -143,9 +163,29 @@ const CratePage = () => {
         ) : !crateOpenedContent && openCrateLoading ? (
           <h4>Abrindo a caixa...</h4>
         ) : (
-          <h4 data-aos="fade-up">
-            🎉🎉 Parabéns! Você ganhou um ripo <b>{crateOpenedContent.rarity}</b>
-          </h4>
+          <>
+            <h4 data-aos="fade-in">
+              Parabéns! Você ganhou um <b>Ripo</b>
+            </h4>
+            <div className="userItemDrawnOptionsContainer">
+              {crateOpenedContent.userAlreadyHaveThisRipo ? (
+                <div className="saveRepeatedContainer">
+                  <button disabled></button>
+                  <p>Repetido</p>
+                </div>
+              ) : (
+                <button></button>
+              )}
+              <div className="sellItemContainer">
+                <button></button>
+
+                <div className="priceItemContainer">
+                  <img src={CoinsIcon} alt="Coins Icon" />
+                  <p>1600</p>
+                </div>
+              </div>
+            </div>
+          </>
         )}
       </div>
     );
@@ -154,13 +194,11 @@ const CratePage = () => {
   return (
     <div className="cratePageContainer">
       <section className="redeemCrateContainer">
-        <h3>
-          Resgatar caixa <span>.</span>
-        </h3>
+        <SectionTitle title={'Resgatar caixa'} secondPart={'.'} />
 
         <div className="middleContainer">
-          <img src={RedeemCrateImage} alt="Crate Image" />
-          <div className="textsContainer">
+          <img src={RedeemCrateImage} alt="Crate Image" data-aos="fade-in" />
+          <div className="textsContainer" data-aos="zoom-in">
             <h4>Resgate a sua caixa</h4>
             <p>
               {!timeRemaining
@@ -191,9 +229,7 @@ const CratePage = () => {
       </section>
 
       <section className="myCratesSection">
-        <h3>
-          Minhas caixas <span>.</span>
-        </h3>
+        <SectionTitle title="Minhas caixas" secondPart="." />
 
         <div className="middleContainer">
           <div className="userCratesContainer">
@@ -259,14 +295,12 @@ const CratePage = () => {
       </section>
 
       <section className="buyCratesSection">
-        <h3>
-          Comprar caixas <span>.</span>
-        </h3>
+        <SectionTitle title="Comprar caixas" secondPart="." />
 
         <div className="buyCrateContainer">
-          <img src={CrateOpenedImage} alt="Crate Opened Image" />
+          <img src={CrateOpenedImage} alt="Crate Opened Image" data-aos="zoom-in" />
 
-          <div className="textsContainer">
+          <div className="textsContainer" data-aos="zoom-in">
             <p>Você ganha coins vendendo seus Ripos ou de outras formas!</p>
             <p>Se você tem coins suficientes, pode comprar mais uma caixa para completar sua coleção.</p>
 

@@ -41,10 +41,7 @@ function Header() {
               <Link to="/crate">Caixas</Link>
             </li>
             <li>
-              <Link to="/about">Minha Coleção</Link>
-            </li>
-            <li>
-              <Link to="/collection">Facção</Link>
+              <Link to="/profile">Meu Perfil</Link>
             </li>
           </ul>
         )}

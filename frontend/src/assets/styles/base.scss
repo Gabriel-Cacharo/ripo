@@ -12,6 +12,8 @@
 @import '../../components/NumbersContainer/styles';
 @import '../../components/NumbersContainer/responsive';
 
+@import '../../components/SectionTitle/styles';
+
 @import '../../pages/Home/styles';
 @import '../../pages/Home/components/Slider/styles';
 @import '../../pages/Home/responsive';
@@ -30,4 +32,5 @@
 @import '../../pages/Restricted/CreateRipo/styles';
 @import '../../pages/Restricted/CreateRipo/responsive';
 
-@import '../../pages/Restricted/FactionPage/styles';
+@import '../../pages/Restricted/ProfilePage/styles';
+@import '../../pages/Restricted/ProfilePage/responsive';

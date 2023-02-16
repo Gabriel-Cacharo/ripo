@@ -10,7 +10,7 @@ import Auth from './pages/Auth/AuthPage';
 
 import CratePage from './pages/Restricted/CratePage/CratePage';
 import CreateRipoPage from './pages/Restricted/CreateRipo/CreateRipoPage';
-import FactionPage from './pages/Restricted/FactionPage/FactionPage';
+import ProfilePage from './pages/Restricted/ProfilePage/ProfilePage';
 
 function AppRoutes() {
   function PrivateRoute() {
@@ -33,8 +33,7 @@ function AppRoutes() {
         <Route path="/crate" exact element={<CratePage />} />
       </Route>
 
-      <Route path="/fac" element={<FactionPage />} />
-
+      <Route path="/profile" element={<ProfilePage />} />
       <Route path="/createRipo" element={<CreateRipoPage />} />
 
       <Route path="/auth" exact element={<Auth />} />

@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     if (loggedUserInfo && loggedUserJwt) {
       setUser(JSON.parse(loggedUserInfo));
 
-      api.defaults.headers.common['Authorization'] = `Bearer ${loggedUserJwt}`;
+      api.defaults.headers.common['authorization'] = `Bearer ${loggedUserJwt}`;
     } else {
       localStorage.clear();
       jsCookie.remove('jwt');
