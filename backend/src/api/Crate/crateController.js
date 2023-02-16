@@ -1,16 +1,16 @@
 const jwt = require('jsonwebtoken');
 
 const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/errorsCode');
-const { getRipoById } = require('../RIpo/ripoDatabase');
-const { findOneUserWhere } = require('../User/userDatabase');
 
+const { getRipoById, verifyIfUserAlreadyHaveThisRipoDatabase } = require('../Ripo/ripoDatabase');
+const { findOneUserWhere } = require('../User/userDatabase');
 const {
   getUserCratesDatabase,
   addRedeemCrateDatabase,
-  addUserCrate,
-  getCrateInfos,
-  verifyIfUserHaveThisCrate,
-  removeUserCrate,
+  addUserCrateDatabase,
+  getCrateInfosDatabase,
+  verifyIfUserHaveThisCrateDatabase,
+  removeUserCrateDatabase,
 } = require('./crateDatabase');
 const { checkHours } = require('./utils/checkHours');
 
@@ -29,7 +29,7 @@ module.exports = {
       return userCrates;
     } catch (err) {
       console.log(err);
-      throw new Error(err.message || SERVER_ERR_MESSAGE);
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 
@@ -55,7 +55,7 @@ module.exports = {
         }
       }
     } catch (err) {
-      throw new Error(err.message || SERVER_ERR_MESSAGE);
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 
@@ -68,15 +68,15 @@ module.exports = {
         throw new Error(USER_NOT_EXISTS_MESSAGE);
       }
 
-      const crateInfos = await getCrateInfos(crateId);
+      const crateInfos = await getCrateInfosDatabase(crateId);
 
       if (userInfos.dataValues.coins >= crateInfos.dataValues.price) {
-        return await addUserCrate(userInfos.id, crateId, crateInfos.dataValues.price);
+        return await addUserCrateDatabase(userInfos.id, crateId, crateInfos.dataValues.price);
       } else {
         throw new Error('Coins insuficientes');
       }
     } catch (err) {
-      throw new Error(err.message || SERVER_ERR_MESSAGE);
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 
@@ -89,14 +89,22 @@ module.exports = {
         throw new Error(USER_NOT_EXISTS_MESSAGE);
       }
 
-      const userHaveThisCrate = await verifyIfUserHaveThisCrate(userInfos.id, crateId);
-      const drawnIndex = Math.floor(Math.random() * userHaveThisCrate.length + 1);
-      const drawnRipo = await getRipoById(drawnIndex);
-      await removeUserCrate(userInfos.id, crateId);
+      const userHaveThisCrate = await verifyIfUserHaveThisCrateDatabase(userInfos.id, crateId);
 
-      return drawnRipo;
+      const drawnIndex = Math.floor(Math.random() * userHaveThisCrate.length);
+      const drawnRipo = await getRipoById(userHaveThisCrate[drawnIndex]);
+      await removeUserCrateDatabase(userInfos.id, crateId);
+
+      const userAlreadyHaveThisRipoResponse = await verifyIfUserAlreadyHaveThisRipoDatabase(
+        userInfos.id,
+        drawnRipo.dataValues.id
+      );
+
+      const userAlreadyHaveThisRipo = userAlreadyHaveThisRipoResponse.length >= 1 ? true : false;
+
+      return { drawnRipo, userAlreadyHaveThisRipo };
     } catch (err) {
-      throw new Error(err.message || SERVER_ERR_MESSAGE);
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 };

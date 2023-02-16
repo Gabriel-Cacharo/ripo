@@ -28,7 +28,7 @@ module.exports = {
     }
   },
 
-  async verifyIfUserHaveThisCrate(userId, crateId) {
+  async verifyIfUserHaveThisCrateDatabase(userId, crateId) {
     const user = await User.findByPk(userId);
     const userCrate = await user.hasCrate(1);
 
@@ -40,7 +40,7 @@ module.exports = {
     }
   },
 
-  async getCrateInfos(crateId) {
+  async getCrateInfosDatabase(crateId) {
     return await Crate.findByPk(crateId);
   },
 
@@ -51,7 +51,7 @@ module.exports = {
     await User.update({ lastRedeemCrate: dayjs().format() }, { where: { id: userId } });
   },
 
-  async addUserCrate(userId, crateId, price) {
+  async addUserCrateDatabase(userId, crateId, price) {
     const user = await User.findByPk(userId);
     const newUserCoins = user.dataValues.coins - price;
 
@@ -59,7 +59,7 @@ module.exports = {
     return await user.addCrate(crateId);
   },
 
-  async removeUserCrate(userId, crateId) {
+  async removeUserCrateDatabase(userId, crateId) {
     const user = await User.findByPk(userId);
     const crate = await user.getCrates({ where: { id: crateId } });
 

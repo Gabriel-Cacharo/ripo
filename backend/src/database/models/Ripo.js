@@ -11,6 +11,7 @@ class Ripo extends Model {
         },
         rarity: DataTypes.STRING,
         ripoImage: DataTypes.STRING,
+        name: DataTypes.STRING,
       },
       {
         sequelize,

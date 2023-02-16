@@ -12,4 +12,9 @@ module.exports = {
   async getRipoById(ripoId) {
     return await Ripo.findByPk(ripoId);
   },
+
+  async verifyIfUserAlreadyHaveThisRipoDatabase(userId, ripoId) {
+    const user = await User.findByPk(userId);
+    return await user.getRipos({ where: { id: ripoId } });
+  },
 };

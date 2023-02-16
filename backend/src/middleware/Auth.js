@@ -4,7 +4,7 @@ const { NOT_AUTHORIZED_CODE, NOT_AUTHORIZED_MESSAGE } = require('../utils/errors
 
 module.exports = {
   async authMiddleware(req, res, next) {
-    const authHeader = req.headers['authorization'];
+    const authHeader = await req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {

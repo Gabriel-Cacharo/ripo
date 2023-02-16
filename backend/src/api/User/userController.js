@@ -2,7 +2,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { SERVER_ERR_MESSAGE } = require('../../utils/errorsCode');
 
-const { findOneUserWhere, createUser } = require('./userDatabase');
+const { findOneUserWhere, createUser, getUserInformationsDatabase } = require('./userDatabase');
+const { getUserRiposController } = require('../Ripo/ripoController');
+const { getRipoById } = require('../Ripo/ripoDatabase');
 
 module.exports = {
   async registerController(obj) {
@@ -41,7 +43,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
 
-      throw new Error(err.message || SERVER_ERR_MESSAGE);
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 
@@ -77,7 +79,31 @@ module.exports = {
     } catch (err) {
       console.log(err);
 
-      throw new Error(err.message || SERVER_ERR_MESSAGE);
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async profileController(userId) {
+    try {
+      const userInformations = await getUserInformationsDatabase(userId);
+      const userRipos = await getUserRiposController(userId);
+      const userFacRiposIndexes = JSON.parse(userInformations.facRipos);
+
+      const userFacRipos = [];
+
+      if (userFacRiposIndexes.length > 0) {
+        await Promise.all(
+          userFacRiposIndexes.map(async (ripoId) => {
+            const ripoInformations = await getRipoById(ripoId);
+
+            userFacRipos.push(ripoInformations.dataValues);
+          })
+        );
+      }
+
+      return { user: userInformations, ripos: userRipos, facRipos: userFacRipos };
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 };

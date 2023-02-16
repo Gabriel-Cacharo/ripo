@@ -16,4 +16,6 @@ router.post('/crates/open', authMiddleware, Crate.openCrate);
 
 router.get('/ripos/getUserRipos', authMiddleware, Ripo.getUserRipos);
 
+router.get('/user/profile', authMiddleware, User.profile);
+
 module.exports = router;

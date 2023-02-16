@@ -1,7 +1,7 @@
 const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
 
 const { registerValidation, loginValidation } = require('./userValidations');
-const { registerController, loginController } = require('./userController');
+const { registerController, loginController, profileController } = require('./userController');
 
 module.exports = {
   async register(req, res) {
@@ -46,6 +46,18 @@ module.exports = {
       const loginUserResponse = await loginController(obj);
 
       return res.status(200).json(loginUserResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async profile(req, res) {
+    const { userId } = req.query;
+
+    try {
+      const ripos = await profileController(userId);
+
+      return res.status(200).json(ripos);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

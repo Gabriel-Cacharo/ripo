@@ -32,10 +32,31 @@ module.exports = {
         allowNull: false,
         defaultValue: '0',
       },
+      facName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      facRipos: {
+        type: Sequelize.JSON,
+        defaultValue: null,
+        allowNull: true,
+      },
       lastRedeemCrate: {
         type: Sequelize.DATE,
         allowNull: true,
         defaultValue: null,
+      },
+      favoriteCar: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      favoriteGun: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      favoriteSecondGun: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
       },
       createdAt: {
         type: Sequelize.DATE,

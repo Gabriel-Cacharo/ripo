@@ -14,6 +14,11 @@ class User extends Model {
         password: DataTypes.STRING,
         xp: DataTypes.STRING,
         coins: DataTypes.STRING,
+        facName: DataTypes.STRING,
+        facRipos: DataTypes.ARRAY(DataTypes.STRING),
+        favoriteCar: DataTypes.INTEGER,
+        favoriteGun: DataTypes.INTEGER,
+        favoriteSecondGun: DataTypes.INTEGER,
         lastRedeemCrate: DataTypes.DATE,
       },
       {

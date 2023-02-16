@@ -4,6 +4,8 @@ const dbConfig = require('./config/config.json');
 const User = require('./models/User');
 const Crate = require('./models/Crate');
 const Ripo = require('./models/Ripo');
+const Car = require('./models/Car');
+const Gun = require('./models/Gun');
 
 const connection = new Sequelize(dbConfig.development);
 
@@ -11,6 +13,8 @@ const connection = new Sequelize(dbConfig.development);
 User.init(connection);
 Crate.init(connection);
 Ripo.init(connection);
+Car.init(connection);
+Gun.init(connection);
 
 // Relations
 User.associate(connection.models);
