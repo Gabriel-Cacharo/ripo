@@ -14,7 +14,10 @@ import BrilhoRaro from '../../../assets/images/Brilho_Raro.png';
 import BrilhoLendario from '../../../assets/images/Brilho_Lendario.png';
 import BrilhoComum from '../../../assets/images/Brilho_Comum.png';
 import BrilhoIncomum from '../../../assets/images/Brilho_Incomum.png';
-import Placa from '../../../assets/images/lendario_Caixa.png';
+import PlateLendario from '../../../assets/images/lendario_Caixa.png';
+import PlateIncomum from '../../../assets/images/Incomum_Caixa.png';
+import PlateRaro from '../../../assets/images/raro_Caixa.png';
+import PlateComum from '../../../assets/images/Comum_Caixa.png';
 
 import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 
@@ -22,6 +25,7 @@ import {
   animationLoadingLargeSettings,
   animationLoadingSmallSettings,
 } from '../../../assets/animations/animationsSettings';
+import { addUserCoinsLocalStorage, removeUserCoinsLocalStorage } from './utils/setUserCoinsStorage';
 
 import { api } from '../../../services/api';
 
@@ -105,8 +109,9 @@ const CratePage = () => {
 
   const buyCrateFunction = async () => {
     try {
-      await api.post(`/crates/buy?crateId=1`);
+      const buyCrateResponse = await api.post(`/crates/buy?crateId=1`);
 
+      removeUserCoinsLocalStorage(buyCrateResponse.data.price);
       getUserCratesFunction();
       toast.success('Você comprou a caixa com sucesso');
     } catch (err) {
@@ -134,6 +139,53 @@ const CratePage = () => {
     }
   };
 
+  const sellRipoFunction = async () => {
+    if (crateOpenedContent.userAlreadyHaveThisRipo) {
+      addUserCoinsLocalStorage(crateOpenedContent.drawnRipo.price);
+      return handleCloseDrawnRipoInformations('Você vendeu o Ripo com sucesso');
+    }
+
+    try {
+      await api.post(`/ripos/sell?ripoId=${crateOpenedContent.drawnRipo.id}`);
+
+      addUserCoinsLocalStorage(crateOpenedContent.drawnRipo.price);
+      handleCloseDrawnRipoInformations('Você vendeu o Ripo com sucesso');
+    } catch (err) {
+      toast.error('Ocorreu um erro ao vender o seu Ripo.');
+    }
+  };
+
+  const handleCloseDrawnRipoInformations = async (text) => {
+    toast.success(text);
+    setCrateOpenedContent('');
+  };
+
+  const renderRipoBackgroundRarity = () => {
+    switch (crateOpenedContent.drawnRipo.rarity) {
+      case 'comum':
+        return BrilhoComum;
+      case 'incomum':
+        return BrilhoIncomum;
+      case 'raro':
+        return BrilhoRaro;
+      case 'lendario':
+        return BrilhoLendario;
+    }
+  };
+
+  const renderRipoPlateRarity = () => {
+    switch (crateOpenedContent.drawnRipo.rarity) {
+      case 'comum':
+        return PlateComum;
+      case 'incomum':
+        return PlateIncomum;
+      case 'raro':
+        return PlateRaro;
+      case 'lendario':
+        return PlateLendario;
+    }
+  };
+
   const renderCrateImage = () => {
     return openCrateLoading ? (
       <div data-aos="fade-in">
@@ -148,8 +200,13 @@ const CratePage = () => {
     ) : !openCrateLoading && !crateOpenedContent ? (
       <img src={CrateImage} alt="Crate Image" data-aos="zoom-out" />
     ) : (
-      <div className="drawnItemContainer" style={{ backgroundImage: `url(${BrilhoLendario})` }}>
-        <img src={Placa} alt="Item Rarity" className="itemRarity" />
+      <div
+        className="drawnItemContainer"
+        style={{
+          backgroundImage: `url(${renderRipoBackgroundRarity()})`,
+        }}
+      >
+        <img src={renderRipoPlateRarity()} alt="Item Rarity" className="itemRarity" />
         <img data-aos="zoom-in" src={crateOpenedContent.drawnRipo.ripoImage} alt="Crate Image" />
       </div>
     );
@@ -165,23 +222,26 @@ const CratePage = () => {
         ) : (
           <>
             <h4 data-aos="fade-in">
-              Parabéns! Você ganhou um <b>Ripo</b>
+              Parabéns! Você ganhou um <strong>Ripo</strong>
             </h4>
             <div className="userItemDrawnOptionsContainer">
               {crateOpenedContent.userAlreadyHaveThisRipo ? (
+                //If user already have this ripo ( ripo repeated )
                 <div className="saveRepeatedContainer">
                   <button disabled></button>
                   <p>Repetido</p>
                 </div>
               ) : (
-                <button></button>
+                // Save Ripo
+                <button onClick={() => handleCloseDrawnRipoInformations('Você guardou o Ripo com sucesso')}></button>
               )}
+              {/* Sell Ripo */}
               <div className="sellItemContainer">
-                <button></button>
+                <button onClick={() => sellRipoFunction('Você vendeu o Ripo com sucesso')}></button>
 
                 <div className="priceItemContainer">
                   <img src={CoinsIcon} alt="Coins Icon" />
-                  <p>1600</p>
+                  <p>{crateOpenedContent.drawnRipo.price}</p>
                 </div>
               </div>
             </div>
@@ -263,7 +323,7 @@ const CratePage = () => {
 
                 <div className="textsContainer">
                   <h4>
-                    Tente a sorte abrindo a caixa <b>{crateSelected.rarity}</b>
+                    Tente a sorte abrindo a caixa <strong>{crateSelected.rarity}</strong>
                   </h4>
                   <button type="button" onClick={() => openCrateFunction()}></button>
                 </div>
@@ -307,7 +367,7 @@ const CratePage = () => {
             <div className="textsInformationContainer">
               <div className="userCoins">
                 <img src={CoinsIcon} alt="Coins icon" />
-                <h5>1.000</h5>
+                <h5>300</h5>
               </div>
 
               <button type="button" onClick={buyCrateFunction}></button>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import NumbersContainer from '../../components/NumbersContainer/NumbersContainer';
 import Slider from './components/Slider/Slider';
 
@@ -21,7 +22,7 @@ function Home() {
           <p>Monte o grupo dos sonhos e colecione os Rips, armas, carros e roupas para customizar o seu próprio Rip!</p>
 
           <div className="rightTextsButtonsContainer">
-            <button>ENTRAR</button>
+            <Link to="/auth">ENTRAR</Link>
             <p>É DE GRAÇA!</p>
           </div>
         </div>

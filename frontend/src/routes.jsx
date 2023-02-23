@@ -34,6 +34,7 @@ function AppRoutes() {
       </Route>
 
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/profile/:username" element={<ProfilePage />} />
       <Route path="/createRipo" element={<CreateRipoPage />} />
 
       <Route path="/auth" exact element={<Auth />} />

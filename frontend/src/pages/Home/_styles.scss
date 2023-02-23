@@ -66,7 +66,7 @@
 
       margin-top: 10px;
 
-      button {
+      a {
         font-size: 1.05rem;
         padding: 10px 22px;
 
@@ -82,7 +82,8 @@
           background-color: $white;
           color: $primary-color;
           transform: translateX(0.4rem);
-          filter: drop-shadow(0 0 1px $white-opacity) drop-shadow(0 0 2px $white-opacity) drop-shadow(0 0 4px $white-opacity);
+          filter: drop-shadow(0 0 1px $white-opacity) drop-shadow(0 0 2px $white-opacity)
+            drop-shadow(0 0 4px $white-opacity);
         }
       }
 
@@ -118,7 +119,8 @@
       font-size: 1.3rem;
       font-weight: 700;
 
-      filter: drop-shadow(0 0 1px $white-opacity) drop-shadow(0 0 2px $white-opacity) drop-shadow(0 0 4px $white-opacity);
+      filter: drop-shadow(0 0 1px $white-opacity) drop-shadow(0 0 2px $white-opacity)
+        drop-shadow(0 0 4px $white-opacity);
     }
   }
 }
