@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -10,17 +12,30 @@ import Gun from '../../../assets/images/Arma_Ind1.png';
 import Knife from '../../../assets/images/Arma_Ind2.png';
 
 import { AiFillStar } from 'react-icons/ai';
+
 import { api } from '../../../services/api';
-import { useEffect } from 'react';
 
 const FactionPage = () => {
+  const { username } = useParams();
+  const userLocalStorageInformations = localStorage.getItem('user');
+
   const [userInformations, setUserInformations] = useState([]);
 
   const getUserInformationsFunction = async () => {
     try {
-      const userInformationsResponse = await api('/user/profile?userId=1');
+      // If route has username, search profile;
+      if (username) {
+        const userInformationsResponse = await api(`/user/searchProfile?username=${username}`);
 
-      setUserInformations(userInformationsResponse.data);
+        setUserInformations(userInformationsResponse.data);
+      } else {
+        // If route hasn't username, get user profile;
+        const userInformationsResponse = await api(
+          `/user/profile?userId=${JSON.parse(userLocalStorageInformations).id}`
+        );
+
+        setUserInformations(userInformationsResponse.data);
+      }
     } catch (err) {
       setUserInformations([]);
     }
@@ -52,13 +67,16 @@ const FactionPage = () => {
           </h4>
 
           <div className="membersContainer">
-            {userInformations.facRipos &&
+            {userInformations.facRipos && userInformations.facRipos.length > 0 ? (
               userInformations.facRipos.map((ripo, index) => (
                 <div className="memberContainer" key={index}>
                   <img src={ripo.ripoImage} alt="" />
                   <p>{ripo.name}</p>
                 </div>
-              ))}
+              ))
+            ) : (
+              <p style={{ opacity: '0.5' }}>A facção do usuário não possui membros.</p>
+            )}
           </div>
         </div>
       </div>
@@ -69,21 +87,21 @@ const FactionPage = () => {
             Carro <AiFillStar className="icon" />
           </h4>
           <img src={Car} alt="" />
-          <p>Skyline R34</p>
+          <p>{userInformations.favoriteCar ? userInformations.favoriteCar : 'Nenhum'}</p>
         </div>
         <div className="facInformationContainer" data-aos="fade-in">
           <h4>
             Arma <AiFillStar className="icon" />
           </h4>
           <img src={Gun} alt="" />
-          <p>AK-47</p>
+          <p>{userInformations.favoriteGun ? userInformations.favoriteGun : 'Nenhuma'}</p>
         </div>
         <div className="facInformationContainer" data-aos="fade-in">
           <h4>
             Arma Sec. <AiFillStar className="icon" />
           </h4>
           <img src={Knife} alt="" />
-          <p>Faca</p>
+          <p>{userInformations.favoriteSecondaryGun ? userInformations.favoriteSecondaryGun : 'Nenhuma'}</p>
         </div>
       </div>
 
@@ -94,45 +112,52 @@ const FactionPage = () => {
         </h4>
 
         <div className="collectionContainer" data-aos="zoom-out">
-          {userInformations.ripos &&
+          {userInformations.ripos && userInformations.ripos.length > 0 ? (
             userInformations.ripos.map((ripo, index) => (
               <div className="itemCollection" key={index}>
                 <img src={ripo.ripoImage} alt="" />
                 <p>{ripo.name}</p>
               </div>
-            ))}
+            ))
+          ) : (
+            <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
+          )}
         </div>
       </div>
 
       <div className="facGunsContainer">
         <h4>
-          ARMAS <span>3/</span>
+          ARMAS <span>{userInformations.guns ? userInformations.guns.length : '0'}/</span>
           <p>52</p>
         </h4>
 
         <div className="gunsContainer" data-aos="zoom-out">
-          <div className="gunItem">
-            <img src={Gun} alt="" />
-            <p>AK-47</p>
-          </div>
-          <div className="gunItem">
-            <img src={Knife} alt="" />
-            <p>Faca</p>
-          </div>
+          {userInformations.guns && userInformations.guns.length > 0 ? (
+            <div className="gunItem">
+              <img src={Gun} alt="" />
+              <p>AK-47</p>
+            </div>
+          ) : (
+            <p style={{ opacity: '0.5' }}>Usuário não possui armas.</p>
+          )}
         </div>
       </div>
 
       <div className="facCarsContainer">
         <h4>
-          CARROS <span>4/</span>
+          CARROS <span>{userInformations.cars ? userInformations.cars.length : '0'}/</span>
           <p>120</p>
         </h4>
 
         <div className="carsContainer" data-aos="zoom-out">
-          <div className="carItem">
-            <img src={Car} alt="" />
-            <p>SKYLINE R34</p>
-          </div>
+          {userInformations.cars && userInformations.cars.length > 0 ? (
+            <div className="carItem">
+              <img src={Car} alt="" />
+              <p>SKYLINE R34</p>
+            </div>
+          ) : (
+            <p style={{ opacity: '0.5' }}>Usuário não possui carros.</p>
+          )}
         </div>
       </div>
     </div>
