@@ -10,6 +10,7 @@ class Ripo extends Model {
           primaryKey: true,
         },
         rarity: DataTypes.STRING,
+        price: DataTypes.STRING,
         ripoImage: DataTypes.STRING,
         name: DataTypes.STRING,
       },

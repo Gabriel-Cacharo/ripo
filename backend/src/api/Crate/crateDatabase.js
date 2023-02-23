@@ -34,6 +34,7 @@ module.exports = {
 
     if (userCrate) {
       const userCrateInfo = await user.getCrates({ where: { id: crateId } });
+
       return JSON.parse(userCrateInfo[0].riposDrop);
     } else {
       throw new Error('Usuário não possui essa caixa');
@@ -53,10 +54,14 @@ module.exports = {
 
   async addUserCrateDatabase(userId, crateId, price) {
     const user = await User.findByPk(userId);
-    const newUserCoins = user.dataValues.coins - price;
+    const newUserCoins = Number(user.dataValues.coins) - Number(price);
 
     await User.update({ coins: newUserCoins }, { where: { id: userId } });
-    return await user.addCrate(crateId);
+    await user.addCrate(crateId);
+
+    const crateInformations = await Crate.findByPk(crateId);
+
+    return { price: crateInformations.dataValues.price };
   },
 
   async removeUserCrateDatabase(userId, crateId) {

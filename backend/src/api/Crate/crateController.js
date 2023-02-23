@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 
 const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/errorsCode');
 
-const { getRipoById, verifyIfUserAlreadyHaveThisRipoDatabase } = require('../Ripo/ripoDatabase');
-const { findOneUserWhere } = require('../User/userDatabase');
+const { getRipoById, verifyIfUserAlreadyHaveThisRipoDatabase, addUserRipo } = require('../Ripo/ripoDatabase');
+const { findOneUserWhere, addUserCoins } = require('../User/userDatabase');
 const {
   getUserCratesDatabase,
   addRedeemCrateDatabase,
@@ -55,7 +55,7 @@ module.exports = {
         }
       }
     } catch (err) {
-      throw new Error(SERVER_ERR_MESSAGE);
+      throw new Error(err.message || SERVER_ERR_MESSAGE);
     }
   },
 
@@ -70,13 +70,14 @@ module.exports = {
 
       const crateInfos = await getCrateInfosDatabase(crateId);
 
-      if (userInfos.dataValues.coins >= crateInfos.dataValues.price) {
+      if (Number(userInfos.dataValues.coins) >= Number(crateInfos.dataValues.price)) {
         return await addUserCrateDatabase(userInfos.id, crateId, crateInfos.dataValues.price);
       } else {
         throw new Error('Coins insuficientes');
       }
     } catch (err) {
-      throw new Error(SERVER_ERR_MESSAGE);
+      console.log(err);
+      throw new Error(err.message || SERVER_ERR_MESSAGE);
     }
   },
 
@@ -99,6 +100,14 @@ module.exports = {
         userInfos.id,
         drawnRipo.dataValues.id
       );
+
+      // If user already has this Ripo, just add coins in his inventory;
+      if (userAlreadyHaveThisRipoResponse.length > 0) {
+        await addUserCoins(userInfos.id, drawnRipo.dataValues.price);
+      } else {
+        // If user not have this Ripo, add in his inventory;
+        await addUserRipo(userInfos.id, drawnRipo.dataValues.id);
+      }
 
       const userAlreadyHaveThisRipo = userAlreadyHaveThisRipoResponse.length >= 1 ? true : false;
 

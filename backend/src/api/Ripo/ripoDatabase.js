@@ -17,4 +17,16 @@ module.exports = {
     const user = await User.findByPk(userId);
     return await user.getRipos({ where: { id: ripoId } });
   },
+
+  async addUserRipo(userId, ripoId) {
+    const user = await User.findByPk(userId);
+    return await user.addRipo(ripoId);
+  },
+
+  async removeUserRipo(userId, ripoId) {
+    const user = await User.findByPk(userId);
+    const ripo = await user.getRipos({ where: { id: ripoId } });
+
+    return await user.removeRipo(ripo, { limit: 1 });
+  },
 };
