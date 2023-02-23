@@ -1,7 +1,7 @@
 const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
 
-const { registerValidation, loginValidation } = require('./userValidations');
-const { registerController, loginController, profileController } = require('./userController');
+const { registerValidation, loginValidation, searchProfileValidation } = require('./userValidations');
+const { registerController, loginController, profileController, searchProfileController } = require('./userController');
 
 module.exports = {
   async register(req, res) {
@@ -55,9 +55,30 @@ module.exports = {
     const { userId } = req.query;
 
     try {
-      const ripos = await profileController(userId);
+      const profileResponse = await profileController(userId);
 
-      return res.status(200).json(ripos);
+      return res.status(200).json(profileResponse);
+    } catch (err) {
+      console.log(err);
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async searchProfile(req, res) {
+    const { username } = req.query;
+
+    try {
+      searchProfileValidation.parse(req.query);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const userProfileResponse = await searchProfileController(username);
+
+      const userProfileInformationsResponse = await profileController(userProfileResponse.dataValues.id);
+
+      return res.status(200).json(userProfileInformationsResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

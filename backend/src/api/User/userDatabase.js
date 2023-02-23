@@ -19,4 +19,13 @@ module.exports = {
       facRipos: userInformations.dataValues.facRipos,
     };
   },
+
+  async addUserCoins(userId, coinsAmount) {
+    const userInformations = await User.findByPk(userId);
+
+    return await User.update(
+      { coins: Number(userInformations.dataValues.coins) + Number(coinsAmount) },
+      { where: { id: userId } }
+    );
+  },
 };

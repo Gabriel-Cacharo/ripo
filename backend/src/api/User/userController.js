@@ -91,7 +91,7 @@ module.exports = {
 
       const userFacRipos = [];
 
-      if (userFacRiposIndexes.length > 0) {
+      if (userFacRiposIndexes && userFacRiposIndexes.length > 0) {
         await Promise.all(
           userFacRiposIndexes.map(async (ripoId) => {
             const ripoInformations = await getRipoById(ripoId);
@@ -103,6 +103,20 @@ module.exports = {
 
       return { user: userInformations, ripos: userRipos, facRipos: userFacRipos };
     } catch (err) {
+      console.log(err);
+
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async searchProfileController(username) {
+    try {
+      const userResponse = await findOneUserWhere({ where: { username: username } });
+
+      return userResponse;
+    } catch (err) {
+      console.log(err);
+
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
