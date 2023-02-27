@@ -1,8 +1,17 @@
+import { useState } from 'react';
+
 import Chracter from '../../../assets/images/Personagem1.png';
 import Coins from '../../../assets/images/Coins_Icon.png';
 import Cabelo from '../../../assets/images/cabelopng.png';
+import Shirt from '../../../assets/images/blusa1.png';
+import Barba from '../../../assets/images/barba1.png';
+import Cabelo1 from '../../../assets/images/cabelo1.png';
+import Calca1 from '../../../assets/images/calca1.png';
+import PersonagemBase from '../../../assets/images/persBase.png';
 
 const CreateRipoPage = () => {
+  const [pageSelected, setPageSelected] = useState();
+
   return (
     <div className="createRipoPageContainer">
       <h3>
@@ -11,56 +20,44 @@ const CreateRipoPage = () => {
 
       <div className="createRipoContainer">
         <div className="characterImageContainer">
-          <img src={Chracter} alt="" />
+          <img src={PersonagemBase} alt="" />
         </div>
 
         <div className="createRipoOptionsContainer">
           <div className="createRipoHeader">
-            <div className="headerOption">
+            <div className={`headerOption ${pageSelected === 0 ? 'selected' : ''}`} onClick={() => setPageSelected(0)}>
               <img src={Cabelo} alt="" />
             </div>
-            <div className="headerOption selected">
-              <img src={Cabelo} alt="" />
+            <div className={`headerOption ${pageSelected === 1 ? 'selected' : ''}`} onClick={() => setPageSelected(1)}>
+              <img src={Barba} alt="" />
             </div>
-            <div className="headerOption">
-              <img src={Cabelo} alt="" />
+            <div className={`headerOption ${pageSelected === 2 ? 'selected' : ''}`} onClick={() => setPageSelected(2)}>
+              <img src={Shirt} alt="" />
             </div>
-            <div className="headerOption">
-              <img src={Cabelo} alt="" />
-            </div>
-            <div className="headerOption">
-              <img src={Cabelo} alt="" />
-            </div>
-            <div className="headerOption">
-              <img src={Cabelo} alt="" />
-            </div>
-            <div className="headerOption">
-              <img src={Cabelo} alt="" />
-            </div>
-            <div className="headerOption">
-              <img src={Cabelo} alt="" />
-            </div>
-            <div className="headerOption">
-              <img src={Cabelo} alt="" />
+            <div className={`headerOption ${pageSelected === 3 ? 'selected' : ''}`} onClick={() => setPageSelected(3)}>
+              <img src={Calca1} alt="" />
             </div>
           </div>
-          <div className="createRipoOptions">
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-            <img src={Cabelo} alt="" />
-          </div>
+          {pageSelected === 0 && (
+            <div className="createRipoOptions">
+              <img src={Cabelo} alt="" />
+            </div>
+          )}
+          {pageSelected === 1 && (
+            <div className="createRipoOptions">
+              <img src={Barba} alt="" />
+            </div>
+          )}
+          {pageSelected === 2 && (
+            <div className="createRipoOptions">
+              <img src={Shirt} alt="" />
+            </div>
+          )}
+          {pageSelected === 3 && (
+            <div className="createRipoOptions">
+              <img src={Calca1} alt="" />
+            </div>
+          )}
           <div className="createRipoColors">
             <div className="colorOption" style={{ backgroundColor: '#FF0000' }}></div>
             <div className="colorOption" style={{ backgroundColor: '#8B0000' }}></div>

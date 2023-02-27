@@ -15,15 +15,75 @@
     justify-content: center;
     flex-direction: column;
 
+    width: 100%;
     margin: 30px 0px;
 
     h3 {
       margin-bottom: 10px;
     }
 
-    h5 {
-      font-size: 1.5rem;
-      font-weight: normal;
+    .sectionTitleAndSearchInput {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap-reverse;
+
+      .inputSearchContainer {
+        position: relative;
+
+        input {
+          position: relative;
+
+          background: transparent;
+          border: 0;
+          background-color: $dark-grey;
+          color: #eeeeee9d;
+          border-left: 1px solid $primary-color;
+          font-size: 0.9rem;
+
+          padding: 8px;
+          margin-bottom: 10px;
+          width: 200px;
+          height: 35px;
+        }
+
+        button {
+          position: absolute;
+          right: 8px;
+          top: 10px;
+
+          background-color: transparent;
+
+          .icon {
+            fill: $primary-color;
+            filter: drop-shadow(0 0 1px #00a3d937) drop-shadow(0 0 2px #00a3d937) drop-shadow(0 0 4px #00a3d937);
+          }
+        }
+      }
+    }
+
+    .usernameAndEditButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      h5 {
+        font-size: 1.5rem;
+        font-weight: normal;
+      }
+
+      .icon {
+        margin-left: 5px;
+        font-size: 1.2rem;
+        color: $primary-color;
+        filter: drop-shadow(0 0 1px #00a3d937) drop-shadow(0 0 2px #00a3d937) drop-shadow(0 0 4px #00a3d937);
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
 
@@ -294,6 +354,9 @@
 
   .facCarsContainer {
     margin: 30px 0px;
+
+    // TODO: remove this if pags has more height
+    padding-bottom: 50px;
 
     h4 {
       display: flex;
