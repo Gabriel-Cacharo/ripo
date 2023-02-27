@@ -28,7 +28,6 @@ module.exports = {
 
       return userCrates;
     } catch (err) {
-      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
@@ -76,7 +75,6 @@ module.exports = {
         throw new Error('Coins insuficientes');
       }
     } catch (err) {
-      console.log(err);
       throw new Error(err.message || SERVER_ERR_MESSAGE);
     }
   },

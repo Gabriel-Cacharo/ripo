@@ -41,8 +41,6 @@ module.exports = {
         token,
       };
     } catch (err) {
-      console.log(err);
-
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
@@ -77,8 +75,6 @@ module.exports = {
         token: token,
       };
     } catch (err) {
-      console.log(err);
-
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
@@ -103,8 +99,6 @@ module.exports = {
 
       return { user: userInformations, ripos: userRipos, facRipos: userFacRipos };
     } catch (err) {
-      console.log(err);
-
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
@@ -115,8 +109,6 @@ module.exports = {
 
       return userResponse;
     } catch (err) {
-      console.log(err);
-
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
