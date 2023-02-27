@@ -59,7 +59,6 @@ module.exports = {
 
       return res.status(200).json(profileResponse);
     } catch (err) {
-      console.log(err);
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
   },
@@ -75,6 +74,10 @@ module.exports = {
 
     try {
       const userProfileResponse = await searchProfileController(username);
+
+      if (!userProfileResponse) {
+        throw new Error('O usuário não foi encontrado');
+      }
 
       const userProfileInformationsResponse = await profileController(userProfileResponse.dataValues.id);
 
