@@ -12,6 +12,8 @@ import Gun from '../../../assets/images/Arma_Ind1.png';
 import Knife from '../../../assets/images/Arma_Ind2.png';
 
 import { AiFillStar } from 'react-icons/ai';
+import { GoSearch } from 'react-icons/go';
+import { MdEdit } from 'react-icons/md';
 
 import { api } from '../../../services/api';
 
@@ -20,14 +22,29 @@ const FactionPage = () => {
   const userLocalStorageInformations = localStorage.getItem('user');
 
   const [userInformations, setUserInformations] = useState([]);
+  const [usernameInput, setUsernameInput] = useState('');
+  const [searchingOtherUser, setSearchingOtherUser] = useState(false);
+
+  const searchProfileFunction = async (username) => {
+    try {
+      if (!username) {
+        return getUserInformationsFunction();
+      }
+
+      const userInformationsResponse = await api(`/user/searchProfile?username=${username}`);
+
+      setUserInformations(userInformationsResponse.data);
+      setSearchingOtherUser(true);
+    } catch (err) {
+      toast.error(err.response.data.error);
+    }
+  };
 
   const getUserInformationsFunction = async () => {
     try {
       // If route has username, search profile;
       if (username) {
-        const userInformationsResponse = await api(`/user/searchProfile?username=${username}`);
-
-        setUserInformations(userInformationsResponse.data);
+        await searchProfileFunction(username);
       } else {
         // If route hasn't username, get user profile;
         const userInformationsResponse = await api(
@@ -35,6 +52,7 @@ const FactionPage = () => {
         );
 
         setUserInformations(userInformationsResponse.data);
+        setSearchingOtherUser(false);
       }
     } catch (err) {
       setUserInformations([]);
@@ -48,14 +66,27 @@ const FactionPage = () => {
   return (
     <div className="factionPageContainer">
       <div className="facNameAndOwnerInformations">
-        <SectionTitle
-          title={userInformations.user && userInformations.user.fac ? userInformations.user.fac : 'Sem fac'}
-          secondPart="."
-        />
-        <h5>{userInformations.user && userInformations.user.username}</h5>
+        <div className="sectionTitleAndSearchInput">
+          <SectionTitle
+            title={userInformations.user && userInformations.user.fac ? userInformations.user.fac : 'Sem fac'}
+            secondPart="."
+          />
+
+          <div className="inputSearchContainer">
+            <input type="text" placeholder="Procure um usuário" onChange={(e) => setUsernameInput(e.target.value)} />
+            <button onClick={() => searchProfileFunction(usernameInput)}>
+              <GoSearch className="icon" />
+            </button>
+          </div>
+        </div>
+
+        <div className="usernameAndEditButton">
+          <h5>{userInformations.user && userInformations.user.username}</h5>
+          {!searchingOtherUser && <MdEdit className="icon" />}
+        </div>
       </div>
 
-      <div className="facMembersInformationContainer">
+      <section className="facMembersInformationContainer">
         <div className="facOwnerImage" data-aos="fade-in">
           <img src={CharacterNissin} alt="Fac Owner Image" />
         </div>
@@ -79,9 +110,9 @@ const FactionPage = () => {
             )}
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="facInformationsContainer">
+      <section className="facInformationsContainer">
         <div className="facInformationContainer" data-aos="fade-in">
           <h4>
             Carro <AiFillStar className="icon" />
@@ -103,9 +134,9 @@ const FactionPage = () => {
           <img src={Knife} alt="" />
           <p>{userInformations.favoriteSecondaryGun ? userInformations.favoriteSecondaryGun : 'Nenhuma'}</p>
         </div>
-      </div>
+      </section>
 
-      <div className="facCollectionContainer">
+      <section className="facCollectionContainer">
         <h4>
           COLEÇÃO <span>{userInformations.ripos && userInformations.ripos.length}/</span>
           <p>782</p>
@@ -123,9 +154,9 @@ const FactionPage = () => {
             <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
           )}
         </div>
-      </div>
+      </section>
 
-      <div className="facGunsContainer">
+      <section className="facGunsContainer">
         <h4>
           ARMAS <span>{userInformations.guns ? userInformations.guns.length : '0'}/</span>
           <p>52</p>
@@ -141,9 +172,9 @@ const FactionPage = () => {
             <p style={{ opacity: '0.5' }}>Usuário não possui armas.</p>
           )}
         </div>
-      </div>
+      </section>
 
-      <div className="facCarsContainer">
+      <section className="facCarsContainer">
         <h4>
           CARROS <span>{userInformations.cars ? userInformations.cars.length : '0'}/</span>
           <p>120</p>
@@ -159,7 +190,7 @@ const FactionPage = () => {
             <p style={{ opacity: '0.5' }}>Usuário não possui carros.</p>
           )}
         </div>
-      </div>
+      </section>
     </div>
   );
 };
