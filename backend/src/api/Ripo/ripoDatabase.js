@@ -2,6 +2,10 @@ const User = require('../../database/models/User');
 const Ripo = require('../../database/models/Ripo');
 
 module.exports = {
+  async createRipo(obj) {
+    return await Ripo.create(obj);
+  },
+
   async getUserRipos(userId) {
     const user = await User.findByPk(userId);
     const userRipos = await user.getRipos();

@@ -92,6 +92,10 @@ module.exports = {
           userFacRiposIndexes.map(async (ripoId) => {
             const ripoInformations = await getRipoById(ripoId);
 
+            if (!ripoInformations) {
+              return;
+            }
+
             userFacRipos.push(ripoInformations.dataValues);
           })
         );
@@ -99,6 +103,7 @@ module.exports = {
 
       return { user: userInformations, ripos: userRipos, facRipos: userFacRipos };
     } catch (err) {
+      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

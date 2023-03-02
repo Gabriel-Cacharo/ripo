@@ -19,6 +19,8 @@ router.post('/ripos/sell', authMiddleware, Ripo.sellRipo);
 
 router.get('/user/searchProfile', User.searchProfile);
 
+router.post('/ripos/createUserRipo', authMiddleware, Ripo.createUserRipo);
+
 router.get('/user/profile', authMiddleware, User.profile);
 
 module.exports = router;

@@ -1,7 +1,10 @@
+const { uploadImageCloudinary } = require('../../services/cloudinary');
+
 const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/errorsCode');
+const { renderImageByBase64 } = require('../../utils/renderImage');
 
 const { findOneUserWhere, addUserCoins } = require('../User/userDatabase');
-const { getUserRipos, verifyIfUserAlreadyHaveThisRipoDatabase, removeUserRipo } = require('./ripoDatabase');
+const { getUserRipos, verifyIfUserAlreadyHaveThisRipoDatabase, removeUserRipo, createRipo } = require('./ripoDatabase');
 
 module.exports = {
   async getUserRiposController(userId) {
@@ -29,6 +32,28 @@ module.exports = {
       return await addUserCoins(userId, verifyIfUserHaveThisRipoResponse[0].dataValues.price);
     } else {
       throw new Error('Ocorreu um erro ao vender o Ripo, tente novamente mais tarde.');
+    }
+  },
+
+  async createUserRipoController(userId, ripoUrl, ripoName) {
+    try {
+      // Render image
+      await renderImageByBase64(ripoUrl);
+
+      // Upload image at cloudinary
+      const imageUploadedResponse = await uploadImageCloudinary('image.png');
+
+      const ripoObj = {
+        rarity: 'raro',
+        price: '300',
+        ripoImage: imageUploadedResponse.url,
+        name: ripoName,
+      };
+
+      return await createRipo(ripoObj);
+    } catch (err) {
+      console.log(err);
+      throw new Error(SERVER_ERR_MESSAGE);
     }
   },
 };
