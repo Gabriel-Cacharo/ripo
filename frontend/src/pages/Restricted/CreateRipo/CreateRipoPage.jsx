@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import html2canvas from 'html2canvas';
+import { useEffect, useState } from 'react';
 
 import Chracter from '../../../assets/images/Personagem1.png';
 import Coins from '../../../assets/images/Coins_Icon.png';
@@ -9,8 +10,31 @@ import Cabelo1 from '../../../assets/images/cabelo1.png';
 import Calca1 from '../../../assets/images/calca1.png';
 import PersonagemBase from '../../../assets/images/persBase.png';
 
+import { api } from '../../../services/api';
+
 const CreateRipoPage = () => {
-  const [pageSelected, setPageSelected] = useState();
+  const [pageSelected, setPageSelected] = useState(0);
+
+  const [clothesRipoSelected, setClothesRipoSelected] = useState({
+    hair: '',
+    beard: '',
+    shirt: '',
+    pants: '',
+  });
+
+  const createUserRipoFunction = async () => {
+    try {
+      await html2canvas(document.querySelector('.character'), { backgroundColor: 'null' }).then(async (canvas) => {
+        var dataURL = canvas.toDataURL('image/png');
+
+        console.log(dataURL);
+
+        await api.post('/ripos/createUserRipo', { ripoName: 'testeweb', ripoUrl: dataURL });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="createRipoPageContainer">
@@ -20,8 +44,15 @@ const CreateRipoPage = () => {
 
       <div className="createRipoContainer">
         <div className="characterImageContainer">
-          <img src={PersonagemBase} alt="" />
+          <div className="character">
+            <div className="hair" style={{ backgroundImage: `url(${clothesRipoSelected.hair})` }}></div>
+            <div className="beard" style={{ backgroundImage: `url(${clothesRipoSelected.beard})` }}></div>
+            <div className="shirt" style={{ backgroundImage: `url(${clothesRipoSelected.shirt})` }}></div>
+            <div className="pants" style={{ backgroundImage: `url(${clothesRipoSelected.pants})` }}></div>
+          </div>
         </div>
+
+        <img className="oi" src="" alt="" />
 
         <div className="createRipoOptionsContainer">
           <div className="createRipoHeader">
@@ -39,24 +70,36 @@ const CreateRipoPage = () => {
             </div>
           </div>
           {pageSelected === 0 && (
-            <div className="createRipoOptions">
-              <img src={Cabelo} alt="" />
-            </div>
+            <button
+              className="createRipoOptions"
+              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, hair: Cabelo1 })}
+            >
+              <img src={Cabelo1} alt="" />
+            </button>
           )}
           {pageSelected === 1 && (
-            <div className="createRipoOptions">
+            <button
+              className="createRipoOptions"
+              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, beard: Barba })}
+            >
               <img src={Barba} alt="" />
-            </div>
+            </button>
           )}
           {pageSelected === 2 && (
-            <div className="createRipoOptions">
+            <button
+              className="createRipoOptions"
+              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, shirt: Shirt })}
+            >
               <img src={Shirt} alt="" />
-            </div>
+            </button>
           )}
           {pageSelected === 3 && (
-            <div className="createRipoOptions">
+            <button
+              className="createRipoOptions"
+              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, pants: Calca1 })}
+            >
               <img src={Calca1} alt="" />
-            </div>
+            </button>
           )}
           <div className="createRipoColors">
             <div className="colorOption" style={{ backgroundColor: '#FF0000' }}></div>
@@ -93,6 +136,8 @@ const CreateRipoPage = () => {
             <div className="colorOption" style={{ backgroundColor: '#808080' }}></div>
             <div className="colorOption" style={{ backgroundColor: '#000000' }}></div>
           </div>
+
+          <button onClick={createUserRipoFunction}>Terminar</button>
         </div>
       </div>
     </div>

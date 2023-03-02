@@ -1,9 +1,15 @@
-import { useState, useEffect, useContext } from 'react';
+import Lottie from 'react-lottie';
+import { useState, useContext } from 'react';
 
 import { FaUser, FaUserAlt } from 'react-icons/fa';
 import { RiLockPasswordLine } from 'react-icons/ri';
 
 import CharacterImage from '../../assets/images/Boneco_Ind.png';
+
+import {
+  animationLoadingLargeSettings,
+  animationLoadingSmallSettings,
+} from '../../assets/animations/animationsSettings';
 
 import { AuthContext } from '../../context/AuthContext';
 import { api } from '../../services/api';
@@ -18,12 +24,19 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState({
     type: '',
     message: '',
   });
 
   const [isLoginPage, setIsLoginPage] = useState(true);
+
+  const [animationState, setAnimationState] = useState({
+    isStopped: false,
+    isPaused: false,
+  });
 
   const setIsLoginPageFunction = () => {
     setIsLoginPage((c) => !c);
@@ -40,6 +53,7 @@ function Register() {
 
   const registerFunction = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     setError({
       type: '',
@@ -77,11 +91,13 @@ function Register() {
         type: 'all',
         message: registerResponse.error,
       });
+      setLoading(false);
     }
   };
 
   const loginFunction = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     setError({
       type: '',
@@ -94,6 +110,7 @@ function Register() {
         type: 'all',
         message: loginResponse.error.error,
       });
+      setLoading(false);
     }
   };
 
@@ -150,8 +167,20 @@ function Register() {
                 </button>
               </p>
 
-              <button onClick={registerFunction}>
-                <FaUserAlt className="iconMarginRight" /> Cadastrar
+              <button onClick={registerFunction} disabled={loading}>
+                {loading ? (
+                  <Lottie
+                    options={animationLoadingSmallSettings}
+                    height={40}
+                    width={40}
+                    isStopped={animationState.isStopped}
+                    isPaused={animationState.isPaused}
+                  ></Lottie>
+                ) : (
+                  <>
+                    <FaUserAlt className="iconMarginRight" /> Cadastrar
+                  </>
+                )}
               </button>
             </div>
 
@@ -199,8 +228,21 @@ function Register() {
               </p>
             </div>
 
-            <button className="loginButton" onClick={loginFunction}>
-              <FaUserAlt className="iconMarginRight" /> Logar
+            <button className="loginButton" onClick={loginFunction} disabled={loading}>
+              {loading ? (
+                <Lottie
+                  options={animationLoadingSmallSettings}
+                  height={40}
+                  width={40}
+                  isStopped={animationState.isStopped}
+                  isPaused={animationState.isPaused}
+                ></Lottie>
+              ) : (
+                <>
+                  <FaUserAlt className="iconMarginRight" />
+                  Logar
+                </>
+              )}
             </button>
 
             <small className="errorContainer" style={error.message !== '' ? { display: 'block' } : { display: 'none' }}>

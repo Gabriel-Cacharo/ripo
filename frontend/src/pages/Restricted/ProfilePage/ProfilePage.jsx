@@ -74,16 +74,18 @@ const FactionPage = () => {
 
           <div className="inputSearchContainer">
             <input type="text" placeholder="Procure um usuário" onChange={(e) => setUsernameInput(e.target.value)} />
-            <button onClick={() => searchProfileFunction(usernameInput)}>
+            <button className="searchButton" onClick={() => searchProfileFunction(usernameInput)}>
               <GoSearch className="icon" />
             </button>
+            {!searchingOtherUser && (
+              <button>
+                <MdEdit className="icon" />
+              </button>
+            )}
           </div>
         </div>
 
-        <div className="usernameAndEditButton">
-          <h5>{userInformations.user && userInformations.user.username}</h5>
-          {!searchingOtherUser && <MdEdit className="icon" />}
-        </div>
+        <h5>{userInformations.user && userInformations.user.username}</h5>
       </div>
 
       <section className="facMembersInformationContainer">

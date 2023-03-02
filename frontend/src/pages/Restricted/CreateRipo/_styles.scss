@@ -53,8 +53,53 @@
       align-items: center;
       justify-content: center;
 
-      img {
+      .character {
+        position: relative;
+
         height: 90%;
+        width: 100%;
+
+        background-image: url('../../assets/images/persBase.png');
+        background-position: center;
+        background-size: cover;
+
+        .hair {
+          background-position: center;
+          background-size: cover;
+
+          position: absolute;
+          top: 0;
+
+          height: 350px;
+          width: 250px;
+        }
+        .beard {
+          background-position: center;
+          background-size: cover;
+
+          position: absolute;
+          top: 0;
+
+          height: 350px;
+          width: 250px;
+        }
+        .shirt {
+          background-position: center;
+          background-size: cover;
+
+          height: 350px;
+          width: 250px;
+        }
+        .pants {
+          background-position: center;
+          background-size: cover;
+
+          position: absolute;
+          top: 2px;
+
+          height: 350px;
+          width: 250px;
+        }
       }
     }
 
@@ -105,9 +150,11 @@
       .createRipoOptions {
         margin: 20px 0px;
 
+        background-color: transparent;
+
         img {
           margin: 5px;
-          height: 50px;
+          height: 80px;
 
           transition: all 200ms ease-in-out;
 
