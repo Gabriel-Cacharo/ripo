@@ -15,16 +15,15 @@ const {
 const { checkHours } = require('./utils/checkHours');
 
 module.exports = {
-  async getUserCrates(token) {
+  async getUserCrates(userId) {
     try {
-      const userTokenPayload = jwt.decode(token);
-      const userExists = await findOneUserWhere({ where: { id: userTokenPayload.id } });
+      const userExists = await findOneUserWhere({ where: { id: userId } });
 
       if (!userExists) {
         throw new Error(USER_NOT_EXISTS_MESSAGE);
       }
 
-      const userCrates = await getUserCratesDatabase(userTokenPayload.id);
+      const userCrates = await getUserCratesDatabase(userId);
 
       return userCrates;
     } catch (err) {
@@ -32,23 +31,22 @@ module.exports = {
     }
   },
 
-  async redeemCrate(token) {
+  async redeemCrate(userId) {
     try {
-      const userTokenPayload = jwt.decode(token);
-      const userExists = await findOneUserWhere({ where: { id: userTokenPayload.id } });
+      const userExists = await findOneUserWhere({ where: { id: userId } });
 
       if (!userExists) {
         throw new Error(USER_NOT_EXISTS_MESSAGE);
       }
 
       if (!userExists.dataValues.lastRedeemCrate) {
-        return await addRedeemCrateDatabase(userTokenPayload.id);
+        return await addRedeemCrateDatabase(userId);
       } else {
         const [hoursRemaining, minutesRemaining] = await checkHours(userExists.dataValues.lastRedeemCrate);
         const userCanRedeemCrate = hoursRemaining + minutesRemaining;
 
         if (userCanRedeemCrate <= 0) {
-          return await addRedeemCrateDatabase(userTokenPayload.id);
+          return await addRedeemCrateDatabase(userId);
         } else {
           throw new Error(`${hoursRemaining}h${minutesRemaining}m`);
         }
@@ -58,10 +56,9 @@ module.exports = {
     }
   },
 
-  async buyCrate(token, crateId) {
+  async buyCrate(userId, crateId) {
     try {
-      const userTokenPayload = jwt.decode(token);
-      const userInfos = await findOneUserWhere({ where: { id: userTokenPayload.id } });
+      const userInfos = await findOneUserWhere({ where: { id: userId } });
 
       if (!userInfos || !userTokenPayload) {
         throw new Error(USER_NOT_EXISTS_MESSAGE);
@@ -79,10 +76,9 @@ module.exports = {
     }
   },
 
-  async openCrate(token, crateId) {
+  async openCrate(userId, crateId) {
     try {
-      const userTokenPayload = jwt.decode(token);
-      const userInfos = await findOneUserWhere({ where: { id: userTokenPayload.id } });
+      const userInfos = await findOneUserWhere({ where: { id: userId } });
 
       if (!userInfos) {
         throw new Error(USER_NOT_EXISTS_MESSAGE);

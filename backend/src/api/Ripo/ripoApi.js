@@ -1,18 +1,15 @@
-const jwt = require('jsonwebtoken');
-
 const { SERVER_ERR_CODE, ZOD_ERR_CODE, ZOD_ERR_MESSAGE } = require('../../utils/errorsCode');
+const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
-const { getUserRipos, sellRipoController, createUserRipoController } = require('./ripoController');
+const { getUserRiposController, sellRipoController, createUserRipoController } = require('./ripoController');
 const { createUserRipoValidation } = require('./ripoValidations');
 
 module.exports = {
   async getUserRipos(req, res) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
     try {
-      const userTokenPayload = jwt.decode(token);
-      const userRiposResponse = await getUserRipos(userTokenPayload.id);
+      const userTokenPayload = await getUserPayloadByToken(req);
+
+      const userRiposResponse = await getUserRiposController(userTokenPayload.id);
 
       return res.status(200).json(userRiposResponse);
     } catch (err) {
@@ -21,13 +18,11 @@ module.exports = {
   },
 
   async sellRipo(req, res) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
     const { ripoId } = req.query;
 
     try {
-      const userTokenPayload = jwt.decode(token);
+      const userTokenPayload = getUserPayloadByToken(req)
+
       const sellRipoResponse = await sellRipoController(userTokenPayload.id, ripoId);
 
       return res.status(200).json(sellRipoResponse);
@@ -37,27 +32,21 @@ module.exports = {
   },
 
   async createUserRipo(req, res) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
     const { ripoUrl, ripoName } = req.body;
-
-    // console.log(ripoUrl);
 
     try {
       createUserRipoValidation.parse(req.body);
     } catch (err) {
-      console.log(err);
       return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
     }
 
     try {
-      const userTokenPayload = jwt.decode(token);
+      const userTokenPayload = getUserPayloadByToken(req)
+      
       const createUserRipoResponse = await createUserRipoController(userTokenPayload.id, ripoUrl, ripoName);
 
       return res.status(201).json(createUserRipoResponse);
     } catch (err) {
-      console.log(err);
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
   },

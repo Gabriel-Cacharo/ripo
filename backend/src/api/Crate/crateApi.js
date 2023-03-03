@@ -1,15 +1,16 @@
 const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
+const { getUserPayloadByToken } = require('../../utils/getUserPayload')
+
 const { buyCrateValidation } = require('./crateValidations');
 
 const { getUserCrates, redeemCrate, buyCrate, openCrate } = require('./crateController');
 
 module.exports = {
   async getUserCrates(req, res) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
     try {
-      const userCratesResponse = await getUserCrates(token);
+      const userTokenPayload = await getUserPayloadByToken(req);
+
+      const userCratesResponse = await getUserCrates(userTokenPayload.id);
 
       return res.status(200).json(userCratesResponse);
     } catch (err) {
@@ -18,11 +19,10 @@ module.exports = {
   },
 
   async redeemCrate(req, res) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
     try {
-      const redeemCrateResponse = await redeemCrate(token);
+      const userTokenPayload = await getUserPayloadByToken(req)
+
+      const redeemCrateResponse = await redeemCrate(userTokenPayload.id);
 
       return res.status(200).json(redeemCrateResponse);
     } catch (err) {
@@ -32,8 +32,6 @@ module.exports = {
 
   async buyCrate(req, res) {
     const { crateId } = req.query;
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
 
     try {
       buyCrateValidation.parse(req.query);
@@ -42,7 +40,9 @@ module.exports = {
     }
 
     try {
-      const buyCrateResponse = await buyCrate(token, crateId);
+      const userTokenPayload = await getUserPayloadByToken(req)
+
+      const buyCrateResponse = await buyCrate(userTokenPayload.id, crateId);
 
       return res.status(200).json(buyCrateResponse);
     } catch (err) {
@@ -52,8 +52,6 @@ module.exports = {
 
   async openCrate(req, res) {
     const { crateId } = req.query;
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
 
     try {
       buyCrateValidation.parse(req.query);
@@ -62,7 +60,9 @@ module.exports = {
     }
 
     try {
-      const openCrateResponse = await openCrate(token, crateId);
+      const userTokenPayload = await getUserPayloadByToken(req)
+
+      const openCrateResponse = await openCrate(userTokenPayload.id, crateId);
 
       return res.status(200).json(openCrateResponse);
     } catch (err) {
