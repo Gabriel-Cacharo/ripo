@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { SERVER_ERR_MESSAGE } = require('../../utils/errorsCode');
 
 const { findOneUserWhere, createUser, getUserInformationsDatabase } = require('./userDatabase');
 const { getUserRiposController } = require('../Ripo/ripoController');
 const { getRipoById } = require('../Ripo/ripoDatabase');
+
+const { SERVER_ERR_MESSAGE } = require('../../utils/errorsCode');
 
 module.exports = {
   async registerController(obj) {
