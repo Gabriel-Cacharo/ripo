@@ -1,5 +1,5 @@
 const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
-const { getUserPayloadByToken } = require('../../utils/getUserPayload')
+const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
 const { buyCrateValidation } = require('./crateValidations');
 
@@ -20,7 +20,7 @@ module.exports = {
 
   async redeemCrate(req, res) {
     try {
-      const userTokenPayload = await getUserPayloadByToken(req)
+      const userTokenPayload = await getUserPayloadByToken(req);
 
       const redeemCrateResponse = await redeemCrate(userTokenPayload.id);
 
@@ -40,7 +40,7 @@ module.exports = {
     }
 
     try {
-      const userTokenPayload = await getUserPayloadByToken(req)
+      const userTokenPayload = await getUserPayloadByToken(req);
 
       const buyCrateResponse = await buyCrate(userTokenPayload.id, crateId);
 
@@ -60,7 +60,7 @@ module.exports = {
     }
 
     try {
-      const userTokenPayload = await getUserPayloadByToken(req)
+      const userTokenPayload = await getUserPayloadByToken(req);
 
       const openCrateResponse = await openCrate(userTokenPayload.id, crateId);
 

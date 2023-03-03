@@ -21,7 +21,7 @@ module.exports = {
     const { ripoId } = req.query;
 
     try {
-      const userTokenPayload = getUserPayloadByToken(req)
+      const userTokenPayload = getUserPayloadByToken(req);
 
       const sellRipoResponse = await sellRipoController(userTokenPayload.id, ripoId);
 
@@ -41,8 +41,8 @@ module.exports = {
     }
 
     try {
-      const userTokenPayload = getUserPayloadByToken(req)
-      
+      const userTokenPayload = getUserPayloadByToken(req);
+
       const createUserRipoResponse = await createUserRipoController(userTokenPayload.id, ripoUrl, ripoName);
 
       return res.status(201).json(createUserRipoResponse);
