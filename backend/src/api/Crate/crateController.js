@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/errorsCode');
 
 const { getRipoById, verifyIfUserAlreadyHaveThisRipoDatabase, addUserRipo } = require('../Ripo/ripoDatabase');
@@ -60,7 +58,7 @@ module.exports = {
     try {
       const userInfos = await findOneUserWhere({ where: { id: userId } });
 
-      if (!userInfos || !userTokenPayload) {
+      if (!userInfos) {
         throw new Error(USER_NOT_EXISTS_MESSAGE);
       }
 
