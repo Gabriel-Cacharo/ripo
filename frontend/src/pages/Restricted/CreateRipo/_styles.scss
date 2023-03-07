@@ -126,6 +126,9 @@
           padding: 10px;
           border-radius: 12px;
           background-color: $white-opacity;
+          -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
+          -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
 
           height: 70px;
           width: 70px;
@@ -177,6 +180,41 @@
           width: 50px;
           border-radius: 8px;
           margin: 5px;
+
+          transition: all 200ms ease-in-out;
+
+          &:hover {
+            transform: scale(1.03);
+          }
+        }
+      }
+
+      .finishCreateRipoButton {
+        margin-top: 50px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 140px;
+        height: 45px;
+        padding: 0px 10px;
+        border-radius: 6px;
+
+        background: transparent;
+        border: 1px solid $primary-color;
+        color: $white;
+        font-size: 1.05rem;
+
+        transition: all 200ms ease-in-out;
+
+        .icon {
+          font-size: 1.4rem;
+        }
+
+        &:hover {
+          transform: scale(1.03);
+          color: $primary-color;
         }
       }
     }

@@ -10,6 +10,8 @@ import Cabelo1 from '../../../assets/images/cabelo1.png';
 import Calca1 from '../../../assets/images/calca1.png';
 import PersonagemBase from '../../../assets/images/persBase.png';
 
+import { BsCheck } from 'react-icons/bs';
+
 import { api } from '../../../services/api';
 
 const CreateRipoPage = () => {
@@ -51,8 +53,6 @@ const CreateRipoPage = () => {
             <div className="pants" style={{ backgroundImage: `url(${clothesRipoSelected.pants})` }}></div>
           </div>
         </div>
-
-        <img className="oi" src="" alt="" />
 
         <div className="createRipoOptionsContainer">
           <div className="createRipoHeader">
@@ -137,7 +137,9 @@ const CreateRipoPage = () => {
             <div className="colorOption" style={{ backgroundColor: '#000000' }}></div>
           </div>
 
-          <button onClick={createUserRipoFunction}>Terminar</button>
+          <button className="finishCreateRipoButton" onClick={createUserRipoFunction}>
+            Finalizar <BsCheck className="icon" />
+          </button>
         </div>
       </div>
     </div>
