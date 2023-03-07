@@ -4,7 +4,13 @@ const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/err
 const { renderImageByBase64 } = require('../../utils/renderImage');
 
 const { findOneUserWhere, addUserCoins } = require('../User/userDatabase');
-const { getUserRipos, verifyIfUserAlreadyHaveThisRipoDatabase, removeUserRipo, createRipo } = require('./ripoDatabase');
+const {
+  getUserRipos,
+  verifyIfUserAlreadyHaveThisRipoDatabase,
+  removeUserRipo,
+  createRipo,
+  addUserRipo,
+} = require('./ripoDatabase');
 
 module.exports = {
   async getUserRiposController(userId) {
@@ -37,7 +43,7 @@ module.exports = {
 
   async createUserRipoController(userId, ripoUrl, ripoName) {
     try {
-      // Render image
+      // Render image by base64
       await renderImageByBase64(ripoUrl);
 
       // Upload image at cloudinary
@@ -50,7 +56,9 @@ module.exports = {
         name: ripoName,
       };
 
-      return await createRipo(ripoObj);
+      const createdRipoResponse = await createRipo(ripoObj);
+
+      return await addUserRipo(userId, createdRipoResponse.dataValues.id);
     } catch (err) {
       console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
