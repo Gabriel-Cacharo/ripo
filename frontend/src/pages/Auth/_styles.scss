@@ -3,6 +3,9 @@
   align-items: center;
   justify-content: space-between;
 
+  padding-left: 100px;
+
+  width: 100%;
   min-height: calc(100vh - 100px);
   background-image: url(../../assets/images/Fundo_Montanhas.png);
 
@@ -179,7 +182,7 @@
   > span {
     position: absolute;
     right: 0;
-    top: 120px;
+    top: 100px;
 
     max-width: 280px;
     height: 80px;

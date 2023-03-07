@@ -192,7 +192,7 @@ function Register() {
 
         <span>
           <img src={CharacterImage} alt="Character Image" />
-          <p>Se registre e receba um pacotinho de brinde!</p>
+          <p>Se registre e receba uma caixa de brinde!</p>
         </span>
       </main>
 
