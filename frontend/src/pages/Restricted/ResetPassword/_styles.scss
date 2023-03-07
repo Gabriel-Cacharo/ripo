@@ -1,0 +1,75 @@
+.resetPasswordPageContainer {
+  min-height: calc(100vh - 100px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .resetPasswordFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: $dark-grey;
+    padding: 40px 60px;
+    border-radius: 12px;
+    overflow: hidden;
+
+    background-image: url('../../assets/images/Boneco_Ind.png');
+    background-repeat: no-repeat;
+    background-position: 17rem 11rem;
+    background-size: 6rem;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.35);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.35);
+
+    h2 {
+      margin-bottom: 30px;
+      border-bottom: 2px solid $primary-color;
+    }
+
+    input {
+      margin: 10px 0px;
+      padding: 10px;
+      width: 220px;
+      height: 40px;
+      font-size: 0.85rem;
+
+      background: transparent;
+      border: 0;
+      background-color: $light-grey;
+      color: $white;
+      border-radius: 6px;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0px 10px;
+      margin-top: 30px;
+
+      background: transparent;
+      border: 1px solid $primary-color;
+      color: $white;
+      border-radius: 6px;
+      font-size: 1.05rem;
+
+      width: 149px;
+      height: 40px;
+
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        transform: scale(1.03);
+        background-color: $primary-color;
+      }
+
+      .icon {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

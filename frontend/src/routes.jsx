@@ -6,7 +6,9 @@ import { AuthContext } from './context/AuthContext';
 import Home from './pages/Home/HomePage';
 import About from './pages/About/AboutPage';
 import Collection from './pages/Collection/CollectionPage';
+
 import Auth from './pages/Auth/AuthPage';
+import ResetPasswordPage from './pages/Restricted/ResetPassword/ResetPasswordPage';
 
 import CratePage from './pages/Restricted/CratePage/CratePage';
 import CreateRipoPage from './pages/Restricted/CreateRipo/CreateRipoPage';
@@ -28,6 +30,7 @@ function AppRoutes() {
       <Route path="/" exact element={<Home />} />
       <Route path="/about" exact element={<About />} />
       <Route path="/collection" exact element={<Collection />} />
+      <Route path="/auth/resetPassword" exact element={<ResetPasswordPage />} />
 
       <Route path="/crate" element={<PrivateRoute />}>
         <Route path="/crate" exact element={<CratePage />} />
