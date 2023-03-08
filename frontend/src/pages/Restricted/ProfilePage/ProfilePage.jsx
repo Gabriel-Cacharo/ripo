@@ -90,7 +90,7 @@ const FactionPage = () => {
 
       <section className="facMembersInformationContainer">
         <div className="facOwnerImage" data-aos="fade-in">
-          <img src={"http://res.cloudinary.com/dr1banplx/image/upload/v1678288217/sfd823sa3x9stk40m9yw.png"} alt="Fac Owner Image" />
+          <img src={userInformations.profileRipo || CharacterNissin} alt="User Ripo" />
         </div>
 
         <div className="facMembersContainer" data-aos="zoom-out">
