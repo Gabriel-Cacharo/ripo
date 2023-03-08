@@ -9,6 +9,10 @@ module.exports = {
     return await User.create(obj);
   },
 
+  async updateUser(obj, where) {
+    return await User.update(obj, where);
+  },
+
   async getUserInformationsDatabase(userId) {
     const userInformations = await User.findByPk(userId);
 
@@ -17,6 +21,7 @@ module.exports = {
       xp: userInformations.dataValues.xp,
       fac: userInformations.dataValues.facName,
       facRipos: userInformations.dataValues.facRipos,
+      ripoId: userInformations.dataValues.ripoId,
     };
   },
 

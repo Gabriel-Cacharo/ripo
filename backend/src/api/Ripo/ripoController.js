@@ -3,7 +3,7 @@ const { uploadImageCloudinary } = require('../../services/cloudinary');
 const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/errorsCode');
 const { renderImageByBase64 } = require('../../utils/renderImage');
 
-const { findOneUserWhere, addUserCoins } = require('../User/userDatabase');
+const { findOneUserWhere, addUserCoins, updateUser } = require('../User/userDatabase');
 const {
   getUserRipos,
   verifyIfUserAlreadyHaveThisRipoDatabase,
@@ -57,6 +57,9 @@ module.exports = {
       };
 
       const createdRipoResponse = await createRipo(ripoObj);
+
+      // Link ripoId into user
+      await updateUser({ ripoId: createdRipoResponse.dataValues.id }, { where: { id: userId } });
 
       return await addUserRipo(userId, createdRipoResponse.dataValues.id);
     } catch (err) {

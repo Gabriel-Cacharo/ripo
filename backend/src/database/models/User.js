@@ -20,6 +20,7 @@ class User extends Model {
         favoriteGun: DataTypes.INTEGER,
         favoriteSecondGun: DataTypes.INTEGER,
         lastRedeemCrate: DataTypes.DATE,
+        ripoId: DataTypes.INTEGER,
       },
       {
         sequelize,

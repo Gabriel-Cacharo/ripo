@@ -102,9 +102,15 @@ module.exports = {
         );
       }
 
-      return { user: userInformations, ripos: userRipos, facRipos: userFacRipos };
+      const userProfileRipo = await getRipoById(userInformations.ripoId);
+
+      return {
+        user: userInformations,
+        ripos: userRipos,
+        facRipos: userFacRipos,
+        profileRipo: userProfileRipo.ripoImage,
+      };
     } catch (err) {
-      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
