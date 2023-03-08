@@ -9,7 +9,7 @@ cloudinary.config({
 module.exports = {
   async uploadImageCloudinary(imageName) {
     try {
-      const imageUploadedResponse = await cloudinary.uploader.upload(imageName, { resource_type: 'image' });
+      const imageUploadedResponse = await cloudinary.uploader.upload(imageName, { resource_type: 'image', unique_filename: true, width: 400, height: 600 });
 
       return imageUploadedResponse;
     } catch (err) {
