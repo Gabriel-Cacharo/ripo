@@ -55,7 +55,7 @@ const CreateRipoPage = () => {
       await html2canvas(document.querySelector('.character'), { backgroundColor: 'null' }).then(async (canvas) => {
         var dataURL = canvas.toDataURL('image/png');
 
-        await api.post('/ripos/createUserRipo', { ripoName: 'testeweb', ripoUrl: dataURL });
+        await api.post('/ripos/createUserRipo', { ripoName, ripoUrl: dataURL });
         toast.success('O seu Ripo foi criado com sucesso');
         setLoading(false);
         navigate('/crate');
