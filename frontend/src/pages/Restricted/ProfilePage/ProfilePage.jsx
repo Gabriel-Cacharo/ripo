@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import ReactModal from 'react-modal';
 
 import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 
@@ -11,7 +12,7 @@ import Car from '../../../assets/images/Carro_Ind1.png';
 import Gun from '../../../assets/images/Arma_Ind1.png';
 import Knife from '../../../assets/images/Arma_Ind2.png';
 
-import { AiFillStar } from 'react-icons/ai';
+import { AiFillStar, AiOutlineClose } from 'react-icons/ai';
 import { GoSearch } from 'react-icons/go';
 import { MdEdit } from 'react-icons/md';
 
@@ -24,6 +25,8 @@ const FactionPage = () => {
   const [userInformations, setUserInformations] = useState([]);
   const [usernameInput, setUsernameInput] = useState('');
   const [searchingOtherUser, setSearchingOtherUser] = useState(false);
+
+  const [modalEditProfileIsOpen, setModalEditProfileIsOpen] = useState(false);
 
   const searchProfileFunction = async (username) => {
     try {
@@ -65,6 +68,52 @@ const FactionPage = () => {
 
   return (
     <div className="factionPageContainer">
+      <ReactModal
+        isOpen={modalEditProfileIsOpen}
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          },
+          content: {
+            inset: '100px 150px',
+            backgroundColor: '#242424',
+            border: 'none',
+            overflowY: 'scroll',
+          },
+        }}
+      >
+        <div className="modalEditProfileContent">
+          <header className="modalEditProfileHeader">
+            <h1>Editar perfil</h1>
+            <button>
+              <AiOutlineClose />
+            </button>
+          </header>
+          <main className="modalEditProfileMain">
+            <div className="modalEditProfileUserFacName">
+              <h2>Alterar nome da facção</h2>
+              <input type="text" placeholder="Digite o nome da sua facção" />
+            </div>
+
+            <div className="modalEditProfileUserFacRipos">
+              <h2>Alterar ripos da minha facção</h2>
+              <div className="modalEditProfileUserRipos">
+                {userInformations.ripos && userInformations.ripos.length > 0 ? (
+                  userInformations.ripos.map((ripo, index) => (
+                    <div className="userRipo" key={index}>
+                      <img src={ripo.ripoImage} alt="" />
+                      <p>{ripo.name}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
+                )}
+              </div>
+            </div>
+          </main>
+        </div>
+      </ReactModal>
+
       <div className="facNameAndOwnerInformations">
         <div className="sectionTitleAndSearchInput">
           <SectionTitle
@@ -78,7 +127,7 @@ const FactionPage = () => {
               <GoSearch className="icon" />
             </button>
             {!searchingOtherUser && (
-              <button>
+              <button type="button" onClick={(prevState) => setModalEditProfileIsOpen(!!prevState)}>
                 <MdEdit className="icon" />
               </button>
             )}

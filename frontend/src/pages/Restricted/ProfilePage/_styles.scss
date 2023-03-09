@@ -1,3 +1,127 @@
+// Modal Edit Profile
+.modalEditProfileContent {
+  .modalEditProfileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 50px;
+
+    h1 {
+      font-size: 1.4rem;
+    }
+
+    button {
+      background: transparent;
+      color: $white;
+      font-size: 1.2rem;
+
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .modalEditProfileMain {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    h2 {
+      font-size: 1.2rem;
+      opacity: 0.7;
+
+      border-bottom: 1px solid $primary-color;
+
+      margin-bottom: 10px;
+    }
+
+    .modalEditProfileUserFacRipos {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+
+      margin: 30px 0px;
+
+      .modalEditProfileUserRipos {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .userRipo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+
+          margin: 10px;
+
+          img {
+            height: 110px;
+            width: 70px;
+          }
+
+          p {
+            margin-top: 5px;
+            font-size: 0.8rem;
+
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+
+    .modalEditProfileUserFacName {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+
+      margin: 30px 0px;
+
+      h2 {
+        font-size: 1.2rem;
+        opacity: 0.7;
+
+        border-bottom: 1px solid $primary-color;
+
+        margin-bottom: 10px;
+      }
+
+      input {
+        width: 180px;
+        height: 35px;
+
+        background: transparent;
+        border: 0;
+        border: 1px solid $primary-color;
+        border-radius: 6px;
+        color: $white;
+        font-size: 0.8rem;
+
+        padding: 5px;
+
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+          transform: scale(1.03);
+        }
+
+        &:focus {
+          transform: scale(1.03);
+        }
+      }
+    }
+  }
+}
+
 .factionPageContainer {
   min-height: calc(100vh - 100px);
 
