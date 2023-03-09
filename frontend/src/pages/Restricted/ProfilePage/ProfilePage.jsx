@@ -8,6 +8,7 @@ import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 
 import Character from '../../../assets/images/Boneco_Ind.png';
 import CharacterNissin from '../../../assets/images/Personagem1.png';
+import CharacterPaulo from '../../../assets/images/Personagem2.png';
 import Car from '../../../assets/images/Carro_Ind1.png';
 import Gun from '../../../assets/images/Arma_Ind1.png';
 import Knife from '../../../assets/images/Arma_Ind2.png';
@@ -15,6 +16,8 @@ import Knife from '../../../assets/images/Arma_Ind2.png';
 import { AiFillStar, AiOutlineClose } from 'react-icons/ai';
 import { GoSearch } from 'react-icons/go';
 import { MdEdit } from 'react-icons/md';
+import { BsCheck } from 'react-icons/bs';
+import { BiRefresh } from 'react-icons/bi';
 
 import { api } from '../../../services/api';
 
@@ -73,6 +76,7 @@ const FactionPage = () => {
         style={{
           overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            animation: 'modalFadeIn 0.5s ease-in-out',
           },
           content: {
             inset: '100px 150px',
@@ -85,18 +89,34 @@ const FactionPage = () => {
         <div className="modalEditProfileContent">
           <header className="modalEditProfileHeader">
             <h1>Editar perfil</h1>
-            <button>
+            <button type="button" onClick={(prevState) => setModalEditProfileIsOpen(!prevState)}>
               <AiOutlineClose />
             </button>
           </header>
+
           <main className="modalEditProfileMain">
+            <div className="modalEditProfileActionsContainer">
+              <div className="actionContainer">
+                <img src={CharacterNissin} alt="" />
+                <button>
+                  <BiRefresh className="icon" /> Alterar meu ripo
+                </button>
+              </div>
+              <div className="actionContainer">
+                <img src={CharacterPaulo} alt="" />
+                <button>
+                  <BiRefresh className="icon" /> Alterar minha facção
+                </button>
+              </div>
+            </div>
+
             <div className="modalEditProfileUserFacName">
               <h2>Alterar nome da facção</h2>
               <input type="text" placeholder="Digite o nome da sua facção" />
             </div>
 
             <div className="modalEditProfileUserFacRipos">
-              <h2>Alterar ripos da minha facção</h2>
+              <h2>Minha Coleção</h2>
               <div className="modalEditProfileUserRipos">
                 {userInformations.ripos && userInformations.ripos.length > 0 ? (
                   userInformations.ripos.map((ripo, index) => (
@@ -111,6 +131,12 @@ const FactionPage = () => {
               </div>
             </div>
           </main>
+
+          <footer className="modalEditProfileFooter">
+            <button>
+              Salvar <BsCheck className="icon" />
+            </button>
+          </footer>
         </div>
       </ReactModal>
 
