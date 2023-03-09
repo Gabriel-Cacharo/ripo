@@ -1,5 +1,8 @@
 import html2canvas from 'html2canvas';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import Lottie from 'react-lottie';
 
 import Chracter from '../../../assets/images/Personagem1.png';
 import Coins from '../../../assets/images/Coins_Icon.png';
@@ -10,11 +13,18 @@ import Cabelo1 from '../../../assets/images/cabelo1.png';
 import Calca1 from '../../../assets/images/calca1.png';
 import PersonagemBase from '../../../assets/images/persBase.png';
 
+import {
+  animationLoadingLargeSettings,
+  animationLoadingSmallSettings,
+} from '../../../assets/animations/animationsSettings';
+
 import { BsCheck } from 'react-icons/bs';
 
 import { api } from '../../../services/api';
 
 const CreateRipoPage = () => {
+  const navigate = useNavigate();
+
   const [pageSelected, setPageSelected] = useState(0);
 
   const [clothesRipoSelected, setClothesRipoSelected] = useState({
@@ -24,17 +34,38 @@ const CreateRipoPage = () => {
     pants: '',
   });
 
+  const [ripoName, setRipoName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({
+    type: '',
+  });
+
   const createUserRipoFunction = async () => {
+    setLoading(true);
+
+    if (!ripoName || !ripoName.trim()) {
+      setLoading(false);
+      setError({
+        type: 'name',
+      });
+      return toast.error('Você dar um nome ao seu Ripo');
+    }
+
     try {
       await html2canvas(document.querySelector('.character'), { backgroundColor: 'null' }).then(async (canvas) => {
         var dataURL = canvas.toDataURL('image/png');
 
-        console.log(dataURL);
-
         await api.post('/ripos/createUserRipo', { ripoName: 'testeweb', ripoUrl: dataURL });
+        toast.success('O seu Ripo foi criado com sucesso');
+        setLoading(false);
+        navigate('/crate');
       });
     } catch (err) {
-      console.log(err);
+      setLoading(false);
+      setError({
+        type: 'all',
+      });
+      return toast.error('Ocorreu um erro ao criar o seu Ripo. Tente novamente mais tarde');
     }
   };
 
@@ -137,9 +168,29 @@ const CreateRipoPage = () => {
             <div className="colorOption" style={{ backgroundColor: '#000000' }}></div>
           </div>
 
-          <button className="finishCreateRipoButton" onClick={createUserRipoFunction}>
-            Finalizar <BsCheck className="icon" />
-          </button>
+          <div className="buttonsBottomContainer">
+            <input
+              onChange={(e) => setRipoName(e.target.value)}
+              type="text"
+              className={error.type === 'name' ? 'ripoNameInput error' : 'ripoNameInput'}
+              placeholder="Digite o nome do seu ripo..."
+              onMouseDown={() => setError({ type: '' })}
+            />
+
+            <button className="finishCreateRipoButton" onClick={createUserRipoFunction} disabled={loading}>
+              {loading ? (
+                <Lottie
+                  options={animationLoadingSmallSettings}
+                  height={40}
+                  width={40}
+                  isStopped={false}
+                  isPaused={false}
+                ></Lottie>
+              ) : (
+                <BsCheck className="icon" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
