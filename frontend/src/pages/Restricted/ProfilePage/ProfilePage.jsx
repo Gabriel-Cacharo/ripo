@@ -30,6 +30,9 @@ const FactionPage = () => {
   const [searchingOtherUser, setSearchingOtherUser] = useState(false);
 
   const [modalEditProfileIsOpen, setModalEditProfileIsOpen] = useState(false);
+  const [pageModalEditProfile, setPageModalEditProfile] = useState('Select');
+
+  const [otherModalIsOpen, setOtherModalIsOpen] = useState(false);
 
   const searchProfileFunction = async (username) => {
     try {
@@ -69,6 +72,36 @@ const FactionPage = () => {
     getUserInformationsFunction();
   }, []);
 
+  const handleCloseModalEditProfile = async () => {
+    setModalEditProfileIsOpen(false);
+    setPageModalEditProfile('Select');
+  };
+
+  const selectRipoToEditFacFunction = (ripo) => {
+    let newFacRiposArray = userInformations.facRipos;
+
+    const facAlreadyHaveThisRipo = newFacRiposArray.find((facRipo) => facRipo.id === ripo.id);
+    const facAlreadyHaveThisRipoIndex = newFacRiposArray.indexOf(facAlreadyHaveThisRipo);
+
+    if (facAlreadyHaveThisRipo) {
+      // Remove ripo from fac
+      newFacRiposArray.splice(facAlreadyHaveThisRipoIndex, 1);
+      setUserInformations({ ...userInformations, facRipos: newFacRiposArray });
+    } else {
+      // Add ripo in fac
+      if (newFacRiposArray.length >= 8) {
+        return toast.error('Você não pode colocar mais Ripos na facção');
+      }
+
+      newFacRiposArray.push(ripo);
+      setUserInformations({ ...userInformations, facRipos: newFacRiposArray });
+    }
+  };
+
+  useEffect(() => {
+    console.log(userInformations);
+  }, [userInformations]);
+
   return (
     <div className="factionPageContainer">
       <ReactModal
@@ -88,54 +121,86 @@ const FactionPage = () => {
       >
         <div className="modalEditProfileContent">
           <header className="modalEditProfileHeader">
-            <h1>Editar perfil</h1>
-            <button type="button" onClick={(prevState) => setModalEditProfileIsOpen(!prevState)}>
+            {pageModalEditProfile === 'Select' ? <h1>Editar perfil</h1> : <h1>Editar facção</h1>}
+            <button type="button" onClick={handleCloseModalEditProfile}>
               <AiOutlineClose />
             </button>
           </header>
 
           <main className="modalEditProfileMain">
-            <div className="modalEditProfileActionsContainer">
-              <div className="actionContainer">
-                <img src={CharacterNissin} alt="" />
-                <button>
-                  <BiRefresh className="icon" /> Alterar meu ripo
-                </button>
+            {pageModalEditProfile === 'Select' && (
+              <div className="modalEditProfileActionsContainer">
+                <div className="actionContainer" data-aos="zoom-in">
+                  <img src={CharacterNissin} alt="" />
+                  <button type="button" onClick={() => setPageModalEditProfile('EditFac')}>
+                    <BiRefresh className="icon" /> Alterar minha facção
+                  </button>
+                </div>
+                <div className="actionContainer" data-aos="zoom-in">
+                  <img src={CharacterPaulo} alt="" />
+                  <button>
+                    <BiRefresh className="icon" /> Em breve
+                  </button>
+                </div>
               </div>
-              <div className="actionContainer">
-                <img src={CharacterPaulo} alt="" />
-                <button>
-                  <BiRefresh className="icon" /> Alterar minha facção
-                </button>
-              </div>
-            </div>
+            )}
 
-            <div className="modalEditProfileUserFacName">
-              <h2>Alterar nome da facção</h2>
-              <input type="text" placeholder="Digite o nome da sua facção" />
-            </div>
-
-            <div className="modalEditProfileUserFacRipos">
-              <h2>Minha Coleção</h2>
-              <div className="modalEditProfileUserRipos">
-                {userInformations.ripos && userInformations.ripos.length > 0 ? (
-                  userInformations.ripos.map((ripo, index) => (
-                    <div className="userRipo" key={index}>
-                      <img src={ripo.ripoImage} alt="" />
-                      <p>{ripo.name}</p>
+            {pageModalEditProfile === 'EditFac' && (
+              <div data-aos="fade-in" style={{ width: '100%' }}>
+                <div className="modalEditProfileUserFacInformations">
+                  <div className="userFacInformations" data-aos="zoom-in-down">
+                    <img src={Character} alt="" />
+                    <div className="textsContainer">
+                      <p>Sua coleção:</p>
+                      <h3>30/782</h3>
                     </div>
-                  ))
-                ) : (
-                  <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
-                )}
+                  </div>
+
+                  <div className="userFacInformations" data-aos="zoom-in-down">
+                    <img src={Character} alt="" />
+                    <div className="textsContainer">
+                      <p>Máx de ripos na fac:</p>
+                      <h3>8</h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modalEditProfileUserFacName" data-aos="fade-in">
+                  <h2>Alterar nome da facção</h2>
+                  <input type="text" placeholder="Digite o nome da sua facção" />
+                </div>
+
+                <div className="modalEditProfileUserFacRipos" data-aos="fade-in">
+                  <h2>Minha Coleção</h2>
+                  <div className="modalEditProfileUserRipos">
+                    {userInformations.ripos && userInformations.ripos.length > 0 ? (
+                      userInformations.ripos.map((ripo, index) => (
+                        <div
+                          className={`userRipo ${
+                            userInformations.facRipos.find((facRipo) => facRipo.id === ripo.id) ? 'selected' : ''
+                          }`}
+                          key={index}
+                          onClick={() => selectRipoToEditFacFunction(ripo)}
+                        >
+                          <img src={ripo.ripoImage} alt="" />
+                          <p>{ripo.name}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </main>
 
           <footer className="modalEditProfileFooter">
-            <button>
-              Salvar <BsCheck className="icon" />
-            </button>
+            {pageModalEditProfile !== 'Select' && (
+              <button data-aos="zoom-in">
+                Salvar <BsCheck className="icon" />
+              </button>
+            )}
           </footer>
         </div>
       </ReactModal>
@@ -164,7 +229,7 @@ const FactionPage = () => {
       </div>
 
       <section className="facMembersInformationContainer">
-        <div className="facOwnerImage" data-aos="fade-in">
+        <div className="facOwnerImage" data-aos="zoom-in">
           <img src={userInformations.profileRipo || CharacterNissin} alt="User Ripo" />
         </div>
 
