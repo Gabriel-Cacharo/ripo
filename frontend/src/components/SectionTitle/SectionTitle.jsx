@@ -2,7 +2,7 @@ import p from 'prop-types';
 
 const SectionTitle = ({ title, secondPart }) => {
   return (
-    <h3>
+    <h3 className="sectionTitle">
       {title} <span>{secondPart}</span>
     </h3>
   );
