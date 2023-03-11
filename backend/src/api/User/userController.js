@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { findOneUserWhere, createUser, getUserInformationsDatabase } = require('./userDatabase');
+const { findOneUserWhere, createUser, getUserInformationsDatabase, updateUser } = require('./userDatabase');
 const { getUserRiposController } = require('../Ripo/ripoController');
 const { getRipoById } = require('../Ripo/ripoDatabase');
 
@@ -76,7 +76,7 @@ module.exports = {
         token: token,
       };
     } catch (err) {
-      throw new Error(SERVER_ERR_MESSAGE);
+      throw new Error(err.message || SERVER_ERR_MESSAGE);
     }
   },
 
@@ -121,6 +121,24 @@ module.exports = {
 
       return userResponse;
     } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async updateUserFacRiposController(userId, newRipos) {
+    const arrayRiposIdsToString = newRipos.join(',');
+
+    // console.log(newRipos);
+
+    try {
+      const updatedUserFacRiposResponse = await updateUser(
+        { facRipos: arrayRiposIdsToString },
+        { where: { id: userId } }
+      );
+
+      return updatedUserFacRiposResponse;
+    } catch (err) {
+      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

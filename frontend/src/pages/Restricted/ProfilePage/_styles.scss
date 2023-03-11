@@ -64,8 +64,21 @@
 
         margin: 0px 50px;
 
-        img {
-          height: 200px;
+        .actionImage {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          background-image: url('../../assets/images/BolaPersonagens.png');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 170px;
+
+          width: 200px;
+
+          img {
+            height: 200px;
+          }
         }
 
         button {
@@ -185,6 +198,11 @@
 
           h3 {
             font-size: 2.2rem;
+
+            span {
+              font-size: 1.7rem;
+              opacity: 0.7;
+            }
           }
         }
       }
@@ -333,7 +351,7 @@
 
   .modalEditProfileFooter {
     grid-area: footer;
-    padding-bottom: 10px;
+    padding-bottom: 30px;
 
     display: flex;
     align-items: center;

@@ -1,7 +1,19 @@
 const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
 
-const { registerValidation, loginValidation, searchProfileValidation } = require('./userValidations');
-const { registerController, loginController, profileController, searchProfileController } = require('./userController');
+const {
+  registerValidation,
+  loginValidation,
+  searchProfileValidation,
+  updateUserFacRipos,
+} = require('./userValidations');
+const {
+  registerController,
+  loginController,
+  profileController,
+  searchProfileController,
+  updateUserFacRiposController,
+} = require('./userController');
+const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
 module.exports = {
   async register(req, res) {
@@ -83,6 +95,28 @@ module.exports = {
 
       return res.status(200).json(userProfileInformationsResponse);
     } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async updateUserFacRipos(req, res) {
+    const { facRipos } = req.body;
+
+    try {
+      updateUserFacRipos.parse(req.body);
+    } catch (err) {
+      console.log(err);
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const userTokenPayload = await getUserPayloadByToken(req);
+
+      const updatedUserFacRipos = await updateUserFacRiposController(userTokenPayload.id, facRipos);
+
+      return res.status(200).json(updatedUserFacRipos);
+    } catch (err) {
+      console.log(err);
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
   },

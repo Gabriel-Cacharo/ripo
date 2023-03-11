@@ -6,8 +6,11 @@ const loginValidation = z.object({ email: z.string(), password: z.string() }).st
 
 const searchProfileValidation = z.object({ username: z.string() }).strict();
 
+const updateUserFacRipos = z.object({ facRipos: z.array(z.string()) });
+
 module.exports = {
   registerValidation,
   loginValidation,
   searchProfileValidation,
+  updateUserFacRipos,
 };

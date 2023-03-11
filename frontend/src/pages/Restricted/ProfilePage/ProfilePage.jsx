@@ -98,6 +98,20 @@ const FactionPage = () => {
     }
   };
 
+  const saveNewUserFacRipos = async () => {
+    try {
+      let newFacRiposIds = [];
+
+      userInformations.facRipos.forEach((facRipo) => {
+        newFacRiposIds.push(String(facRipo.id));
+      });
+
+      await api.post('/user/updateFacRipos', { facRipos: newFacRiposIds });
+    } catch (err) {
+      return toast.error(err.message);
+    }
+  };
+
   useEffect(() => {
     console.log(userInformations);
   }, [userInformations]);
@@ -106,6 +120,7 @@ const FactionPage = () => {
     <div className="factionPageContainer">
       <ReactModal
         isOpen={modalEditProfileIsOpen}
+        onRequestClose={handleCloseModalEditProfile}
         style={{
           overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -131,13 +146,17 @@ const FactionPage = () => {
             {pageModalEditProfile === 'Select' && (
               <div className="modalEditProfileActionsContainer">
                 <div className="actionContainer" data-aos="zoom-in">
-                  <img src={CharacterNissin} alt="" />
+                  <div className="actionImage">
+                    <img src={CharacterNissin} alt="" />
+                  </div>
                   <button type="button" onClick={() => setPageModalEditProfile('EditFac')}>
                     <BiRefresh className="icon" /> Alterar minha facção
                   </button>
                 </div>
                 <div className="actionContainer" data-aos="zoom-in">
-                  <img src={CharacterPaulo} alt="" />
+                  <div className="actionImage">
+                    <img src={CharacterPaulo} alt="" />
+                  </div>
                   <button>
                     <BiRefresh className="icon" /> Em breve
                   </button>
@@ -152,7 +171,9 @@ const FactionPage = () => {
                     <img src={Character} alt="" />
                     <div className="textsContainer">
                       <p>Sua coleção:</p>
-                      <h3>30/782</h3>
+                      <h3>
+                        30/<span>782</span>
+                      </h3>
                     </div>
                   </div>
 
@@ -171,7 +192,7 @@ const FactionPage = () => {
                 </div>
 
                 <div className="modalEditProfileUserFacRipos" data-aos="fade-in">
-                  <h2>Minha Coleção</h2>
+                  <h2>Escolher Ripos</h2>
                   <div className="modalEditProfileUserRipos">
                     {userInformations.ripos && userInformations.ripos.length > 0 ? (
                       userInformations.ripos.map((ripo, index) => (
@@ -197,7 +218,7 @@ const FactionPage = () => {
 
           <footer className="modalEditProfileFooter">
             {pageModalEditProfile !== 'Select' && (
-              <button data-aos="zoom-in">
+              <button type="button" onClick={saveNewUserFacRipos}>
                 Salvar <BsCheck className="icon" />
               </button>
             )}
