@@ -72,6 +72,7 @@ module.exports = {
           email: userExists.email,
           username: userExists.username,
           coins: userExists.coins,
+          ripoId: userExists.ripoId,
         },
         token: token,
       };
@@ -108,7 +109,7 @@ module.exports = {
         user: userInformations,
         ripos: userRipos,
         facRipos: userFacRipos,
-        profileRipo: userProfileRipo.ripoImage,
+        profileRipo: userProfileRipo ? userProfileRipo.ripoImage : null,
       };
     } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
@@ -125,20 +126,26 @@ module.exports = {
     }
   },
 
-  async updateUserFacRiposController(userId, newRipos) {
+  async updateUserFacRiposController(userId, newRipos, facName) {
     const arrayRiposIdsToString = newRipos.join(',');
 
-    // console.log(newRipos);
-
     try {
-      const updatedUserFacRiposResponse = await updateUser(
-        { facRipos: arrayRiposIdsToString },
-        { where: { id: userId } }
-      );
+      if (facName) {
+        const updatedUserFacRiposResponse = await updateUser(
+          { facRipos: `[${String(arrayRiposIdsToString)}]`, facName: facName },
+          { where: { id: userId } }
+        );
 
-      return updatedUserFacRiposResponse;
+        return updatedUserFacRiposResponse;
+      } else {
+        const updatedUserFacRiposResponse = await updateUser(
+          { facRipos: `[${String(arrayRiposIdsToString)}]` },
+          { where: { id: userId } }
+        );
+
+        return updatedUserFacRiposResponse;
+      }
     } catch (err) {
-      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
