@@ -1,0 +1,23 @@
+@media (max-width: 850px) {
+  .createRipoPageContainer .createRipoContainer {
+    flex-direction: column;
+    justify-content: center;
+
+    .characterImageContainer {
+      margin: 0;
+    }
+
+    .createRipoOptionsContainer {
+      align-items: center;
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .createRipoPageContainer {
+    h3 {
+      align-self: center;
+      font-size: 1.75rem;
+    }
+  }
+}
