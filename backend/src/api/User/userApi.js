@@ -100,23 +100,21 @@ module.exports = {
   },
 
   async updateUserFacRipos(req, res) {
-    const { facRipos } = req.body;
+    const { facRipos, facName } = req.body;
 
     try {
       updateUserFacRipos.parse(req.body);
     } catch (err) {
-      console.log(err);
       return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
     }
 
     try {
       const userTokenPayload = await getUserPayloadByToken(req);
 
-      const updatedUserFacRipos = await updateUserFacRiposController(userTokenPayload.id, facRipos);
+      const updatedUserFacRipos = await updateUserFacRiposController(userTokenPayload.id, facRipos, facName);
 
       return res.status(200).json(updatedUserFacRipos);
     } catch (err) {
-      console.log(err);
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
   },

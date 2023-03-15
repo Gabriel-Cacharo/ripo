@@ -15,7 +15,7 @@ class User extends Model {
         xp: DataTypes.STRING,
         coins: DataTypes.STRING,
         facName: DataTypes.STRING,
-        facRipos: DataTypes.ARRAY(DataTypes.STRING),
+        facRipos: DataTypes.STRING,
         favoriteCar: DataTypes.INTEGER,
         favoriteGun: DataTypes.INTEGER,
         favoriteSecondGun: DataTypes.INTEGER,
