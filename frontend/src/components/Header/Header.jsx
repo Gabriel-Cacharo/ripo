@@ -12,11 +12,15 @@ import { FiLogOut } from 'react-icons/fi';
 import { AuthContext } from '../../context/AuthContext';
 
 function Header() {
-  const { isAuthenticated, contextLogoutFunction } = useContext(AuthContext);
+  const { user, isAuthenticated, contextLogoutFunction } = useContext(AuthContext);
 
-  const userCoins = localStorage.getItem('user');
+  let userCoins = JSON.parse(localStorage.getItem('user'));
 
   const [dropdownMenuIsOpen, setDropdownMenuIsOpen] = useState(false);
+
+  useEffect(() => {
+    userCoins = localStorage.getItem('user');
+  }, [user]);
 
   return (
     <header className="headerContainer">
@@ -55,7 +59,7 @@ function Header() {
         ) : (
           <div className="userCoinsContainer">
             <img src={CoinsImage} alt="Coins Image" className="iconMarginRight" />
-            <p>{userCoins && JSON.parse(userCoins).coins}</p>
+            <p>{userCoins && userCoins.coins}</p>
           </div>
         )}
 
