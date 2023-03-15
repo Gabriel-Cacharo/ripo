@@ -16,11 +16,10 @@ router.post('/crates/open', authMiddleware, Crate.openCrate);
 
 router.get('/ripos/getUserRipos', authMiddleware, Ripo.getUserRipos);
 router.post('/ripos/sell', authMiddleware, Ripo.sellRipo);
-
-router.get('/user/searchProfile', User.searchProfile);
-
 router.post('/ripos/createUserRipo', authMiddleware, Ripo.createUserRipo);
 
+router.get('/user/searchProfile', User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);
+router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
 
 module.exports = router;
