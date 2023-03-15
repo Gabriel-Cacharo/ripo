@@ -25,6 +25,20 @@ function AppRoutes() {
     return isAuthenticated ? <Outlet /> : <Navigate to="/auth" />;
   }
 
+  function CreateRipoRoute() {
+    const { user, loading } = useContext(AuthContext);
+
+    if (loading) {
+      return <Home />;
+    }
+
+    return !user.ripoId || user.ripoId === 'null' || user.ripoId === 'undefined' ? (
+      <Outlet />
+    ) : (
+      <Navigate to="/profile" />
+    );
+  }
+
   return (
     <Routes>
       <Route path="/" exact element={<Home />} />
@@ -38,7 +52,10 @@ function AppRoutes() {
 
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/profile/:username" element={<ProfilePage />} />
-      <Route path="/createRipo" element={<CreateRipoPage />} />
+
+      <Route path="createRipo" element={<CreateRipoRoute />}>
+        <Route path="/createRipo" element={<CreateRipoPage />} />
+      </Route>
 
       <Route path="/auth" exact element={<Auth />} />
     </Routes>
