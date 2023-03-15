@@ -1,13 +1,11 @@
-export function addUserCoinsLocalStorage(coinsAmount) {
-  const newUserInformations = JSON.parse(localStorage.getItem('user'));
-  newUserInformations.coins = Number(newUserInformations.coins) + Number(coinsAmount);
+export function addUserCoinsLocalStorage(user, coinsAmount, setUserCoinsFunction) {
+  user.coins = Number(user.coins) + Number(coinsAmount);
 
-  localStorage.setItem('user', JSON.stringify(newUserInformations));
+  setUserCoinsFunction(user.coins);
 }
 
-export function removeUserCoinsLocalStorage(coinsAmount) {
-  const newUserInformations = JSON.parse(localStorage.getItem('user'));
-  newUserInformations.coins = Number(newUserInformations.coins) - Number(coinsAmount);
+export function removeUserCoinsLocalStorage(user, coinsAmount, setUserCoinsFunction) {
+  user.coins = Number(user.coins) - Number(coinsAmount);
 
-  localStorage.setItem('user', JSON.stringify(newUserInformations));
+  setUserCoinsFunction(user.coins);
 }

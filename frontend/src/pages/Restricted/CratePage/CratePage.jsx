@@ -1,5 +1,5 @@
 import Lottie from 'react-lottie';
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef, useMemo, useContext } from 'react';
 import { useDraggable } from 'react-use-draggable-scroll';
 import { toast } from 'react-toastify';
 import moment from 'moment/moment';
@@ -28,6 +28,7 @@ import {
 import { addUserCoinsLocalStorage, removeUserCoinsLocalStorage } from './utils/setUserCoinsStorage';
 
 import { api } from '../../../services/api';
+import { AuthContext } from '../../../context/AuthContext';
 
 const CratePage = () => {
   const ref = useRef();
@@ -46,6 +47,8 @@ const CratePage = () => {
   const [openCrateLoading, setOpenCrateLoading] = useState(false);
 
   const timeRemaining = Cookies.get('timeRemaining');
+
+  const { user, contextSetUserCoins } = useContext(AuthContext);
 
   useEffect(() => {
     getUserCratesFunction();
@@ -111,7 +114,7 @@ const CratePage = () => {
     try {
       const buyCrateResponse = await api.post(`/crates/buy?crateId=1`);
 
-      removeUserCoinsLocalStorage(buyCrateResponse.data.price);
+      removeUserCoinsLocalStorage(user, buyCrateResponse.data.price, contextSetUserCoins);
       getUserCratesFunction();
       toast.success('Você comprou a caixa com sucesso');
     } catch (err) {
@@ -141,14 +144,14 @@ const CratePage = () => {
 
   const sellRipoFunction = async () => {
     if (crateOpenedContent.userAlreadyHaveThisRipo) {
-      addUserCoinsLocalStorage(crateOpenedContent.drawnRipo.price);
+      addUserCoinsLocalStorage(user, crateOpenedContent.drawnRipo.price, contextSetUserCoins);
       return handleCloseDrawnRipoInformations('Você vendeu o Ripo com sucesso');
     }
 
     try {
       await api.post(`/ripos/sell?ripoId=${crateOpenedContent.drawnRipo.id}`);
 
-      addUserCoinsLocalStorage(crateOpenedContent.drawnRipo.price);
+      addUserCoinsLocalStorage(user, crateOpenedContent.drawnRipo.price, contextSetUserCoins);
       handleCloseDrawnRipoInformations('Você vendeu o Ripo com sucesso');
     } catch (err) {
       toast.error('Ocorreu um erro ao vender o seu Ripo.');

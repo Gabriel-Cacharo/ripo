@@ -40,7 +40,8 @@ export const AuthProvider = ({ children }) => {
         email,
         id: apiLoginResponse.data.user.id,
         coins: apiLoginResponse.data.user.coins,
-        userName: apiLoginResponse.data.username,
+        userName: apiLoginResponse.data.user.username,
+        ripoId: String(apiLoginResponse.data.user.ripoId),
       };
 
       jsCookie.set('jwt', apiLoginResponse.data.token, { expires: 2 });
@@ -50,7 +51,12 @@ export const AuthProvider = ({ children }) => {
       setUser(loggedUserInfo);
 
       toast.success('Você fez login com sucesso');
-      navigate('/crate');
+
+      if (!loggedUserInfo.ripoId || loggedUserInfo.ripoId === 'null' || loggedUserInfo.ripoId === 'undefined') {
+        navigate('/createRipo');
+      } else {
+        navigate('/crate');
+      }
 
       return;
     } catch (error) {
@@ -74,6 +80,7 @@ export const AuthProvider = ({ children }) => {
         id: apiRegisterResponse.data.user.id,
         coins: '0',
         userName: apiRegisterResponse.data.username,
+        ripoId: '',
       };
 
       jsCookie.set('jwt', apiRegisterResponse.data.token, { expires: 2 });
@@ -83,7 +90,7 @@ export const AuthProvider = ({ children }) => {
       setUser(registeredUserInfo);
 
       toast.success('Sua conta foi criada com sucesso');
-      navigate('/crate');
+      navigate('/createRipo');
 
       return;
     } catch (error) {
@@ -108,9 +115,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const contextSetUserCoins = (coins) => {
+    try {
+      setUser({ ...user, coins: coins });
+      localStorage.removeItem('user');
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (err) {
+      return;
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: !!user, loading, contextLoginFunction, contextRegisterFunction, contextLogoutFunction }}
+      value={{
+        isAuthenticated: !!user,
+        user,
+        loading,
+        contextLoginFunction,
+        contextRegisterFunction,
+        contextLogoutFunction,
+        contextSetUserCoins,
+      }}
     >
       {children}
     </AuthContext.Provider>
