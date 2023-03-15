@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import ReactModal from 'react-modal';
 
 import SectionTitle from '../../../components/SectionTitle/SectionTitle';
 
@@ -20,6 +19,7 @@ import { BsCheck } from 'react-icons/bs';
 import { BiRefresh } from 'react-icons/bi';
 
 import { api } from '../../../services/api';
+import ModalEditProfile from './components/ModalEditProfile/ModalEditProfile';
 
 const FactionPage = () => {
   const { username } = useParams();
@@ -30,9 +30,7 @@ const FactionPage = () => {
   const [searchingOtherUser, setSearchingOtherUser] = useState(false);
 
   const [modalEditProfileIsOpen, setModalEditProfileIsOpen] = useState(false);
-  const [pageModalEditProfile, setPageModalEditProfile] = useState('Select');
-
-  const [otherModalIsOpen, setOtherModalIsOpen] = useState(false);
+  const [userRiposInFac, setUserRiposInFac] = useState([]);
 
   const searchProfileFunction = async (username) => {
     try {
@@ -45,6 +43,7 @@ const FactionPage = () => {
       setUserInformations(userInformationsResponse.data);
       setSearchingOtherUser(true);
     } catch (err) {
+      console.log(err);
       toast.error(err.response.data.error);
     }
   };
@@ -61,6 +60,7 @@ const FactionPage = () => {
         );
 
         setUserInformations(userInformationsResponse.data);
+        setUserRiposInFac(userInformationsResponse.data.facRipos);
         setSearchingOtherUser(false);
       }
     } catch (err) {
@@ -72,159 +72,23 @@ const FactionPage = () => {
     getUserInformationsFunction();
   }, []);
 
-  const handleCloseModalEditProfile = async () => {
-    setModalEditProfileIsOpen(false);
-    setPageModalEditProfile('Select');
+  // Set new ripos on fac from modal
+  const setAlreadyRiposOnFac = (ripos) => {
+    setUserRiposInFac(ripos);
   };
-
-  const selectRipoToEditFacFunction = (ripo) => {
-    let newFacRiposArray = userInformations.facRipos;
-
-    const facAlreadyHaveThisRipo = newFacRiposArray.find((facRipo) => facRipo.id === ripo.id);
-    const facAlreadyHaveThisRipoIndex = newFacRiposArray.indexOf(facAlreadyHaveThisRipo);
-
-    if (facAlreadyHaveThisRipo) {
-      // Remove ripo from fac
-      newFacRiposArray.splice(facAlreadyHaveThisRipoIndex, 1);
-      setUserInformations({ ...userInformations, facRipos: newFacRiposArray });
-    } else {
-      // Add ripo in fac
-      if (newFacRiposArray.length >= 8) {
-        return toast.error('Você não pode colocar mais Ripos na facção');
-      }
-
-      newFacRiposArray.push(ripo);
-      setUserInformations({ ...userInformations, facRipos: newFacRiposArray });
-    }
-  };
-
-  const saveNewUserFacRipos = async () => {
-    try {
-      let newFacRiposIds = [];
-
-      userInformations.facRipos.forEach((facRipo) => {
-        newFacRiposIds.push(String(facRipo.id));
-      });
-
-      await api.post('/user/updateFacRipos', { facRipos: newFacRiposIds });
-    } catch (err) {
-      return toast.error(err.message);
-    }
-  };
-
-  useEffect(() => {
-    console.log(userInformations);
-  }, [userInformations]);
 
   return (
     <div className="factionPageContainer">
-      <ReactModal
-        isOpen={modalEditProfileIsOpen}
-        onRequestClose={handleCloseModalEditProfile}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            animation: 'modalFadeIn 0.5s ease-in-out',
-          },
-          content: {
-            inset: '100px 150px',
-            backgroundColor: '#242424',
-            border: 'none',
-            overflowY: 'scroll',
-          },
-        }}
-      >
-        <div className="modalEditProfileContent">
-          <header className="modalEditProfileHeader">
-            {pageModalEditProfile === 'Select' ? <h1>Editar perfil</h1> : <h1>Editar facção</h1>}
-            <button type="button" onClick={handleCloseModalEditProfile}>
-              <AiOutlineClose />
-            </button>
-          </header>
-
-          <main className="modalEditProfileMain">
-            {pageModalEditProfile === 'Select' && (
-              <div className="modalEditProfileActionsContainer">
-                <div className="actionContainer" data-aos="zoom-in">
-                  <div className="actionImage">
-                    <img src={CharacterNissin} alt="" />
-                  </div>
-                  <button type="button" onClick={() => setPageModalEditProfile('EditFac')}>
-                    <BiRefresh className="icon" /> Alterar minha facção
-                  </button>
-                </div>
-                <div className="actionContainer" data-aos="zoom-in">
-                  <div className="actionImage">
-                    <img src={CharacterPaulo} alt="" />
-                  </div>
-                  <button>
-                    <BiRefresh className="icon" /> Em breve
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {pageModalEditProfile === 'EditFac' && (
-              <div data-aos="fade-in" style={{ width: '100%' }}>
-                <div className="modalEditProfileUserFacInformations">
-                  <div className="userFacInformations" data-aos="zoom-in-down">
-                    <img src={Character} alt="" />
-                    <div className="textsContainer">
-                      <p>Sua coleção:</p>
-                      <h3>
-                        30/<span>782</span>
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div className="userFacInformations" data-aos="zoom-in-down">
-                    <img src={Character} alt="" />
-                    <div className="textsContainer">
-                      <p>Máx de ripos na fac:</p>
-                      <h3>8</h3>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="modalEditProfileUserFacName" data-aos="fade-in">
-                  <h2>Alterar nome da facção</h2>
-                  <input type="text" placeholder="Digite o nome da sua facção" />
-                </div>
-
-                <div className="modalEditProfileUserFacRipos" data-aos="fade-in">
-                  <h2>Escolher Ripos</h2>
-                  <div className="modalEditProfileUserRipos">
-                    {userInformations.ripos && userInformations.ripos.length > 0 ? (
-                      userInformations.ripos.map((ripo, index) => (
-                        <div
-                          className={`userRipo ${
-                            userInformations.facRipos.find((facRipo) => facRipo.id === ripo.id) ? 'selected' : ''
-                          }`}
-                          key={index}
-                          onClick={() => selectRipoToEditFacFunction(ripo)}
-                        >
-                          <img src={ripo.ripoImage} alt="" />
-                          <p>{ripo.name}</p>
-                        </div>
-                      ))
-                    ) : (
-                      <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-          </main>
-
-          <footer className="modalEditProfileFooter">
-            {pageModalEditProfile !== 'Select' && (
-              <button type="button" onClick={saveNewUserFacRipos}>
-                Salvar <BsCheck className="icon" />
-              </button>
-            )}
-          </footer>
-        </div>
-      </ReactModal>
+      {/* Modal Edit Profile */}
+      <ModalEditProfile
+        modalEditProfileIsOpen={modalEditProfileIsOpen}
+        setModalEditProfileIsOpen={setModalEditProfileIsOpen}
+        userRiposAlreadyOnFac={userRiposInFac}
+        setUserInformations={setUserInformations}
+        userInformations={userInformations}
+        setAlreadyRiposOnFac={setAlreadyRiposOnFac}
+        getUserInformationsFunction={getUserInformationsFunction}
+      />
 
       <div className="facNameAndOwnerInformations">
         <div className="sectionTitleAndSearchInput">
