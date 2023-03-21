@@ -60,8 +60,6 @@ module.exports = {
     try {
       const allRipoClothesResponse = await getAllRipoClothes();
 
-      console.log(allRipoClothesResponse);
-
       return res.status(200).json(allRipoClothesResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
