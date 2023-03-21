@@ -165,26 +165,26 @@ const CratePage = () => {
 
   const renderRipoBackgroundRarity = () => {
     switch (crateOpenedContent.drawnRipo.rarity) {
-      case 'comum':
+      case 0:
         return BrilhoComum;
-      case 'incomum':
+      case 1:
         return BrilhoIncomum;
-      case 'raro':
+      case 2:
         return BrilhoRaro;
-      case 'lendario':
+      case 3:
         return BrilhoLendario;
     }
   };
 
   const renderRipoPlateRarity = () => {
     switch (crateOpenedContent.drawnRipo.rarity) {
-      case 'comum':
+      case 0:
         return PlateComum;
-      case 'incomum':
+      case 1:
         return PlateIncomum;
-      case 'raro':
+      case 2:
         return PlateRaro;
-      case 'lendario':
+      case 3:
         return PlateLendario;
     }
   };
