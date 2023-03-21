@@ -1,7 +1,12 @@
 const { SERVER_ERR_CODE, ZOD_ERR_CODE, ZOD_ERR_MESSAGE } = require('../../utils/errorsCode');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
-const { getUserRiposController, sellRipoController, createUserRipoController } = require('./ripoController');
+const {
+  getUserRiposController,
+  sellRipoController,
+  createUserRipoController,
+  getAllRipoClothes,
+} = require('./ripoController');
 const { createUserRipoValidation } = require('./ripoValidations');
 
 module.exports = {
@@ -33,6 +38,7 @@ module.exports = {
 
   async createUserRipo(req, res) {
     const { ripoUrl, ripoName } = req.body;
+
     try {
       createUserRipoValidation.parse(req.body);
     } catch (err) {
@@ -45,6 +51,18 @@ module.exports = {
       const createUserRipoResponse = await createUserRipoController(userTokenPayload.id, ripoUrl, ripoName);
 
       return res.status(201).json(createUserRipoResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async getAllRipoClothes(req, res) {
+    try {
+      const allRipoClothesResponse = await getAllRipoClothes();
+
+      console.log(allRipoClothesResponse);
+
+      return res.status(200).json(allRipoClothesResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

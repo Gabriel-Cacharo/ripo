@@ -1,5 +1,6 @@
 const User = require('../../database/models/User');
 const Ripo = require('../../database/models/Ripo');
+const RipoClothes = require('../../database/models/RipoClothes');
 
 module.exports = {
   async createRipo(obj) {
@@ -32,5 +33,9 @@ module.exports = {
     const ripo = await user.getRipos({ where: { id: ripoId } });
 
     return await user.removeRipo(ripo, { limit: 1 });
+  },
+
+  async getAllRipoClothesDatabase() {
+    return await RipoClothes.findAll();
   },
 };

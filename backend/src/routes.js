@@ -17,6 +17,7 @@ router.post('/crates/open', authMiddleware, Crate.openCrate);
 router.get('/ripos/getUserRipos', authMiddleware, Ripo.getUserRipos);
 router.post('/ripos/sell', authMiddleware, Ripo.sellRipo);
 router.post('/ripos/createUserRipo', authMiddleware, Ripo.createUserRipo);
+router.get('/ripos/allClothes', authMiddleware, Ripo.getAllRipoClothes);
 
 router.get('/user/searchProfile', User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);

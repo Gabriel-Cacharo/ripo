@@ -10,6 +10,7 @@ const {
   removeUserRipo,
   createRipo,
   addUserRipo,
+  getAllRipoClothesDatabase,
 } = require('./ripoDatabase');
 
 module.exports = {
@@ -62,6 +63,18 @@ module.exports = {
       await updateUser({ ripoId: createdRipoResponse.dataValues.id }, { where: { id: userId } });
 
       return await addUserRipo(userId, createdRipoResponse.dataValues.id);
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async getAllRipoClothes() {
+    try {
+      const aa = await getAllRipoClothesDatabase();
+
+      console.log(aa);
+
+      return aa;
     } catch (err) {
       console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
