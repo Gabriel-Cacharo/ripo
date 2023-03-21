@@ -51,7 +51,7 @@ module.exports = {
       const imageUploadedResponse = await uploadImageCloudinary('image.png');
 
       const ripoObj = {
-        rarity: 'raro',
+        rarity: 0,
         price: '300',
         ripoImage: imageUploadedResponse.url,
         name: ripoName,
