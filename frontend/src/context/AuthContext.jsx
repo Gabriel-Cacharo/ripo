@@ -125,6 +125,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const contextSetUserRipoId = async () => {
+    try {
+      const updatedUser = { ...user, ripoId: '1' };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    } catch (err) {
+      return;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -135,6 +145,7 @@ export const AuthProvider = ({ children }) => {
         contextRegisterFunction,
         contextLogoutFunction,
         contextSetUserCoins,
+        contextSetUserRipoId,
       }}
     >
       {children}
