@@ -1,8 +1,9 @@
 import html2canvas from 'html2canvas';
-import { useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie';
+import { AuthContext } from '../../../context/AuthContext';
 
 import Chracter from '../../../assets/images/Personagem1.png';
 import Coins from '../../../assets/images/Coins_Icon.png';
@@ -26,12 +27,25 @@ const CreateRipoPage = () => {
   const navigate = useNavigate();
 
   const [pageSelected, setPageSelected] = useState(0);
-
   const [clothesRipoSelected, setClothesRipoSelected] = useState({
     hair: '',
     beard: '',
     shirt: '',
     pants: '',
+  });
+  const [urlClothesRipoSelected, setUrlClothesRipoSelected] = useState({
+    hair: '',
+    beard: '',
+    shirt: '',
+    pants: '',
+  });
+
+  const [allClothesData, setAllClothesData] = useState({
+    hair: [],
+    beard: [],
+    shirt: [],
+    pants: [],
+    shoes: [],
   });
 
   const [ripoName, setRipoName] = useState('');
@@ -39,6 +53,8 @@ const CreateRipoPage = () => {
   const [error, setError] = useState({
     type: '',
   });
+
+  const { contextSetUserRipoId } = useContext(AuthContext);
 
   const createUserRipoFunction = async () => {
     setLoading(true);
@@ -52,20 +68,67 @@ const CreateRipoPage = () => {
     }
 
     try {
-      await html2canvas(document.querySelector('.character'), { backgroundColor: 'null' }).then(async (canvas) => {
-        var dataURL = canvas.toDataURL('image/png');
+      await html2canvas(document.querySelector('.character'), { backgroundColor: 'null', useCORS: true }).then(
+        async (canvas) => {
+          var dataURL = canvas.toDataURL('image/png');
 
-        await api.post('/ripos/createUserRipo', { ripoName, ripoUrl: dataURL });
-        toast.success('O seu Ripo foi criado com sucesso');
-        setLoading(false);
-        navigate('/crate');
-      });
+          await api.post('/ripos/createUserRipo', { ripoName, ripoUrl: dataURL });
+          await contextSetUserRipoId();
+          toast.success('O seu Ripo foi criado com sucesso');
+          setLoading(false);
+          navigate('/crate');
+        }
+      );
     } catch (err) {
       setLoading(false);
       setError({
         type: 'all',
       });
       return toast.error('Ocorreu um erro ao criar o seu Ripo. Tente novamente mais tarde');
+    }
+  };
+
+  const getAllClothesData = async () => {
+    const allClothesResponse = await api.get('/ripos/allClothes');
+
+    setAllClothesData({
+      hair: allClothesResponse.data.filter((clothes) => clothes.type === 0),
+      beard: allClothesResponse.data.filter((clothes) => clothes.type === 1),
+      shirt: allClothesResponse.data.filter((clothes) => clothes.type === 2),
+      pants: allClothesResponse.data.filter((clothes) => clothes.type === 3),
+    });
+  };
+
+  useEffect(() => {
+    getAllClothesData();
+  }, []);
+
+  const handleSetClothesColor = (color) => {
+    switch (pageSelected) {
+      case 0:
+        // Hair
+        pageSelected === 0 &&
+          clothesRipoSelected.hair[color] &&
+          setUrlClothesRipoSelected({ ...urlClothesRipoSelected, hair: clothesRipoSelected.hair[color] });
+        break;
+      case 1:
+        // Beard
+        pageSelected === 1 &&
+          clothesRipoSelected.beard[color] &&
+          setUrlClothesRipoSelected({ ...urlClothesRipoSelected, beard: clothesRipoSelected.beard[color] });
+        break;
+      case 2:
+        // Shirt
+        pageSelected === 2 &&
+          clothesRipoSelected.shirt[color] &&
+          setUrlClothesRipoSelected({ ...urlClothesRipoSelected, shirt: clothesRipoSelected.shirt[color] });
+        break;
+      case 3:
+        // Pants
+        pageSelected === 3 &&
+          clothesRipoSelected.pants[color] &&
+          setUrlClothesRipoSelected({ ...urlClothesRipoSelected, pants: clothesRipoSelected.pants[color] });
+        break;
     }
   };
 
@@ -78,10 +141,10 @@ const CreateRipoPage = () => {
       <div className="createRipoContainer">
         <div className="characterImageContainer">
           <div className="character">
-            <div className="hair" style={{ backgroundImage: `url(${clothesRipoSelected.hair})` }}></div>
-            <div className="beard" style={{ backgroundImage: `url(${clothesRipoSelected.beard})` }}></div>
-            <div className="shirt" style={{ backgroundImage: `url(${clothesRipoSelected.shirt})` }}></div>
-            <div className="pants" style={{ backgroundImage: `url(${clothesRipoSelected.pants})` }}></div>
+            <div className="hair" style={{ backgroundImage: `url(${urlClothesRipoSelected.hair})` }}></div>
+            <div className="beard" style={{ backgroundImage: `url(${urlClothesRipoSelected.beard})` }}></div>
+            <div className="shirt" style={{ backgroundImage: `url(${urlClothesRipoSelected.shirt})` }}></div>
+            <div className="pants" style={{ backgroundImage: `url(${urlClothesRipoSelected.pants})` }}></div>
           </div>
         </div>
 
@@ -100,72 +163,207 @@ const CreateRipoPage = () => {
               <img src={Calca1} alt="" />
             </div>
           </div>
-          {pageSelected === 0 && (
-            <button
-              className="createRipoOptions"
-              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, hair: Cabelo1 })}
-            >
-              <img src={Cabelo1} alt="" />
-            </button>
-          )}
-          {pageSelected === 1 && (
-            <button
-              className="createRipoOptions"
-              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, beard: Barba })}
-            >
-              <img src={Barba} alt="" />
-            </button>
-          )}
-          {pageSelected === 2 && (
-            <button
-              className="createRipoOptions"
-              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, shirt: Shirt })}
-            >
-              <img src={Shirt} alt="" />
-            </button>
-          )}
-          {pageSelected === 3 && (
-            <button
-              className="createRipoOptions"
-              onClick={() => setClothesRipoSelected({ ...clothesRipoSelected, pants: Calca1 })}
-            >
-              <img src={Calca1} alt="" />
-            </button>
-          )}
+          {pageSelected === 0 &&
+            allClothesData.hair.map((clothes) => {
+              return (
+                <button
+                  key={clothes.name}
+                  className="createRipoOptions"
+                  onClick={() => {
+                    setClothesRipoSelected({ ...clothesRipoSelected, hair: clothes });
+                    setUrlClothesRipoSelected({ ...clothesRipoSelected, hair: clothes.default });
+                  }}
+                >
+                  <img src={clothes.default} alt="" />
+                </button>
+              );
+            })}
+          {pageSelected === 1 &&
+            allClothesData.beard.map((clothes) => {
+              return (
+                <button
+                  key={clothes.name}
+                  className="createRipoOptions"
+                  onClick={() => {
+                    setClothesRipoSelected({ ...clothesRipoSelected, beard: clothes });
+                    setUrlClothesRipoSelected({ ...urlClothesRipoSelected, beard: clothes.default });
+                  }}
+                >
+                  <img src={clothes.default} alt="" />
+                </button>
+              );
+            })}
+          {pageSelected === 2 &&
+            allClothesData.shirt.map((clothes) => {
+              return (
+                <button
+                  key={clothes.name}
+                  className="createRipoOptions"
+                  onClick={() => {
+                    setClothesRipoSelected({ ...clothesRipoSelected, shirt: clothes });
+                    setUrlClothesRipoSelected({ ...urlClothesRipoSelected, shirt: clothes.default });
+                  }}
+                >
+                  <img src={clothes.default} alt="" />
+                </button>
+              );
+            })}
+          {pageSelected === 3 &&
+            allClothesData.pants.map((clothes) => {
+              return (
+                <button
+                  key={clothes.name}
+                  className="createRipoOptions"
+                  onClick={() => {
+                    setClothesRipoSelected({ ...clothesRipoSelected, pants: clothes });
+                    setUrlClothesRipoSelected({ ...urlClothesRipoSelected, pants: clothes.default });
+                  }}
+                >
+                  <img src={clothes.default} alt="" />
+                </button>
+              );
+            })}
           <div className="createRipoColors">
-            <div className="colorOption" style={{ backgroundColor: '#FF0000' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#8B0000' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#DC143C' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FA8072' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FF69B4' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FF1493' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#C71585' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FF6347' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FF4500' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FF8C00' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FFFF00' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#EE82EE' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#BA55D3' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FF00FF' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#8A2BE2' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#9400D3' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#7B68EE' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#90EE90' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#ADFF2F' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#00FF00' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#008B8B' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#00FFFF' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#7FFFD4' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#87CEFA' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#4169E1' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#0000CD' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#A52A2A' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#F4A460' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#FFFFFF' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#DCDCDC' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#A9A9A9' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#808080' }}></div>
-            <div className="colorOption" style={{ backgroundColor: '#000000' }}></div>
+            <button
+              className="colorOption red"
+              style={{ backgroundColor: '#FF0000' }}
+              onClick={() => handleSetClothesColor('red')}
+            ></button>
+            <button
+              className="colorOption darkRed"
+              style={{ backgroundColor: '#8B0000' }}
+              onClick={() => handleSetClothesColor('darkRed')}
+            ></button>
+            <button
+              className="colorOption lightRed"
+              style={{ backgroundColor: '#DC143C' }}
+              onClick={() => handleSetClothesColor('lightRed')}
+            ></button>
+            <button
+              className="colorOption salmon"
+              style={{ backgroundColor: '#FA8072' }}
+              onClick={() => handleSetClothesColor('salmon')}
+            ></button>
+            <button
+              className="colorOption lightPink"
+              style={{ backgroundColor: '#FF69B4' }}
+              onClick={() => handleSetClothesColor('lightPink')}
+            ></button>
+            <button
+              className="colorOption pink"
+              style={{ backgroundColor: '#FF1493' }}
+              onClick={() => handleSetClothesColor('pink')}
+            ></button>
+            <button
+              className="colorOption darkPink"
+              style={{ backgroundColor: '#C71585' }}
+              onClick={() => handleSetClothesColor('darkPink')}
+            ></button>
+            <button
+              className="colorOption lightOrange"
+              style={{ backgroundColor: '#FF6347' }}
+              onClick={() => handleSetClothesColor('lightOrange')}
+            ></button>
+            <button
+              className="colorOption orange"
+              style={{ backgroundColor: '#FF4500' }}
+              onClick={() => handleSetClothesColor('orange')}
+            ></button>
+            <button
+              className="colorOption darkYellow"
+              style={{ backgroundColor: '#FF8C00' }}
+              onClick={() => handleSetClothesColor('darkYellow')}
+            ></button>
+            <button
+              className="colorOption yellow"
+              style={{ backgroundColor: '#FFFF00' }}
+              onClick={() => handleSetClothesColor('yellow')}
+            ></button>
+            <button
+              className="colorOption lightPurple"
+              style={{ backgroundColor: '#8A2BE2' }}
+              onClick={() => handleSetClothesColor('lightPurple')}
+            ></button>
+            <button
+              className="colorOption purple"
+              style={{ backgroundColor: '#9400D3' }}
+              onClick={() => handleSetClothesColor('purple')}
+            ></button>
+            <button
+              className="colorOption lightPurpleWithBlue"
+              style={{ backgroundColor: '#7B68EE' }}
+              onClick={() => handleSetClothesColor('lightPurpleWithBlue')}
+            ></button>
+            <button
+              className="colorOption lime"
+              style={{ backgroundColor: '#90EE90' }}
+              onClick={() => handleSetClothesColor('lime')}
+            ></button>
+            <button
+              className="colorOption lightGreen"
+              style={{ backgroundColor: '#ADFF2F' }}
+              onClick={() => handleSetClothesColor('lightGreen')}
+            ></button>
+            <button
+              className="colorOption green"
+              style={{ backgroundColor: '#00FF00' }}
+              onClick={() => handleSetClothesColor('green')}
+            ></button>
+            <button
+              className="colorOption cyan"
+              style={{ backgroundColor: '#008B8B' }}
+              onClick={() => handleSetClothesColor('cyan')}
+            ></button>
+            <button
+              className="colorOption lightCyan"
+              style={{ backgroundColor: '#00FFFF' }}
+              onClick={() => handleSetClothesColor('lightCyan')}
+            ></button>
+            <button
+              className="colorOption ice"
+              style={{ backgroundColor: '#87CEFA' }}
+              onClick={() => handleSetClothesColor('ice')}
+            ></button>
+            <button
+              className="colorOption lightBlue"
+              style={{ backgroundColor: '#4169E1' }}
+              onClick={() => handleSetClothesColor('lightBlue')}
+            ></button>
+            <button
+              className="colorOption blue"
+              style={{ backgroundColor: '#0000CD' }}
+              onClick={() => handleSetClothesColor('blue')}
+            ></button>
+            <button
+              className="colorOption beige"
+              style={{ backgroundColor: '#F4A460' }}
+              onClick={() => handleSetClothesColor('beige')}
+            ></button>
+            <button
+              className="colorOption white"
+              style={{ backgroundColor: '#FFFFFF' }}
+              onClick={() => handleSetClothesColor('white')}
+            ></button>
+            <button
+              className="colorOption darkWhite"
+              style={{ backgroundColor: '#DCDCDC' }}
+              onClick={() => handleSetClothesColor('darkWhite')}
+            ></button>
+            <button
+              className="colorOption lightGray"
+              style={{ backgroundColor: '#A9A9A9' }}
+              onClick={() => handleSetClothesColor('lightGray')}
+            ></button>
+            <button
+              className="colorOption gray"
+              style={{ backgroundColor: '#808080' }}
+              onClick={() => handleSetClothesColor('gray')}
+            ></button>
+            <button
+              className="colorOption black"
+              style={{ backgroundColor: '#000000' }}
+              onClick={() => handleSetClothesColor('black')}
+            ></button>
           </div>
 
           <div className="buttonsBottomContainer">
