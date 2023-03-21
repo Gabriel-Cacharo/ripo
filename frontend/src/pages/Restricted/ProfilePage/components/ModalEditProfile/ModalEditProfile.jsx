@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import CharacterPaulo from '../../../../../assets/images/Personagem2.png';
 import Character from '../../../../../assets/images/Boneco_Ind.png';
 import CharacterNissin from '../../../../../assets/images/Personagem1.png';
-import segurandoCaixa from '../../../../../assets/images/segurandoCaixa.png';
 
 import { BsCheck } from 'react-icons/bs';
 import { BiRefresh } from 'react-icons/bi';
