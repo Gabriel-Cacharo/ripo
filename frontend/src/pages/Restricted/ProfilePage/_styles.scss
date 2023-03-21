@@ -265,29 +265,6 @@
       align-items: center;
       justify-content: flex-start;
       flex-wrap: wrap;
-
-      .itemCollection {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-
-        margin: 10px;
-
-        img {
-          height: 110px;
-          width: 70px;
-        }
-
-        p {
-          margin-top: 5px;
-          font-size: 0.8rem;
-
-          max-width: 80px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
     }
   }
 

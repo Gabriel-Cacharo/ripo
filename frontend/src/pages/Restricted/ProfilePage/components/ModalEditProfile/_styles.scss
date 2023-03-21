@@ -267,10 +267,12 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            position: relative;
 
             margin: 10px;
             padding-bottom: 10px;
             cursor: pointer;
+            overflow: hidden;
 
             transition: all 200ms ease-in-out;
 
@@ -293,27 +295,72 @@
             }
           }
 
-          .userRipo.selected {
-            position: relative;
-            overflow: hidden;
+          .userRipo.common {
+            &::after {
+              content: '';
+              background-color: rgb(148, 148, 148);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgba(148, 148, 148, 0.12)) drop-shadow(0 0 2px rgba(148, 148, 148, 0.12))
+                drop-shadow(0 0 4px rgba(148, 148, 148, 0.12));
+            }
+          }
+          .userRipo.unusual {
+            &::after {
+              content: '';
+              background-color: rgb(0, 180, 0);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgb(0, 180, 0, 0.12)) drop-shadow(0 0 2px rgb(0, 180, 0, 0.12))
+                drop-shadow(0 0 4px rgb(0, 180, 0, 0.12));
+            }
+          }
+          .userRipo.rare {
+            &::after {
+              content: '';
+              background-color: rgb(130, 17, 128);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgb(130, 17, 128, 0.12)) drop-shadow(0 0 2px rgb(130, 17, 128, 0.12))
+                drop-shadow(0 0 4px rgb(130, 17, 128, 0.12));
+            }
+          }
+          .userRipo.legendary {
+            &::after {
+              content: '';
+              background-color: rgb(255, 225, 0);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgb(255, 225, 0, 0.12)) drop-shadow(0 0 2px rgb(255, 225, 0, 0.12))
+                drop-shadow(0 0 4px rgb(255, 225, 0, 0.12));
+            }
+          }
 
+          .userRipo.selected {
             background-color: $dark-grey;
             border-radius: 12px;
 
             transition: all 200ms ease-in-out;
-
-            &::after {
-              content: '';
-              background: $primary-color;
-              height: 10px;
-              width: 60%;
-              position: absolute;
-              z-index: 10;
-              top: -8px;
-              right: 13px;
-              border-radius: 12px;
-              filter: drop-shadow(0 0 1px #00a3d984) drop-shadow(0 0 2px #00a3d984) drop-shadow(0 0 4px #00a3d984);
-            }
           }
         }
       }

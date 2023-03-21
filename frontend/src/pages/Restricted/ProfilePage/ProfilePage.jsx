@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 import SectionTitle from '../../../components/SectionTitle/SectionTitle';
+import CollectionCharacter from '../../../components/CollectionCharacter/CollectionCharacter';
 
 import Character from '../../../assets/images/Boneco_Ind.png';
 import CharacterNissin from '../../../assets/images/Personagem1.png';
@@ -172,10 +173,13 @@ const FactionPage = () => {
         <div className="collectionContainer" data-aos="zoom-out">
           {userInformations.ripos && userInformations.ripos.length > 0 ? (
             userInformations.ripos.map((ripo, index) => (
-              <div className="itemCollection" key={index}>
-                <img src={ripo.ripoImage} alt="" />
-                <p>{ripo.name}</p>
-              </div>
+              <CollectionCharacter
+                ripoImage={ripo.ripoImage}
+                ripoName={ripo.name}
+                rarity={ripo.rarity}
+                price={ripo.price}
+                key={index}
+              />
             ))
           ) : (
             <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>

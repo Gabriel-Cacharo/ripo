@@ -165,8 +165,14 @@ const ModalEditProfile = ({
                     userInformations.ripos.map((ripo, index) => (
                       <div
                         className={`userRipo ${
-                          newRiposInFac.find((facRipo) => facRipo.id === ripo.id) ? 'selected' : ''
-                        }`}
+                          ripo.rarity === 0
+                            ? 'common'
+                            : ripo.rarity === 1
+                            ? 'unusual'
+                            : ripo.rarity === 2
+                            ? 'rare'
+                            : 'legendary'
+                        } ${newRiposInFac.find((facRipo) => facRipo.id === ripo.id) ? 'selected' : ''}`}
                         key={index}
                         onClick={() => selectRipoToEditFacFunction(ripo)}
                       >
