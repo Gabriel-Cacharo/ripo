@@ -13,6 +13,7 @@ class Ripo extends Model {
         price: DataTypes.STRING,
         ripoImage: DataTypes.STRING,
         name: DataTypes.STRING,
+        public: DataTypes.BOOLEAN,
       },
       {
         sequelize,
