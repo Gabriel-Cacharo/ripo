@@ -5,6 +5,7 @@ const {
   loginValidation,
   searchProfileValidation,
   updateUserFacRipos,
+  getPublicRipoOwnerValidation,
 } = require('./userValidations');
 const {
   registerController,
@@ -12,6 +13,7 @@ const {
   profileController,
   searchProfileController,
   updateUserFacRiposController,
+  getPublicRipoOwnerController,
 } = require('./userController');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
@@ -114,6 +116,24 @@ module.exports = {
       const updatedUserFacRipos = await updateUserFacRiposController(userTokenPayload.id, facRipos, facName);
 
       return res.status(200).json(updatedUserFacRipos);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async getPublicRipoOwner(req, res) {
+    const { ripoId } = req.query;
+
+    try {
+      getPublicRipoOwnerValidation.parse(req.query);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const ripoOwnerInformationsResponse = await getPublicRipoOwnerController(ripoId);
+
+      return res.status(200).json(ripoOwnerInformationsResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

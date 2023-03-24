@@ -174,10 +174,12 @@ const FactionPage = () => {
           {userInformations.ripos && userInformations.ripos.length > 0 ? (
             userInformations.ripos.map((ripo, index) => (
               <CollectionCharacter
+                ripoId={ripo.id}
                 ripoImage={ripo.ripoImage}
                 ripoName={ripo.name}
                 rarity={ripo.rarity}
                 price={ripo.price}
+                ripoPublic={ripo.public}
                 key={index}
               />
             ))

@@ -33,4 +33,14 @@ module.exports = {
       { where: { id: userId } }
     );
   },
+
+  async getRipoOwnerInformationsDatabase(ripoId) {
+    const userInformations = await User.findOne({ where: { ripoId } });
+
+    return {
+      twitch: userInformations.dataValues.twitch,
+      instagram: userInformations.dataValues.instagram,
+      username: userInformations.dataValues.username,
+    };
+  },
 };

@@ -132,6 +132,19 @@
     fill: $dark-grey;
   }
 
+  .characterCollectionPopoverOwnerInformations {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    margin-bottom: 5px;
+
+    p {
+      margin: 0px 5px;
+      opacity: 0.8;
+    }
+  }
+
   .characterCollectionPopoverNetworks {
     display: flex;
     flex-direction: column;
@@ -152,6 +165,8 @@
       font-size: 1rem;
       transition: all 200ms ease-in-out;
       cursor: pointer;
+      background: transparent;
+      color: $white;
 
       .icon {
         margin-right: 5px;

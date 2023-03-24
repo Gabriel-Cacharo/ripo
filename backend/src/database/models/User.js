@@ -20,6 +20,8 @@ class User extends Model {
         favoriteGun: DataTypes.INTEGER,
         favoriteSecondGun: DataTypes.INTEGER,
         lastRedeemCrate: DataTypes.DATE,
+        twitch: DataTypes.STRING,
+        instagram: DataTypes.STRING,
         ripoId: {
           type: DataTypes.INTEGER,
           allowNull: true,

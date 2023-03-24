@@ -8,9 +8,12 @@ const searchProfileValidation = z.object({ username: z.string() }).strict();
 
 const updateUserFacRipos = z.object({ facRipos: z.array(z.string()), facName: z.string().optional() });
 
+const getPublicRipoOwnerValidation = z.object({ ripoId: z.string() }).strict();
+
 module.exports = {
   registerValidation,
   loginValidation,
   searchProfileValidation,
   updateUserFacRipos,
+  getPublicRipoOwnerValidation,
 };
