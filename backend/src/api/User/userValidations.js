@@ -10,10 +10,13 @@ const updateUserFacRipos = z.object({ facRipos: z.array(z.string()), facName: z.
 
 const getPublicRipoOwnerValidation = z.object({ ripoId: z.string() }).strict();
 
+const resetPasswordValidation = z.object({ newPassword: z.string(), oldPassword: z.string() }).strict();
+
 module.exports = {
   registerValidation,
   loginValidation,
   searchProfileValidation,
   updateUserFacRipos,
   getPublicRipoOwnerValidation,
+  resetPasswordValidation,
 };

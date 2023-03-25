@@ -18,7 +18,7 @@
 
     background-image: url('../../assets/images/Boneco_Ind.png');
     background-repeat: no-repeat;
-    background-position: 17rem 11rem;
+    background-position: 17rem bottom;
     background-size: 6rem;
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.35);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.35);
@@ -41,6 +41,10 @@
       background-color: $light-grey;
       color: $white;
       border-radius: 6px;
+    }
+
+    input.error {
+      border-left: 2px solid rgb(220, 42, 42);
     }
 
     button {
@@ -71,5 +75,13 @@
         font-size: 1.2rem;
       }
     }
+
+    .errorMessage {
+      color: rgb(220, 42, 42);
+    }
+
+    // button.error {
+    //   border: 2px solid rgb(220, 42, 42);
+    // }
   }
 }

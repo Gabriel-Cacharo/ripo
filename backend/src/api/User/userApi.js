@@ -6,6 +6,7 @@ const {
   searchProfileValidation,
   updateUserFacRipos,
   getPublicRipoOwnerValidation,
+  resetPasswordValidation,
 } = require('./userValidations');
 const {
   registerController,
@@ -14,6 +15,7 @@ const {
   searchProfileController,
   updateUserFacRiposController,
   getPublicRipoOwnerController,
+  resetUserPasswordController,
 } = require('./userController');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
@@ -134,6 +136,30 @@ module.exports = {
       const ripoOwnerInformationsResponse = await getPublicRipoOwnerController(ripoId);
 
       return res.status(200).json(ripoOwnerInformationsResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async resetUserPassword(req, res) {
+    const { oldPassword, newPassword } = req.body;
+
+    try {
+      resetPasswordValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const userTokenPayload = await getUserPayloadByToken(req);
+
+      const resetUserPasswordResponse = await resetUserPasswordController(
+        userTokenPayload.id,
+        oldPassword,
+        newPassword
+      );
+
+      return res.status(201).json(resetUserPasswordResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

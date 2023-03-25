@@ -79,6 +79,7 @@ module.exports = {
           username: userExists.username,
           coins: userExists.coins,
           ripoId: userExists.ripoId,
+          verifiedEmail: userExists.verifiedEmail,
         },
         token: token,
       };
@@ -162,6 +163,35 @@ module.exports = {
 
       return ripoOwnerInformationsResponse;
     } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async resetUserPasswordController(userId, oldPassword, newPassword) {
+    try {
+      const userExists = await findOneUserWhere({ where: { id: userId } });
+
+      if (!userExists) {
+        throw new Error("User doesn't exists");
+      }
+
+      const passwordMatch = await bcrypt.compare(oldPassword, userExists.dataValues.password);
+
+      if (!passwordMatch) {
+        throw new Error('Password does not match');
+      }
+
+      const salt = bcrypt.genSaltSync(14);
+      const encryptedPassword = bcrypt.hashSync(newPassword, salt);
+
+      const updatePasswordResponse = await updateUser({ password: encryptedPassword }, { where: { id: userId } });
+
+      return updatePasswordResponse;
+    } catch (err) {
+      if (err.message === 'Password does not match') {
+        throw new Error('A senha não coincide');
+      }
+
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

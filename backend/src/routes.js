@@ -23,5 +23,6 @@ router.get('/ripos/owner', authMiddleware, User.getPublicRipoOwner);
 router.get('/user/searchProfile', User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);
 router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
+router.post('/user/resetPassword', authMiddleware, User.resetUserPassword);
 
 module.exports = router;
