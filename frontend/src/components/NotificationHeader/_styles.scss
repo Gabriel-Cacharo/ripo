@@ -1,0 +1,39 @@
+.notificationHeaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 40px;
+
+  background-color: $primary-color;
+  background-image: url('https://cutewallpaper.org/21/white-background-gif/Tag-For-White-Background-File-Hart-S-Inversor-On-White-.gif');
+  // background-repeat: no-repeat;
+  background-position: center;
+  // background-size: cover;
+
+  a {
+    background: transparent;
+    border: 1px solid $white;
+    color: $white;
+    margin-left: 30px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+
+    animation: backgroundColor 4s infinite;
+
+    transition: all 200ms ease-in-out;
+  }
+}
+
+@keyframes backgroundColor {
+  0% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: $white;
+    color: $primary-color;
+  }
+}

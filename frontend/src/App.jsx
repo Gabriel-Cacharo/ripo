@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { BrowserRouter as Router } from 'react-router-dom';
 
+import NotificationHeader from './components/NotificationHeader/NotificationHeader';
 import Header from './components/Header/Header';
 import Routes from './routes';
 
@@ -21,6 +22,7 @@ function App() {
     <Router>
       <AuthProvider>
         <div className="App">
+          <NotificationHeader />
           <Header />
           <Routes />
         </div>
