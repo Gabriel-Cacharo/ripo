@@ -6,38 +6,57 @@
 
 @import './global.scss';
 
+// Header
 @import '../../components/Header/styles.scss';
 @import '../../components/Header/responsive.scss';
 
+// Numbers Container
 @import '../../components/NumbersContainer/styles';
 @import '../../components/NumbersContainer/responsive';
 
+// Section Title
 @import '../../components/SectionTitle/styles';
 
+// Home Page
 @import '../../pages/Home/styles';
 @import '../../pages/Home/components/Slider/styles';
 @import '../../pages/Home/responsive';
 
+// Auth Page
 @import '../../pages/Auth/styles';
 @import '../../pages/Auth/responsive';
 
+// Collection Page
 @import '../../pages/Collection/styles';
 @import '../../pages/Collection/responsive';
 
+// About Page
 @import '../../pages/About/styles';
 
+// Crate Page
 @import '../../pages/Restricted/CratePage/styles';
 @import '../../pages/Restricted/CratePage/responsive';
 
+// Create Ripo
 @import '../../pages/Restricted/CreateRipo/styles';
 @import '../../pages/Restricted/CreateRipo/responsive';
 
+// Profile Page
 @import '../../pages/Restricted/ProfilePage/styles';
 @import '../../pages/Restricted/ProfilePage/responsive';
 @import '../../pages/Restricted/ProfilePage/components/ModalEditProfile/styles';
 @import '../../pages/Restricted/ProfilePage/components/ModalEditProfile/responsive';
 
+// Reset Password
 @import '../../pages/Restricted/ResetPassword/styles';
 @import '../../pages/Restricted/ResetPassword/responsive';
 
+// Forgot Password
+@import '../../pages/ForgotPassword/styles';
+
+// Collection Character
 @import '../../components/CollectionCharacter/styles';
+
+// Notification Header
+@import '../../components/NotificationHeader/styles';
+@import '../../components/NotificationHeader/responsive';

@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
         coins: apiLoginResponse.data.user.coins,
         userName: apiLoginResponse.data.user.username,
         ripoId: String(apiLoginResponse.data.user.ripoId),
+        verifiedEmail: apiLoginResponse.data.user.verifiedEmail,
       };
 
       jsCookie.set('jwt', apiLoginResponse.data.token, { expires: 2 });

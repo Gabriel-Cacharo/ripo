@@ -15,6 +15,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { api } from '../../services/api';
 
 import { verifyEmail, verifyPassword, verifyUser } from './utils/verifications';
+import { Link } from 'react-router-dom';
 
 function Register() {
   const { contextLoginFunction, contextRegisterFunction } = useContext(AuthContext);
@@ -216,14 +217,14 @@ function Register() {
             />
 
             <div className="buttonsFormLogin">
-              <button onClick={loginFunction}>
+              <Link to="/auth/forgotPassword">
                 <RiLockPasswordLine className="iconMarginRight" /> Esqueceu sua senha?
-              </button>
+              </Link>
 
               <p>
                 Não possui uma conta?
                 <button type="button" onClick={setIsLoginPageFunction}>
-                  Se Registre
+                  Se registre
                 </button>
               </p>
             </div>
