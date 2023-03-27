@@ -13,6 +13,8 @@ import ResetPasswordPage from './pages/Restricted/ResetPassword/ResetPasswordPag
 import CratePage from './pages/Restricted/CratePage/CratePage';
 import CreateRipoPage from './pages/Restricted/CreateRipo/CreateRipoPage';
 import ProfilePage from './pages/Restricted/ProfilePage/ProfilePage';
+import ForgotPasswordPage from './pages/ForgotPassword/ForgotPassword';
+import VerifyAccountPage from './pages/VerifyAccount/VerifyAccount';
 
 function AppRoutes() {
   function PrivateRoute() {
@@ -44,7 +46,6 @@ function AppRoutes() {
       <Route path="/" exact element={<Home />} />
       <Route path="/about" exact element={<About />} />
       <Route path="/collection" exact element={<Collection />} />
-      <Route path="/auth/resetPassword" exact element={<ResetPasswordPage />} />
 
       <Route path="/crate" element={<PrivateRoute />}>
         <Route path="/crate" exact element={<CratePage />} />
@@ -58,6 +59,13 @@ function AppRoutes() {
       </Route>
 
       <Route path="/auth" exact element={<Auth />} />
+
+      <Route path="/auth/forgotPassword" exact element={<ForgotPasswordPage />} />
+      <Route path="/auth/verifyAccountEmail" exact element={<VerifyAccountPage />} />
+
+      <Route path="/auth/resetPassword" element={<PrivateRoute />}>
+        <Route path="/auth/resetPassword" exact element={<ResetPasswordPage />} />
+      </Route>
     </Routes>
   );
 }
