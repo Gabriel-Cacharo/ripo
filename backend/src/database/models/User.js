@@ -22,6 +22,7 @@ class User extends Model {
         lastRedeemCrate: DataTypes.DATE,
         twitch: DataTypes.STRING,
         instagram: DataTypes.STRING,
+        verifiedEmail: DataTypes.BOOLEAN,
         ripoId: {
           type: DataTypes.INTEGER,
           allowNull: true,
