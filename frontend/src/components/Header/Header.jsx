@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { useNavigate } from 'react-router-dom';
 
 import Logo from '../../assets/images/Logo_canto.png';
 import MenuButtonImage from '../../assets/images/MenuCompleto.png';
@@ -8,6 +9,7 @@ import CoinsImage from '../../assets/images/Coins_Icon.png';
 
 import { FaUserAlt } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 import { AuthContext } from '../../context/AuthContext';
 
@@ -17,6 +19,8 @@ function Header() {
   let userCoins = JSON.parse(localStorage.getItem('user'));
 
   const [dropdownMenuIsOpen, setDropdownMenuIsOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     userCoins = localStorage.getItem('user');
@@ -63,29 +67,39 @@ function Header() {
           </div>
         )}
 
-        <DropdownMenu.Root open={dropdownMenuIsOpen}>
-          <DropdownMenu.Trigger
-            className="menuButton"
-            style={{ background: 'transparent' }}
-            onClick={() => setDropdownMenuIsOpen((s) => !s)}
-          >
-            <img src={MenuButtonImage} alt="Menu Button" />
-          </DropdownMenu.Trigger>
-
-          <DropdownMenu.Portal>
-            <DropdownMenu.Content
-              className="dropdownMenuContent"
-              onInteractOutside={() => setDropdownMenuIsOpen((s) => !s)}
+        {isAuthenticated && (
+          <DropdownMenu.Root open={dropdownMenuIsOpen}>
+            <DropdownMenu.Trigger
+              className="menuButton"
+              style={{ background: 'transparent' }}
+              onClick={() => setDropdownMenuIsOpen((s) => !s)}
             >
-              <DropdownMenu.Item className="dropdownMenuItem">
-                <button type="button" onClick={contextLogoutFunction}>
-                  <FiLogOut className="iconMarginRight" />
-                  Sair
-                </button>
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        </DropdownMenu.Root>
+              <img src={MenuButtonImage} alt="Menu Button" />
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content
+                className="dropdownMenuContent"
+                onInteractOutside={() => setDropdownMenuIsOpen((s) => !s)}
+              >
+                <DropdownMenu.Item className="dropdownMenuItem">
+                  <button type="button" onClick={() => navigate('/auth/resetPassword')}>
+                    <RiLockPasswordLine className="iconMarginRight" />
+                    Alterar Senha
+                  </button>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item className="dropdownMenuItem">
+                  <button type="button" onClick={contextLogoutFunction}>
+                    <FiLogOut className="iconMarginRight" />
+                    Sair
+                  </button>
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Arrow className="dropdownMenuArrow" />
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
+        )}
       </div>
     </header>
   );

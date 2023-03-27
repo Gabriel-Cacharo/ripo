@@ -1,0 +1,10 @@
+@media (max-width: 410px) {
+  .notificationHeaderContainer {
+    flex-direction: column;
+    height: 80px;
+
+    a {
+      margin-top: 10px;
+    }
+  }
+}
