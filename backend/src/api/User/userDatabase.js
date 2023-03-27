@@ -1,4 +1,5 @@
 const User = require('../../database/models/User');
+const ForgotPassword = require('../../database/models/ForgotPassword');
 
 module.exports = {
   async findOneUserWhere(options) {
@@ -42,5 +43,17 @@ module.exports = {
       instagram: userInformations.dataValues.instagram,
       username: userInformations.dataValues.username,
     };
+  },
+
+  async userAlreadyHasAnRequestToForgotPasswordDatabase(userId) {
+    return await ForgotPassword.findOne({ where: { userId: userId } });
+  },
+
+  async addRequestToForgotPasswordDatabase(userId, token) {
+    return await ForgotPassword.create({ userId, token });
+  },
+
+  async deleteRequestToForgotPasswordDatabase(userId) {
+    return await ForgotPassword.destroy({ where: { userId: userId } });
   },
 };

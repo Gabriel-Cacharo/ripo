@@ -12,6 +12,10 @@ const getPublicRipoOwnerValidation = z.object({ ripoId: z.string() }).strict();
 
 const resetPasswordValidation = z.object({ newPassword: z.string(), oldPassword: z.string() }).strict();
 
+const forgotPasswordValidation = z.object({ email: z.string() }).strict();
+
+const acceptForgotPasswordValidation = z.object({ token: z.string(), newPassword: z.string() }).strict();
+
 module.exports = {
   registerValidation,
   loginValidation,
@@ -19,4 +23,6 @@ module.exports = {
   updateUserFacRipos,
   getPublicRipoOwnerValidation,
   resetPasswordValidation,
+  forgotPasswordValidation,
+  acceptForgotPasswordValidation,
 };

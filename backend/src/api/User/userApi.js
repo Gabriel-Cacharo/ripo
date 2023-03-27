@@ -7,6 +7,8 @@ const {
   updateUserFacRipos,
   getPublicRipoOwnerValidation,
   resetPasswordValidation,
+  forgotPasswordValidation,
+  acceptForgotPasswordValidation,
 } = require('./userValidations');
 const {
   registerController,
@@ -16,8 +18,12 @@ const {
   updateUserFacRiposController,
   getPublicRipoOwnerController,
   resetUserPasswordController,
+  forgotPasswordController,
+  acceptForgotPasswordController,
+  verifyAccountEmail,
 } = require('./userController');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
+const transport = require('../../services/nodemailer');
 
 module.exports = {
   async register(req, res) {
@@ -160,6 +166,54 @@ module.exports = {
       );
 
       return res.status(201).json(resetUserPasswordResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async forgotPassword(req, res) {
+    const { email } = req.body;
+
+    try {
+      forgotPasswordValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const forgotPasswordResponse = await forgotPasswordController(email);
+
+      return res.status(200).json(forgotPasswordResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async acceptForgotPassword(req, res) {
+    const { token, newPassword } = req.body;
+
+    try {
+      acceptForgotPasswordValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const acceptForgotPasswordResponse = await acceptForgotPasswordController(token, newPassword);
+
+      return res.status(201).json(acceptForgotPasswordResponse.message);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async verifyAccountEmail(req, res) {
+    try {
+      const userTokenPayload = await getUserPayloadByToken(req);
+
+      const verifyAccountEmailResponse = await verifyAccountEmail(userTokenPayload.id);
+
+      return res.status(200).json(verifyAccountEmailResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

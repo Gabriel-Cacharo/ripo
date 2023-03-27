@@ -52,6 +52,12 @@ module.exports = {
     await User.update({ lastRedeemCrate: dayjs().format() }, { where: { id: userId } });
   },
 
+  async addCrateToUserAfterVerifyEmailDatabase(userId) {
+    const user = await User.findByPk(userId);
+    await user.addCrate(process.env.INDEX_CRATE_ADD_REDEEM);
+    await user.addCrate(process.env.INDEX_CRATE_ADD_REDEEM);
+  },
+
   async addUserCrateDatabase(userId, crateId, price) {
     const user = await User.findByPk(userId);
     const newUserCoins = Number(user.dataValues.coins) - Number(price);

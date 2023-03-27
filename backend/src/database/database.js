@@ -7,6 +7,7 @@ const Ripo = require('./models/Ripo');
 const Car = require('./models/Car');
 const Gun = require('./models/Gun');
 const RipoClothes = require('./models/RipoClothes');
+const ForgotPassword = require('./models/ForgotPassword');
 
 const connection = new Sequelize(dbConfig.development);
 
@@ -17,6 +18,7 @@ Ripo.init(connection);
 Car.init(connection);
 Gun.init(connection);
 RipoClothes.init(connection);
+ForgotPassword.init(connection);
 
 // Relations
 User.associate(connection.models);

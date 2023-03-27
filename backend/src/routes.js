@@ -8,6 +8,8 @@ const Ripo = require('./api/Ripo/ripoApi');
 
 router.post('/auth/register', User.register);
 router.post('/auth/login', User.login);
+router.post('/auth/forgotPassword', User.forgotPassword);
+router.post('/auth/acceptForgotPassword', User.acceptForgotPassword);
 
 router.get('/crates/getUserCrates', authMiddleware, Crate.getUserCrates);
 router.post('/crates/redeem', authMiddleware, Crate.redeemCrate);
@@ -24,5 +26,6 @@ router.get('/user/searchProfile', User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);
 router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
 router.post('/user/resetPassword', authMiddleware, User.resetUserPassword);
+router.post('/user/verifyAccountEmail', authMiddleware, User.verifyAccountEmail);
 
 module.exports = router;
