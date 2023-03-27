@@ -38,4 +38,8 @@ module.exports = {
   async getAllRipoClothesDatabase() {
     return await RipoClothes.findAll();
   },
+
+  async countRiposPublic() {
+    return await Ripo.count({ where: { public: true } });
+  },
 };

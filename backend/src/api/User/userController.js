@@ -12,7 +12,7 @@ const {
   deleteRequestToForgotPasswordDatabase,
 } = require('./userDatabase');
 const { getUserRiposController } = require('../Ripo/ripoController');
-const { getRipoById } = require('../Ripo/ripoDatabase');
+const { getRipoById, countRiposPublic } = require('../Ripo/ripoDatabase');
 const { addCrateToUserAfterVerifyEmailDatabase } = require('../Crate/crateDatabase');
 
 const { SERVER_ERR_MESSAGE } = require('../../utils/errorsCode');
@@ -117,11 +117,14 @@ module.exports = {
 
       const userProfileRipo = await getRipoById(userInformations.ripoId);
 
+      const quantityTotalRipos = await countRiposPublic();
+
       return {
         user: userInformations,
         ripos: userRipos,
         facRipos: userFacRipos,
         profileRipo: userProfileRipo ? userProfileRipo.ripoImage : null,
+        quantityTotalRiposPublic: quantityTotalRipos,
       };
     } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);

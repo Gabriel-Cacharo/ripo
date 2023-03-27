@@ -122,7 +122,7 @@ const FactionPage = () => {
         <div className="facMembersContainer" data-aos="zoom-out">
           <h4>
             MEMBROS <span>{userInformations.facRipos && userInformations.facRipos.length}/</span>
-            <p>20</p>
+            <p>8</p>
           </h4>
 
           <div className="membersContainer">
@@ -167,7 +167,7 @@ const FactionPage = () => {
       <section className="facCollectionContainer">
         <h4>
           COLEÇÃO <span>{userInformations.ripos && userInformations.ripos.length}/</span>
-          <p>782</p>
+          <p>{userInformations.quantityTotalRiposPublic}</p>
         </h4>
 
         <div className="collectionContainer" data-aos="zoom-out">
@@ -192,7 +192,7 @@ const FactionPage = () => {
       <section className="facGunsContainer">
         <h4>
           ARMAS <span>{userInformations.guns ? userInformations.guns.length : '0'}/</span>
-          <p>52</p>
+          <p>0</p>
         </h4>
 
         <div className="gunsContainer" data-aos="zoom-out">
@@ -210,7 +210,7 @@ const FactionPage = () => {
       <section className="facCarsContainer">
         <h4>
           CARROS <span>{userInformations.cars ? userInformations.cars.length : '0'}/</span>
-          <p>120</p>
+          <p>0</p>
         </h4>
 
         <div className="carsContainer" data-aos="zoom-out">
