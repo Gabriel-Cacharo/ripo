@@ -40,7 +40,7 @@ const CollectionCharacter = ({ ripoId, ripoImage, ripoName, rarity, price, ripoP
           <Popover.Content className="characterCollectionPopover">
             <Popover.Arrow className="characterCollectionPopoverArrow" />
             <div className="characterCollectionPopoverOwnerInformations">
-              <h4>{ripoName}/</h4>
+              <h4>{ripoName}</h4>
               <p>{ripoOwnerInformations && ripoOwnerInformations.username}</p>
             </div>
             <div className="characterCollectionPopoverSubtitles">
