@@ -1,9 +1,18 @@
 const User = require('../../database/models/User');
 const ForgotPassword = require('../../database/models/ForgotPassword');
+const { Op } = require('sequelize');
 
 module.exports = {
   async findOneUserWhere(options) {
     return await User.findOne(options);
+  },
+
+  async findUsersSearchDatabase(username) {
+    return await User.findAll({
+      where: { username: { [Op.like]: `%${username}%` } },
+      limit: 3,
+      attributes: ['username', 'ripoId'],
+    });
   },
 
   async createUser(obj) {

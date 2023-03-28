@@ -27,5 +27,6 @@ router.get('/user/profile', authMiddleware, User.profile);
 router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
 router.post('/user/resetPassword', authMiddleware, User.resetUserPassword);
 router.post('/user/verifyAccountEmail', authMiddleware, User.verifyAccountEmail);
+router.get('/user/searchProfile/autocomplete', User.searchProfileResponses);
 
 module.exports = router;

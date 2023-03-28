@@ -33,6 +33,8 @@ const FactionPage = () => {
   const [modalEditProfileIsOpen, setModalEditProfileIsOpen] = useState(false);
   const [userRiposInFac, setUserRiposInFac] = useState([]);
 
+  const [searchAutocomplete, setSearchAutocomplete] = useState([]);
+
   const searchProfileFunction = async (username) => {
     try {
       if (!username) {
@@ -78,6 +80,27 @@ const FactionPage = () => {
     setUserRiposInFac(ripos);
   };
 
+  // Search autocomplete
+  const getAutoCompleteFunction = async () => {
+    const autoCompleteResponse = await api.get(`/user/searchProfile/autocomplete?username=${usernameInput}`);
+    console.log(autoCompleteResponse);
+    setSearchAutocomplete(autoCompleteResponse.data);
+  };
+
+  useEffect(() => {
+    if (!usernameInput) {
+      setSearchAutocomplete([]);
+      return;
+    }
+
+    getAutoCompleteFunction();
+  }, [usernameInput]);
+
+  const handleClickToSearchProfile = (username) => {
+    searchProfileFunction(username);
+    setUsernameInput('');
+  };
+
   return (
     <div className="factionPageContainer">
       {/* Modal Edit Profile */}
@@ -100,14 +123,31 @@ const FactionPage = () => {
 
           <div className="inputSearchContainer">
             <input type="text" placeholder="Procure um usuário" onChange={(e) => setUsernameInput(e.target.value)} />
+            <div className="searchResultsContainer">
+              {searchAutocomplete &&
+                searchAutocomplete.map((autocomplete, index) => (
+                  <div
+                    className="searchResult"
+                    key={index}
+                    data-aos="fade-in"
+                    onClick={() => handleClickToSearchProfile(autocomplete.username)}
+                  >
+                    <img src={autocomplete.ripoId ? autocomplete.ripoId : Character} alt="User Ripo" />
+                    <p>{autocomplete.username}</p>
+                  </div>
+                ))}
+            </div>
             <button className="searchButton" onClick={() => searchProfileFunction(usernameInput)}>
               <GoSearch className="icon" />
             </button>
-            {!searchingOtherUser && (
-              <button type="button" onClick={(prevState) => setModalEditProfileIsOpen(!!prevState)}>
-                <MdEdit className="icon" />
-              </button>
-            )}
+
+            <button
+              type="button"
+              onClick={(prevState) => setModalEditProfileIsOpen(!!prevState)}
+              disabled={searchingOtherUser}
+            >
+              <MdEdit className="icon" />
+            </button>
           </div>
         </div>
 

@@ -21,6 +21,7 @@ const {
   forgotPasswordController,
   acceptForgotPasswordController,
   verifyAccountEmail,
+  searchProfileResponsesController,
 } = require('./userController');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 const transport = require('../../services/nodemailer');
@@ -104,6 +105,24 @@ module.exports = {
       const userProfileInformationsResponse = await profileController(userProfileResponse.dataValues.id);
 
       return res.status(200).json(userProfileInformationsResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async searchProfileResponses(req, res) {
+    const { username } = req.query;
+
+    try {
+      searchProfileValidation.parse(req.query);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const searchProfileResponsesResponse = await searchProfileResponsesController(username);
+
+      return res.status(200).json(searchProfileResponsesResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

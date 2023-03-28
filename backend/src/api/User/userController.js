@@ -10,6 +10,7 @@ const {
   userAlreadyHasAnRequestToForgotPasswordDatabase,
   addRequestToForgotPasswordDatabase,
   deleteRequestToForgotPasswordDatabase,
+  findUsersSearchDatabase,
 } = require('./userDatabase');
 const { getUserRiposController } = require('../Ripo/ripoController');
 const { getRipoById, countRiposPublic } = require('../Ripo/ripoDatabase');
@@ -136,6 +137,34 @@ module.exports = {
       const userResponse = await findOneUserWhere({ where: { username: username } });
 
       return userResponse;
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async searchProfileResponsesController(username) {
+    try {
+      const searchProfileResponses = await findUsersSearchDatabase(username);
+
+      if (searchProfileResponses && searchProfileResponses.length >= 2) {
+        await Promise.all(
+          searchProfileResponses.map(async (searchProfile) => {
+            const ripoInformations = await getRipoById(searchProfile.ripoId);
+
+            if (!ripoInformations) return;
+
+            searchProfile.ripoId = ripoInformations.ripoImage;
+          })
+        );
+      } else {
+        const ripoInformations = await getRipoById(searchProfileResponses[0].dataValues.ripoId);
+
+        if (!ripoInformations) return searchProfileResponses;
+
+        searchProfileResponses[0].dataValues.ripoId = ripoInformations.dataValues.ripoImage;
+      }
+
+      return searchProfileResponses;
     } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
     }

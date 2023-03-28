@@ -41,6 +41,36 @@
         justify-content: center;
         position: relative;
 
+        .searchResultsContainer {
+          position: absolute;
+          top: 27px;
+          left: 0px;
+          width: 84%;
+
+          .searchResult {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+            background-color: $dark-grey;
+            padding: 5px;
+            margin-top: 3px;
+
+            &:first-child {
+              margin-top: 10px;
+            }
+
+            img {
+              height: 30px;
+            }
+
+            &:hover {
+              cursor: pointer;
+              transform: scale(1.02);
+            }
+          }
+        }
+
         input {
           position: relative;
 
