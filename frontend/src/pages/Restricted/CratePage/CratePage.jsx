@@ -348,10 +348,10 @@ const CratePage = () => {
             })
           ) : (
             <>
-              <img src={CharacterImage} />
-              <img src={CharacterImage} />
-              <img src={CharacterImage} />
-              <img src={CharacterImage} />
+              <img src={CharacterImage} className="ripoUndefined" />
+              <img src={CharacterImage} className="ripoUndefined" />
+              <img src={CharacterImage} className="ripoUndefined" />
+              <img src={CharacterImage} className="ripoUndefined" />
             </>
           )}
         </div>
