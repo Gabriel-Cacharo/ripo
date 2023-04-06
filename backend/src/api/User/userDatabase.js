@@ -32,6 +32,8 @@ module.exports = {
       fac: userInformations.dataValues.facName,
       facRipos: userInformations.dataValues.facRipos,
       ripoId: userInformations.dataValues.ripoId,
+      twitch: userInformations.dataValues.twitch,
+      instagram: userInformations.dataValues.instagram,
     };
   },
 

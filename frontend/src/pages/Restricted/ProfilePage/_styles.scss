@@ -22,9 +22,32 @@
       margin-bottom: 10px;
     }
 
-    h5 {
-      font-size: 1.5rem;
-      font-weight: normal;
+    .usernameAndNetworksContainer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+
+      h5 {
+        font-size: 1.5rem;
+        font-weight: normal;
+      }
+
+      a {
+        background: transparent;
+        color: $primary-color;
+        filter: drop-shadow(0 0 1px #00a3d91e) drop-shadow(0 0 2px #00a3d91e) drop-shadow(0 0 4px #00a3d91e);
+        font-size: 1.15rem;
+        margin-left: 8px;
+
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+          color: $white;
+          filter: drop-shadow(0 0 1px rgba(148, 148, 148, 0.12)) drop-shadow(0 0 2px rgba(148, 148, 148, 0.12))
+            drop-shadow(0 0 4px rgba(148, 148, 148, 0.12));
+        }
+      }
     }
 
     .sectionTitleAndSearchInput {

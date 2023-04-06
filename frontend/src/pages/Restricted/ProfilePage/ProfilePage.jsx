@@ -13,11 +13,10 @@ import Car from '../../../assets/images/Carro_Ind1.png';
 import Gun from '../../../assets/images/Arma_Ind1.png';
 import Knife from '../../../assets/images/Arma_Ind2.png';
 
-import { AiFillStar, AiOutlineClose } from 'react-icons/ai';
+import { AiFillStar } from 'react-icons/ai';
 import { GoSearch } from 'react-icons/go';
 import { MdEdit } from 'react-icons/md';
-import { BsCheck } from 'react-icons/bs';
-import { BiRefresh } from 'react-icons/bi';
+import { FaTwitch, FaInstagram } from 'react-icons/fa';
 
 import { api } from '../../../services/api';
 import ModalEditProfile from './components/ModalEditProfile/ModalEditProfile';
@@ -151,7 +150,15 @@ const FactionPage = () => {
           </div>
         </div>
 
-        <h5>{userInformations.user && userInformations.user.username}</h5>
+        <div className="usernameAndNetworksContainer">
+          <h5>{userInformations.user && userInformations.user.username}</h5>
+          <a href={userInformations.user && userInformations.user.twitch} target="_blank">
+            <FaTwitch />
+          </a>
+          <a href={userInformations.user && userInformations.user.instagram} target="_blank">
+            <FaInstagram />
+          </a>
+        </div>
       </div>
 
       <section className="facMembersInformationContainer">
