@@ -49,6 +49,8 @@ const CreateRipoPage = () => {
   });
 
   const [ripoName, setRipoName] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [twitch, setTwitch] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({
     type: '',
@@ -72,7 +74,7 @@ const CreateRipoPage = () => {
         async (canvas) => {
           var dataURL = canvas.toDataURL('image/png');
 
-          await api.post('/ripos/createUserRipo', { ripoName, ripoUrl: dataURL });
+          await api.post('/ripos/createUserRipo', { ripoName, ripoUrl: dataURL, instagram, twitch });
           await contextSetUserRipoId();
           toast.success('O seu Ripo foi criado com sucesso');
           setLoading(false);
@@ -372,6 +374,20 @@ const CreateRipoPage = () => {
               type="text"
               className={error.type === 'name' ? 'ripoNameInput error' : 'ripoNameInput'}
               placeholder="Digite o nome do seu ripo..."
+              onMouseDown={() => setError({ type: '' })}
+            />
+            <input
+              onChange={(e) => setInstagram(e.target.value)}
+              type="text"
+              className={'ripoNameInput'}
+              placeholder="Digite seu instagram..."
+              onMouseDown={() => setError({ type: '' })}
+            />
+            <input
+              onChange={(e) => setTwitch(e.target.value)}
+              type="text"
+              className={'ripoNameInput'}
+              placeholder="Digite sua twitch..."
               onMouseDown={() => setError({ type: '' })}
             />
 
