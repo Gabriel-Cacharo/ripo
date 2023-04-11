@@ -45,7 +45,6 @@ const FactionPage = () => {
       setUserInformations(userInformationsResponse.data);
       setSearchingOtherUser(true);
     } catch (err) {
-      console.log(err);
       toast.error(err.response.data.error);
     }
   };
@@ -82,7 +81,6 @@ const FactionPage = () => {
   // Search autocomplete
   const getAutoCompleteFunction = async () => {
     const autoCompleteResponse = await api.get(`/user/searchProfile/autocomplete?username=${usernameInput}`);
-    console.log(autoCompleteResponse);
     setSearchAutocomplete(autoCompleteResponse.data);
   };
 
@@ -152,12 +150,20 @@ const FactionPage = () => {
 
         <div className="usernameAndNetworksContainer">
           <h5>{userInformations.user && userInformations.user.username}</h5>
-          <a href={userInformations.user && userInformations.user.twitch} target="_blank">
-            <FaTwitch />
-          </a>
-          <a href={userInformations.user && userInformations.user.instagram} target="_blank">
-            <FaInstagram />
-          </a>
+          {userInformations.user && userInformations.user.twitch ? (
+            <a href={userInformations.user && userInformations.user.twitch} target="_blank">
+              <FaTwitch />
+            </a>
+          ) : (
+            <></>
+          )}
+          {userInformations.user && userInformations.user.instagram ? (
+            <a href={userInformations.user && userInformations.user.instagram} target="_blank">
+              <FaInstagram />
+            </a>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
 
