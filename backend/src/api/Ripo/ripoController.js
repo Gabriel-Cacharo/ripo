@@ -42,7 +42,7 @@ module.exports = {
     }
   },
 
-  async createUserRipoController(userId, ripoUrl, ripoName) {
+  async createUserRipoController(userId, ripoUrl, ripoName, twitch, instagram) {
     try {
       // Render image by base64
       await renderImageByBase64(ripoUrl);
@@ -55,14 +55,19 @@ module.exports = {
         price: '300',
         ripoImage: imageUploadedResponse.url,
         name: ripoName,
+        public: false,
       };
 
       const createdRipoResponse = await createRipo(ripoObj);
 
       // Link ripoId into user
-      await updateUser({ ripoId: createdRipoResponse.dataValues.id }, { where: { id: userId } });
+      return await updateUser(
+        { ripoId: createdRipoResponse.dataValues.id, twitch, instagram },
+        { where: { id: userId } }
+      );
 
-      return await addUserRipo(userId, createdRipoResponse.dataValues.id);
+      // Add ripo to user
+      // return await addUserRipo(userId, createdRipoResponse.dataValues.id);
     } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
     }
@@ -70,13 +75,10 @@ module.exports = {
 
   async getAllRipoClothes() {
     try {
-      const aa = await getAllRipoClothesDatabase();
+      const allRipoClothes = await getAllRipoClothesDatabase();
 
-      console.log(aa);
-
-      return aa;
+      return allRipoClothes;
     } catch (err) {
-      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

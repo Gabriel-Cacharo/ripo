@@ -37,7 +37,7 @@ module.exports = {
   },
 
   async createUserRipo(req, res) {
-    const { ripoUrl, ripoName } = req.body;
+    const { ripoUrl, ripoName, twitch, instagram } = req.body;
 
     try {
       createUserRipoValidation.parse(req.body);
@@ -48,7 +48,13 @@ module.exports = {
     try {
       const userTokenPayload = await getUserPayloadByToken(req);
 
-      const createUserRipoResponse = await createUserRipoController(userTokenPayload.id, ripoUrl, ripoName);
+      const createUserRipoResponse = await createUserRipoController(
+        userTokenPayload.id,
+        ripoUrl,
+        ripoName,
+        twitch,
+        instagram
+      );
 
       return res.status(201).json(createUserRipoResponse);
     } catch (err) {
