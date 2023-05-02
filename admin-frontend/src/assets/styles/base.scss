@@ -1,0 +1,36 @@
+@import './colors.scss';
+@import './fonts.scss';
+@import './reset.scss';
+
+@import './classNames';
+
+@import './global.scss';
+
+// Header
+@import '../../components/Header/styles';
+@import '../../components/Header/responsive';
+
+// User Card
+@import '../../components/UserCard/styles';
+
+// Section Title
+@import '../../components/SectionTitle/styles';
+
+// Users Page
+@import '../../pages/Users/styles';
+@import '../../pages/Users/responsive';
+
+// User Page
+@import '../../pages/User/responsive';
+@import '../../pages/User/styles';
+
+// Collection Character
+@import '../../components/CollectionCharacter/styles';
+
+// Modal Add Ripo
+@import '../../pages/User/components/ModalAddRipo/styles';
+@import '../../pages/User/components/ModalAddRipo/responsive';
+
+// Modal Edit Profile
+@import '../../pages/User/components/ModalEditProfile/responsive';
+@import '../../pages/User/components/ModalEditProfile/styles';

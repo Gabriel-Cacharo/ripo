@@ -1,0 +1,10 @@
+@media (max-width: 400px) {
+  .usersPageContainer .titleAndSearchContainer {
+    flex-direction: column;
+    justify-content: center;
+
+    .sectionTitle {
+      align-self: center;
+    }
+  }
+}

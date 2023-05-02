@@ -1,0 +1,33 @@
+@media (max-width: 850px) {
+  .factionPageContainer {
+    .facMembersInformationContainer {
+      flex-direction: column;
+
+      .facOwnerImage {
+        margin: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .factionPageContainer .facInformationsContainer {
+    justify-content: center;
+
+    .facInformationContainer {
+      margin: 20px;
+    }
+  }
+}
+
+@media (max-width: 340px) {
+  .factionPageContainer {
+    .facMembersInformationContainer .facMembersContainer .membersContainer {
+      justify-content: center;
+    }
+
+    .facCollectionContainer .collectionContainer {
+      justify-content: center;
+    }
+  }
+}

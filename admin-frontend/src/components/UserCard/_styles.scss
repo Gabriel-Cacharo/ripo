@@ -1,0 +1,67 @@
+.userCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  background-color: $dark-grey;
+  border-radius: 12px;
+
+  width: 200px;
+  height: 300px;
+  margin: 10px;
+
+  img {
+    height: 150px;
+  }
+
+  .userCardInformations {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      height: 17px;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  .userCardButtonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 80%;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 5px 0px;
+      padding: 5px 10px;
+      width: 90%;
+
+      background: transparent;
+      border: 1px solid $primary-color;
+      border-radius: 6px;
+      color: $primary-color;
+      font-size: 0.9;
+
+      transition: all 200ms ease-in-out;
+
+      &:last-child {
+        border: 1px solid #f45050;
+        color: #f45050;
+      }
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+}

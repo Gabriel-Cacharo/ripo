@@ -1,0 +1,28 @@
+@media (max-width: 800px) {
+  .headerContainer {
+    nav ul li {
+      margin: 0px 20px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .headerContainer {
+    nav ul li {
+      margin: 0px 12px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .headerContainer {
+    flex-direction: column;
+    height: 250px;
+
+    margin-bottom: 20px;
+
+    img {
+      height: 100px;
+    }
+  }
+}
