@@ -102,8 +102,6 @@ module.exports = {
   },
 
   async addUserRiposController(userId, riposId) {
-    console.log(riposId);
-
     try {
       for (let i = 0; i < riposId.length; i++) {
         const verifyUserAlreadyHaveThisRipoResponse = await verifyIfUserAlreadyHaveThisRipoDatabase(userId, riposId[i]);
