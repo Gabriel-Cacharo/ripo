@@ -6,8 +6,11 @@ const {
   sellRipoController,
   createUserRipoController,
   getAllRipoClothes,
+  removeUserRipoController,
+  getAllRiposController,
+  addUserRiposController,
 } = require('./ripoController');
-const { createUserRipoValidation } = require('./ripoValidations');
+const { createUserRipoValidation, removeUserRipoValidation, addUserRiposValidation } = require('./ripoValidations');
 
 module.exports = {
   async getUserRipos(req, res) {
@@ -67,6 +70,52 @@ module.exports = {
       const allRipoClothesResponse = await getAllRipoClothes();
 
       return res.status(200).json(allRipoClothesResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async removeUserRipo(req, res) {
+    const { userId, ripoId } = req.body;
+
+    try {
+      removeUserRipoValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const removeUserRipoResponse = await removeUserRipoController(userId, ripoId);
+
+      return res.status(200).json(removeUserRipoResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async getAllRipos(req, res) {
+    try {
+      const allRiposResponse = await getAllRiposController();
+
+      return res.status(200).json(allRiposResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async addUserRipos(req, res) {
+    const { userId, riposId } = req.body;
+
+    try {
+      addUserRiposValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const addUserRiposResponse = await addUserRiposController(userId, riposId);
+
+      return res.status(201).json(addUserRiposResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

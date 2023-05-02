@@ -11,6 +11,7 @@ const {
   addRequestToForgotPasswordDatabase,
   deleteRequestToForgotPasswordDatabase,
   findUsersSearchDatabase,
+  findAllUsers,
 } = require('./userDatabase');
 const { getUserRiposController } = require('../Ripo/ripoController');
 const { getRipoById, countRiposPublic } = require('../Ripo/ripoDatabase');
@@ -310,6 +311,24 @@ module.exports = {
       await updateUser({ verifiedEmail: true }, { where: { id: userId } });
 
       return addCrateToUserAfterVerifyEmailDatabase();
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async getAllUsersController() {
+    try {
+      const allUsersResponse = await findAllUsers();
+
+      await Promise.all(
+        allUsersResponse.map(async (user) => {
+          const userRipoResponse = await getRipoById(user.dataValues.ripoId);
+
+          user.ripoId = userRipoResponse.dataValues;
+        })
+      );
+
+      return allUsersResponse;
     } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
     }

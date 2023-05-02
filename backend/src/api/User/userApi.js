@@ -22,6 +22,7 @@ const {
   acceptForgotPasswordController,
   verifyAccountEmail,
   searchProfileResponsesController,
+  getAllUsersController,
 } = require('./userController');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 const transport = require('../../services/nodemailer');
@@ -233,6 +234,16 @@ module.exports = {
       const verifyAccountEmailResponse = await verifyAccountEmail(userTokenPayload.id);
 
       return res.status(200).json(verifyAccountEmailResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async getAllUsers(req, res) {
+    try {
+      const getAllUsersResponse = await getAllUsersController();
+
+      return res.status(200).json(getAllUsersResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

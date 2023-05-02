@@ -3,6 +3,10 @@ const ForgotPassword = require('../../database/models/ForgotPassword');
 const { Op } = require('sequelize');
 
 module.exports = {
+  async findAllUsers() {
+    return await User.findAll({ attributes: ['id', 'username', 'xp', 'coins', 'facName', 'ripoId'] });
+  },
+
   async findOneUserWhere(options) {
     return await User.findOne(options);
   },
@@ -27,6 +31,7 @@ module.exports = {
     const userInformations = await User.findByPk(userId);
 
     return {
+      id: userInformations.dataValues.id,
       username: userInformations.dataValues.username,
       xp: userInformations.dataValues.xp,
       fac: userInformations.dataValues.facName,

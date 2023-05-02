@@ -42,4 +42,15 @@ module.exports = {
   async countRiposPublic() {
     return await Ripo.count({ where: { public: true } });
   },
+
+  async removeUserRipoDatabase(userId, ripoId) {
+    const user = await User.findByPk(userId);
+    const ripo = await user.getRipos({ where: { id: ripoId } });
+
+    return await user.removeRipo(ripo, { limit: 1 });
+  },
+
+  async getAllRiposDatabase() {
+    return await Ripo.findAll();
+  },
 };

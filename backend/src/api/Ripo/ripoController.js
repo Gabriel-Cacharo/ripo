@@ -11,6 +11,8 @@ const {
   createRipo,
   addUserRipo,
   getAllRipoClothesDatabase,
+  removeUserRipoDatabase,
+  getAllRiposDatabase,
 } = require('./ripoDatabase');
 
 module.exports = {
@@ -78,6 +80,40 @@ module.exports = {
       const allRipoClothes = await getAllRipoClothesDatabase();
 
       return allRipoClothes;
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async removeUserRipoController(userId, ripoId) {
+    try {
+      return await removeUserRipoDatabase(userId, ripoId);
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async getAllRiposController() {
+    try {
+      return await getAllRiposDatabase();
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async addUserRiposController(userId, riposId) {
+    console.log(riposId);
+
+    try {
+      for (let i = 0; i < riposId.length; i++) {
+        const verifyUserAlreadyHaveThisRipoResponse = await verifyIfUserAlreadyHaveThisRipoDatabase(userId, riposId[i]);
+
+        if (verifyUserAlreadyHaveThisRipoResponse.length > 0) {
+          continue;
+        }
+
+        addUserRipo(userId, riposId[i]);
+      }
     } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
     }

@@ -21,12 +21,17 @@ router.post('/ripos/sell', authMiddleware, Ripo.sellRipo);
 router.post('/ripos/createUserRipo', authMiddleware, Ripo.createUserRipo);
 router.get('/ripos/allClothes', authMiddleware, Ripo.getAllRipoClothes);
 router.get('/ripos/owner', authMiddleware, User.getPublicRipoOwner);
+router.get('/ripos/all', Ripo.getAllRipos);
+router.post('/ripos/addUserRipos', Ripo.addUserRipos);
+
+router.get('/users/all', User.getAllUsers);
+router.post('/users/removeRipo', Ripo.removeUserRipo);
 
 router.get('/user/searchProfile', User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);
 router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
 router.post('/user/resetPassword', authMiddleware, User.resetUserPassword);
 router.post('/user/verifyAccountEmail', authMiddleware, User.verifyAccountEmail);
-router.get('/user/searchProfile/autocomplete', User.searchProfileResponses);
+router.get('/user/searchProfile/autocomplete', authMiddleware, User.searchProfileResponses);
 
 module.exports = router;
