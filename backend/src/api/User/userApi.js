@@ -23,6 +23,7 @@ const {
   verifyAccountEmail,
   searchProfileResponsesController,
   getAllUsersController,
+  loginAdminController,
 } = require('./userController');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 const transport = require('../../services/nodemailer');
@@ -70,6 +71,29 @@ module.exports = {
       const loginUserResponse = await loginController(obj);
 
       return res.status(200).json(loginUserResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async loginAdmin(req, res) {
+    const { email, password } = req.body;
+
+    let obj = {
+      email,
+      password,
+    };
+
+    try {
+      loginValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const loginAdminUserResponse = await loginAdminController(obj);
+
+      return res.status(200).json(loginAdminUserResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

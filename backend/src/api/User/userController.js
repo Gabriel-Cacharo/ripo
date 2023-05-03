@@ -95,6 +95,47 @@ module.exports = {
     }
   },
 
+  async loginAdminController(obj) {
+    try {
+      const userExists = await findOneUserWhere({ where: { email: obj.email } });
+
+      if (!userExists) {
+        throw new Error('Email não encontrado');
+      }
+
+      const checkPassword = await bcrypt.compare(obj.password, userExists.password);
+
+      if (!checkPassword) {
+        throw new Error('Senha incorreta');
+      }
+
+      if (userExists && !userExists.admin) {
+        throw new Error('Usuário não é Administrador');
+      }
+
+      const token = jwt.sign(
+        { id: userExists.id, email: userExists.email, username: userExists.username, admin: userExists.admin },
+        process.env.JWT_SECRET,
+        { expiresIn: '48h' }
+      );
+
+      return {
+        user: {
+          id: userExists.id,
+          email: userExists.email,
+          username: userExists.username,
+          coins: userExists.coins,
+          ripoId: userExists.ripoId,
+          verifiedEmail: userExists.verifiedEmail,
+          admin: userExists.admin,
+        },
+        token: token,
+      };
+    } catch (err) {
+      throw new Error(err.message || SERVER_ERR_MESSAGE);
+    }
+  },
+
   async profileController(userId) {
     try {
       const userInformations = await getUserInformationsDatabase(userId);

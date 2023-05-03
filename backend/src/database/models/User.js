@@ -23,6 +23,7 @@ class User extends Model {
         twitch: DataTypes.STRING,
         instagram: DataTypes.STRING,
         verifiedEmail: DataTypes.BOOLEAN,
+        admin: DataTypes.BOOLEAN,
         ripoId: {
           type: DataTypes.INTEGER,
           allowNull: true,
