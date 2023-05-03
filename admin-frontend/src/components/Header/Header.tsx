@@ -9,7 +9,11 @@ import { FaUserAlt } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { RiLockPasswordLine } from 'react-icons/ri';
 
+import { AuthContext } from '../../context/AuthContext';
+
 function Header() {
+  const { contextLogoutFunction } = useContext(AuthContext);
+
   const [dropdownMenuIsOpen, setDropdownMenuIsOpen] = useState(false);
 
   // const navigate = useNavigate();
@@ -54,7 +58,7 @@ function Header() {
                 </button>
               </DropdownMenu.Item>
               <DropdownMenu.Item className="dropdownMenuItem">
-                <button type="button" onClick={() => console.log('hello')}>
+                <button type="button" onClick={contextLogoutFunction}>
                   <FiLogOut className="iconMarginRight" />
                   Sair
                 </button>

@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import Routes from './routes';
 
+import { AuthProvider } from './context/AuthContext';
+
 function App() {
   AOS.init({
     duration: 900,
@@ -15,12 +17,14 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Header />
-        <Routes />
+      <AuthProvider>
+        <div className="App">
+          <Header />
+          <Routes />
 
-        <ToastContainer position="top-right" autoClose={5000} closeOnClick theme="dark" />
-      </div>
+          <ToastContainer position="top-right" autoClose={5000} closeOnClick theme="dark" />
+        </div>
+      </AuthProvider>
     </Router>
   );
 }
