@@ -28,7 +28,7 @@ function Header() {
             <a href="/crate">Caixas</a>
           </li>
           <li>
-            <a href="/profile">Ripos</a>
+            <Link to="/ripos">Ripos</Link>
           </li>
           <li>
             <Link to="/users">Usuários</Link>
