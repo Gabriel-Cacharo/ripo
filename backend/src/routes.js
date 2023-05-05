@@ -29,11 +29,11 @@ router.post('/ripos/addUserRipos', Ripo.addUserRipos);
 router.get('/users/all', User.getAllUsers);
 router.post('/users/removeRipo', Ripo.removeUserRipo);
 
-router.get('/user/searchProfile', User.searchProfile);
+router.get('/user/searchProfile', authMiddleware, User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);
 router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
 router.post('/user/resetPassword', authMiddleware, User.resetUserPassword);
 router.post('/user/verifyAccountEmail', authMiddleware, User.verifyAccountEmail);
-router.get('/user/searchProfile/autocomplete', User.searchProfileResponses);
+router.get('/user/searchProfile/autocomplete', authMiddleware, User.searchProfileResponses);
 
 module.exports = router;
