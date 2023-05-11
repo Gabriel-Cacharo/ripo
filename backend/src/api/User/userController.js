@@ -374,4 +374,21 @@ module.exports = {
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
+
+  async editBasicUserInformationsController(userId, xp, coins, twitch, instagram) {
+    try {
+      const obj = {
+        xp,
+        coins,
+        twitch,
+        instagram,
+      };
+
+      const updatedUserResponse = await updateUser(obj, { where: { id: userId } });
+
+      return updatedUserResponse;
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
 };

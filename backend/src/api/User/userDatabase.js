@@ -39,6 +39,7 @@ module.exports = {
       ripoId: userInformations.dataValues.ripoId,
       twitch: userInformations.dataValues.twitch,
       instagram: userInformations.dataValues.instagram,
+      coins: userInformations.dataValues.coins,
     };
   },
 

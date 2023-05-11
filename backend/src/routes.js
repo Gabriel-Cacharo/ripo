@@ -29,6 +29,8 @@ router.post('/ripos/addUserRipos', Ripo.addUserRipos);
 router.get('/users/all', User.getAllUsers);
 router.post('/users/removeRipo', Ripo.removeUserRipo);
 
+router.post('/admin/user/editUserBasicInformations', authMiddleware, User.editUserBasicInformations);
+
 router.get('/user/searchProfile', authMiddleware, User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);
 router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);

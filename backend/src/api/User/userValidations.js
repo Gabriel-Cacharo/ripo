@@ -16,6 +16,16 @@ const forgotPasswordValidation = z.object({ email: z.string() }).strict();
 
 const acceptForgotPasswordValidation = z.object({ token: z.string(), newPassword: z.string() }).strict();
 
+const editBasicUserInformationsValidation = z
+  .object({
+    userId: z.number(),
+    xp: z.string().nullable(),
+    coins: z.string().nullable(),
+    instagram: z.string().nullable(),
+    twitch: z.string().nullable(),
+  })
+  .strict();
+
 module.exports = {
   registerValidation,
   loginValidation,
@@ -25,4 +35,5 @@ module.exports = {
   resetPasswordValidation,
   forgotPasswordValidation,
   acceptForgotPasswordValidation,
+  editBasicUserInformationsValidation,
 };

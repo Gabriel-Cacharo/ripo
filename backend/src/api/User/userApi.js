@@ -9,6 +9,7 @@ const {
   resetPasswordValidation,
   forgotPasswordValidation,
   acceptForgotPasswordValidation,
+  editBasicUserInformationsValidation,
 } = require('./userValidations');
 const {
   registerController,
@@ -24,6 +25,7 @@ const {
   searchProfileResponsesController,
   getAllUsersController,
   loginAdminController,
+  editBasicUserInformationsController,
 } = require('./userController');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 const transport = require('../../services/nodemailer');
@@ -268,6 +270,31 @@ module.exports = {
       const getAllUsersResponse = await getAllUsersController();
 
       return res.status(200).json(getAllUsersResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async editUserBasicInformations(req, res) {
+    const { userId, xp, coins, twitch, instagram } = req.body;
+
+    try {
+      editBasicUserInformationsValidation.parse(req.body);
+    } catch (err) {
+      console.log(err);
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const editBasicValidationsResponse = await editBasicUserInformationsController(
+        userId,
+        xp,
+        coins,
+        twitch,
+        instagram
+      );
+
+      return res.status(201).json(editBasicValidationsResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
