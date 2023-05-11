@@ -37,375 +37,49 @@
     grid-area: main;
 
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
 
-    h2 {
-      font-size: 1.2rem;
-      opacity: 0.7;
-
-      border-bottom: 1px solid $primary-color;
-
-      margin-bottom: 10px;
-    }
-
-    .modalEditProfileActionsContainer {
+    .inputContainer {
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
 
-      width: 100%;
-      height: 90%;
+      margin: 10px 15px;
 
-      position: absolute;
-      bottom: -20px;
-
-      // Select action
-      .actionContainer {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-
-        &:first-child {
-          clip-path: polygon(20% 0, 94% 0, 75% 100%, 0% 100%);
-          background-image: linear-gradient(200deg, rgba(0, 0, 0, 0.925), rgba(0, 0, 0, 0)),
-            url('../../assets/images/background1.jpg');
-
-          &:hover {
-            background-image: linear-gradient(200deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)),
-              url('../../assets/images/background1.jpg');
-          }
-
-          h4 {
-            margin-right: 15%;
-          }
-
-          .actionImage {
-            margin-right: 10%;
-          }
-
-          margin-left: 3%;
-          margin-right: -6.5%;
-        }
-
-        &:last-child {
-          clip-path: polygon(19% 0, 94% 0, 75% 100%, 0% 100%);
-          background-image: linear-gradient(200deg, rgba(0, 0, 0, 0.925), rgba(0, 0, 0, 0)),
-            url('../../assets/images/background2.jpg');
-
-          &:hover {
-            background-image: linear-gradient(200deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)),
-              url('../../assets/images/background2.jpg');
-          }
-
-          h4 {
-            margin-right: 8%;
-          }
-
-          .actionImage {
-            margin-right: 7%;
-          }
-
-          margin-left: -6.5%;
-        }
-
-        &:hover {
-          .actionImage {
-            img {
-              transform: scale(1.05);
-            }
-          }
-        }
-
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 100%;
-        width: 50%;
-
-        border-top: 2px solid $primary-color;
-        filter: drop-shadow(0 0 1px #00a3d932) drop-shadow(0 0 2px #00a3d932) drop-shadow(0 0 4px #00a3d932);
-
-        h4 {
-          color: #eee;
-        }
-
-        .actionImage {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          background-image: url('../../assets/images/BolaPersonagens.png');
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: 200px;
-
-          width: 300px;
-
-          img {
-            height: 250px;
-
-            transition: all 200ms ease-in-out;
-          }
-        }
-
-        h4 {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          font-size: 1.4rem;
-
-          position: absolute;
-          bottom: 30px;
-
-          padding: 5px 30px;
-          background-color: #2e2e2e42;
-          border-radius: 12px;
-
-          .icon {
-            margin-right: 5px;
-            font-size: 3rem;
-            color: $primary-color;
-            filter: drop-shadow(0 0 1px #00a3d932) drop-shadow(0 0 2px #00a3d932) drop-shadow(0 0 4px #00a3d932);
-          }
-        }
+      p {
+        margin-bottom: 7px;
       }
-    }
 
-    .modalEditProfileUserFacInformationsContainer {
-      padding: 20px;
-
-      .modalEditProfileUserFacInformations {
+      .inputAndIconContainer {
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-
-        padding: 20px;
-        width: 100%;
-        background-color: $dark-grey;
-        border-radius: 12px;
-
-        overflow: hidden;
-
-        .userFacInformations {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          margin: 0px 40px;
-
-          img {
-            height: 130px;
-          }
-
-          .textsContainer {
-            margin-left: 15px;
-
-            p {
-              opacity: 0.6;
-            }
-
-            h3 {
-              font-size: 2.2rem;
-
-              span {
-                font-size: 1.7rem;
-                opacity: 0.7;
-              }
-            }
-          }
-        }
-
-        &::before {
-          content: '';
-          background: $primary-color;
-          height: 80%;
-          width: 30px;
-          position: absolute;
-          z-index: 10;
-          bottom: 17px;
-          left: -15px;
-          border-radius: 12px;
-          filter: drop-shadow(0 0 1px #00a3d9) drop-shadow(0 0 2px #00a3d9) drop-shadow(0 0 4px #00a3d9);
-        }
-
-        &::after {
-          content: '';
-          background: $primary-color;
-          height: 80%;
-          width: 30px;
-          position: absolute;
-          z-index: 10;
-          bottom: 17px;
-          right: -15px;
-          border-radius: 12px;
-          filter: drop-shadow(0 0 1px #00a3d9) drop-shadow(0 0 2px #00a3d9) drop-shadow(0 0 4px #00a3d9);
-        }
-      }
-
-      .modalEditProfileUserFacRipos {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        flex-direction: column;
-
-        margin: 30px 0px;
-
-        .modalEditProfileUserRipos {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          .userRipo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            position: relative;
-
-            margin: 10px;
-            padding-bottom: 10px;
-            cursor: pointer;
-            overflow: hidden;
-
-            transition: all 200ms ease-in-out;
-
-            img {
-              height: 110px;
-              width: 70px;
-            }
-
-            p {
-              margin-top: 5px;
-              font-size: 0.8rem;
-
-              max-width: 80px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-
-            &:hover {
-              transform: translateY(-0.3rem);
-            }
-          }
-
-          .userRipo.common {
-            &::after {
-              content: '';
-              background-color: rgb(148, 148, 148);
-              height: 7px;
-              width: 70%;
-              transform: translate(50%, -50%);
-              top: 0;
-              right: 50%;
-              position: absolute;
-              border-radius: 12px;
-              filter: drop-shadow(0 0 1px rgba(148, 148, 148, 0.12)) drop-shadow(0 0 2px rgba(148, 148, 148, 0.12))
-                drop-shadow(0 0 4px rgba(148, 148, 148, 0.12));
-            }
-          }
-          .userRipo.unusual {
-            &::after {
-              content: '';
-              background-color: rgb(0, 180, 0);
-              height: 7px;
-              width: 70%;
-              transform: translate(50%, -50%);
-              top: 0;
-              right: 50%;
-              position: absolute;
-              border-radius: 12px;
-              filter: drop-shadow(0 0 1px rgb(0, 180, 0, 0.12)) drop-shadow(0 0 2px rgb(0, 180, 0, 0.12))
-                drop-shadow(0 0 4px rgb(0, 180, 0, 0.12));
-            }
-          }
-          .userRipo.rare {
-            &::after {
-              content: '';
-              background-color: rgb(130, 17, 128);
-              height: 7px;
-              width: 70%;
-              transform: translate(50%, -50%);
-              top: 0;
-              right: 50%;
-              position: absolute;
-              border-radius: 12px;
-              filter: drop-shadow(0 0 1px rgb(130, 17, 128, 0.12)) drop-shadow(0 0 2px rgb(130, 17, 128, 0.12))
-                drop-shadow(0 0 4px rgb(130, 17, 128, 0.12));
-            }
-          }
-          .userRipo.legendary {
-            &::after {
-              content: '';
-              background-color: rgb(255, 225, 0);
-              height: 7px;
-              width: 70%;
-              transform: translate(50%, -50%);
-              top: 0;
-              right: 50%;
-              position: absolute;
-              border-radius: 12px;
-              filter: drop-shadow(0 0 1px rgb(255, 225, 0, 0.12)) drop-shadow(0 0 2px rgb(255, 225, 0, 0.12))
-                drop-shadow(0 0 4px rgb(255, 225, 0, 0.12));
-            }
-          }
-
-          .userRipo.selected {
-            background-color: $dark-grey;
-            border-radius: 12px;
-
-            transition: all 200ms ease-in-out;
-          }
-        }
-      }
-
-      .modalEditProfileUserFacName {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-
-        margin: 30px 0px;
-
-        h2 {
-          font-size: 1.2rem;
-          opacity: 0.7;
-
-          border-bottom: 1px solid $primary-color;
-
-          margin-bottom: 10px;
-        }
 
         input {
-          position: relative;
-
-          width: 200px;
-          height: 40px;
-
-          background: $dark-grey;
-          border: 0;
+          background-color: transparent;
+          border: 1px solid $primary-color;
           border-radius: 6px;
+          height: 40px;
+          width: 180px;
+          padding: 10px;
           color: $white;
-          font-size: 0.8rem;
+        }
 
-          padding: 5px;
-          margin-top: 5px;
+        .icon {
+          background-color: $primary-color;
+          height: 28px;
+          width: 28px;
+          border-radius: 10px;
+          padding: 6px;
+          color: $white;
+          filter: drop-shadow(0 0 1px rgba(148, 148, 148, 0.12)) drop-shadow(0 0 2px rgba(148, 148, 148, 0.12))
+            drop-shadow(0 0 4px rgba(148, 148, 148, 0.12));
+          font-size: 1.1rem;
 
-          transition: all 200ms ease-in-out;
-
-          &:hover {
-            transform: scale(1.03);
-          }
-
-          &:focus {
-            transform: scale(1.03);
-          }
+          margin-right: 10px;
         }
       }
     }
