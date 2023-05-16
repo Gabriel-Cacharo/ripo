@@ -12,24 +12,48 @@ import { api } from '../../../services/api';
 const ModalEditRipo = ({ modalEditRipoIsOpen, setModalEditRipoIsOpen, ripoInformations }: IModalEditRipo) => {
   const [loading, setLoading] = useState(false);
 
+  const [ripoInformationsState, setRipoInformationsState] = useState({
+    name: '',
+    rarity: '',
+    price: '',
+    ripoImage: '',
+    public: false,
+  });
+
   useEffect(() => {
-    console.log(ripoInformations);
-  }, [modalEditRipoIsOpen]);
+    setRipoInformationsState({
+      name: ripoInformations?.name as string,
+      rarity: ripoInformations?.rarity as any,
+      price: ripoInformations?.price as string,
+      ripoImage: ripoInformations?.ripoImage as string,
+      public: ripoInformations?.public ? ripoInformations?.public : false,
+    });
+  }, [modalEditRipoIsOpen === true]);
 
   const handleCloseModalEditRipo = () => {
     setModalEditRipoIsOpen(false);
   };
 
-  const handleSaveUserInformations = async () => {
+  const handleSaveRipoInformations = async () => {
     setLoading(true);
 
     try {
+      api.put('/admin/ripos/editRipoBasicInformations', {
+        ripoId: ripoInformations?.id,
+        rarity: ripoInformationsState?.rarity,
+        name: ripoInformationsState?.name,
+        price: ripoInformationsState?.price,
+        ripoImage: ripoInformationsState?.ripoImage,
+        public: ripoInformationsState?.public,
+      });
+
+      toast.success('As informações do Ripo foram alteradas com sucesso!');
       setLoading(false);
       handleCloseModalEditRipo();
     } catch (err: any) {
+      toast.error(err.message);
       setLoading(false);
       handleCloseModalEditRipo();
-      toast.error(err.message);
     }
   };
 
@@ -96,24 +120,40 @@ const ModalEditRipo = ({ modalEditRipoIsOpen, setModalEditRipoIsOpen, ripoInform
             <div className="inputsContainer">
               <div className="inputContainer">
                 <p>Nome</p>
-                <input type="text" placeholder="Nome..." />
+                <input
+                  type="text"
+                  placeholder={ripoInformationsState.name}
+                  onChange={(e) => setRipoInformationsState({ ...ripoInformations, name: e.target.value } as any)}
+                />
               </div>
 
               <div className="inputContainer">
                 <p>Preço</p>
-                <input type="text" placeholder="Preço..." />
+                <input
+                  type="text"
+                  placeholder={ripoInformationsState.price}
+                  onChange={(e) => setRipoInformationsState({ ...ripoInformations, price: e.target.value } as any)}
+                />
               </div>
             </div>
 
             <div className="inputContainer">
               <p>Imagem</p>
-              <input type="text" placeholder="Imagem..." />
+              <input
+                type="text"
+                placeholder={ripoInformationsState.ripoImage}
+                onChange={(e) => setRipoInformationsState({ ...ripoInformations, ripoImage: e.target.value } as any)}
+              />
             </div>
 
             <div className="inputsContainer">
               <div className="inputContainer">
                 <p>Raridade</p>
-                <select name="" id="">
+                <select
+                  name=""
+                  id=""
+                  onChange={(e) => setRipoInformationsState({ ...ripoInformations, rarity: e.target.value } as any)}
+                >
                   <option value="0">Comum</option>
                   <option value="1">Incomum</option>
                   <option value="2">Raro</option>
@@ -123,7 +163,16 @@ const ModalEditRipo = ({ modalEditRipoIsOpen, setModalEditRipoIsOpen, ripoInform
 
               <div className="inputContainer">
                 <p>Público</p>
-                <select name="" id="">
+                <select
+                  name=""
+                  id=""
+                  onChange={(e) =>
+                    setRipoInformationsState({
+                      ...ripoInformationsState,
+                      public: e.target.value === 'true' ? true : false,
+                    })
+                  }
+                >
                   <option value="true">Sim</option>
                   <option value="false">Não</option>
                 </select>
@@ -133,10 +182,10 @@ const ModalEditRipo = ({ modalEditRipoIsOpen, setModalEditRipoIsOpen, ripoInform
         </main>
 
         <footer className="modalEditRipoFooter">
-          <button type="button" onClick={handleSaveUserInformations} disabled={true}>
+          <button type="button" onClick={handleSaveRipoInformations} disabled={true}>
             Ir para edição <MdEdit className="icon" />
           </button>
-          <button type="button" onClick={handleSaveUserInformations} disabled={loading}>
+          <button type="submit" onClick={handleSaveRipoInformations} disabled={loading}>
             Salvar <BsCheck className="icon" />
           </button>
         </footer>

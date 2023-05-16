@@ -13,6 +13,7 @@ const {
   getAllRipoClothesDatabase,
   removeUserRipoDatabase,
   getAllRiposDatabase,
+  editRipoBasicInformationsDatabase,
 } = require('./ripoDatabase');
 
 module.exports = {
@@ -112,6 +113,22 @@ module.exports = {
 
         addUserRipo(userId, riposId[i]);
       }
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async editRipoBasicInformationsController(ripoId, name, price, rarity, public, ripoImage) {
+    try {
+      const ripoObj = {
+        name,
+        price,
+        rarity,
+        public,
+        ripoImage,
+      };
+
+      return await editRipoBasicInformationsDatabase(ripoId, ripoObj);
     } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
     }

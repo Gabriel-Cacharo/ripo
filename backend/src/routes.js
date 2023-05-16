@@ -18,6 +18,8 @@ router.post('/crates/redeem', authMiddleware, Crate.redeemCrate);
 router.post('/crates/buy', authMiddleware, Crate.buyCrate);
 router.post('/crates/open', authMiddleware, Crate.openCrate);
 
+router.put('/admin/ripos/editRipoBasicInformations', authMiddleware, Ripo.editRipoBasicInformations);
+
 router.get('/ripos/getUserRipos', authMiddleware, Ripo.getUserRipos);
 router.post('/ripos/sell', authMiddleware, Ripo.sellRipo);
 router.post('/ripos/createUserRipo', authMiddleware, Ripo.createUserRipo);

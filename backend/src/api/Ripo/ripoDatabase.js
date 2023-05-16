@@ -53,4 +53,8 @@ module.exports = {
   async getAllRiposDatabase() {
     return await Ripo.findAll();
   },
+
+  async editRipoBasicInformationsDatabase(ripoId, obj) {
+    return await Ripo.update(obj, { where: { id: ripoId } });
+  },
 };

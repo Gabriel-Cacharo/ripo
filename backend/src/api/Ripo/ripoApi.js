@@ -9,8 +9,14 @@ const {
   removeUserRipoController,
   getAllRiposController,
   addUserRiposController,
+  editRipoBasicInformationsController,
 } = require('./ripoController');
-const { createUserRipoValidation, removeUserRipoValidation, addUserRiposValidation } = require('./ripoValidations');
+const {
+  createUserRipoValidation,
+  removeUserRipoValidation,
+  addUserRiposValidation,
+  editRipoBasicInformationsValidation,
+} = require('./ripoValidations');
 
 module.exports = {
   async getUserRipos(req, res) {
@@ -121,12 +127,28 @@ module.exports = {
     }
   },
 
-  async editRipBasicInformations(req, res) {
-    const { name, price, ripoImage, rarity, public } = req.body;
+  async editRipoBasicInformations(req, res) {
+    const { ripoId, name, price, ripoImage, rarity, public } = req.body;
 
     try {
+      editRipoBasicInformationsValidation.parse(req.body);
     } catch (err) {
       return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const editRipoBasicInformationsResponse = await editRipoBasicInformationsController(
+        ripoId,
+        name,
+        price,
+        rarity,
+        public,
+        ripoImage
+      );
+
+      return res.status(201).json(editRipoBasicInformationsResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
   },
 };
