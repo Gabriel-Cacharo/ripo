@@ -37,7 +37,7 @@ const UserCard = ({ user }: IUser) => {
         <Link to={`/user/${user.username}`}>
           <MdOutlineModeEditOutline className="iconMarginRight" /> Editar
         </Link>
-        <Link>
+        <Link to={''}>
           <AiOutlineDelete className="iconMarginRight" /> Excluir
         </Link>
       </div>

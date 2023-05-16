@@ -9,12 +9,16 @@ import RipoCard from '../../components/RipoCard/RipoCard';
 
 import { IRipo } from './types';
 import { api } from '../../services/api';
+import ModalEditRipo from './ModalEditRipo/ModalEditRipo';
 
 const RiposPage = () => {
   const [allRipos, setAllRipos] = useState<IRipo[]>([]);
+  const [ripoSelected, setRipoSelected] = useState<IRipo>();
   const [searchAutocomplete, setSearchAutocomplete] = useState<any[]>([]);
 
   const [searchInput, setSearchInput] = useState('');
+
+  const [modalEditRipoIsOpen, setModalEditRipoIsOpen] = useState(false);
 
   useEffect(() => {
     const getAllRiposFunction = async () => {
@@ -28,6 +32,8 @@ const RiposPage = () => {
 
   return (
     <div className="riposPageContainer">
+      <ModalEditRipo modalEditRipoIsOpen={modalEditRipoIsOpen} setModalEditRipoIsOpen={setModalEditRipoIsOpen} ripoInformations={ripoSelected} />
+
       <div className="titleAndSearchContainer">
         <SectionTitle title="Ripos" />
 
@@ -50,7 +56,7 @@ const RiposPage = () => {
 
       <div className="riposContainer">
         {allRipos.map((ripo) => (
-          <RipoCard ripo={ripo} />
+          <RipoCard ripo={ripo} setModalEditRipoIsOpen={setModalEditRipoIsOpen} setRipoSelected={setRipoSelected} />
         ))}
       </div>
     </div>

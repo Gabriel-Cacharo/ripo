@@ -69,7 +69,7 @@
 
     width: 80%;
 
-    a {
+    button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -82,7 +82,7 @@
       border: 1px solid $primary-color;
       border-radius: 6px;
       color: $primary-color;
-      font-size: 0.9;
+      font-size: 0.9rem;
 
       transition: all 200ms ease-in-out;
 

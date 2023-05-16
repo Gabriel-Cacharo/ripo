@@ -1,0 +1,204 @@
+.modalEditRipoContent {
+  display: grid;
+  grid-template-rows: 50px 1fr 30px;
+  grid-template-areas: 'header' 'main' 'footer';
+
+  height: 100%;
+  position: relative;
+
+  .modalEditRipoHeader {
+    grid-area: header;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+    padding: 0px 20px;
+
+    h1 {
+      font-size: 1.4rem;
+    }
+
+    button {
+      background: transparent;
+      color: $white;
+      font-size: 1.2rem;
+
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .modalEditRipoMain {
+    grid-area: main;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .leftInformationsContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      h4 {
+        font-size: 1.2rem;
+        background-color: $dark-grey;
+        border-radius: 12px;
+        -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+        padding: 15px;
+      }
+
+      .ripoImage {
+        background-image: url('../../assets/images/BolaPersonagens.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 250px;
+
+        img {
+          height: 400px;
+        }
+      }
+    }
+
+    .rightInformationsContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      .ripoInformationsContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: $dark-grey;
+        border-radius: 12px;
+        -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+
+        padding: 15px;
+        width: 300px;
+        height: 50px;
+        margin-bottom: 50px;
+
+        .informationContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0px 20px;
+
+          .icon {
+            font-size: 1.2rem;
+            color: $primary-color;
+            filter: drop-shadow(0 0 1px #00a3d91e) drop-shadow(0 0 2px #00a3d91e) drop-shadow(0 0 4px #00a3d91e);
+          }
+        }
+      }
+
+      .inputsContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .inputContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        margin: 10px;
+
+        p {
+          margin-bottom: 5px;
+        }
+
+        input {
+          background-color: transparent;
+          border: 1px solid $primary-color;
+          border-radius: 6px;
+          height: 40px;
+          width: 180px;
+          padding: 10px;
+          color: $white;
+        }
+
+        select {
+          background-color: transparent;
+          border: 1px solid $primary-color;
+          border-radius: 6px;
+          height: 40px;
+          width: 180px;
+          padding: 10px;
+          color: $white;
+
+          option {
+            background-color: $light-grey;
+          }
+
+          &:focus {
+            outline: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .modalEditRipoFooter {
+    grid-area: footer;
+    padding: 0px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: $primary-color;
+      color: $white;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      margin: 0px 5px;
+
+      transition: all 200ms ease-in-out;
+
+      .icon {
+        margin-left: 5px;
+        font-size: 1.2rem;
+      }
+
+      &:hover {
+        background-color: $white;
+        color: $primary-color;
+        transform: scale(1.03);
+      }
+
+      &:first-child {
+        background-color: transparent;
+        border: 1px solid $primary-color;
+        filter: drop-shadow(0 0 1px #00a3d91e) drop-shadow(0 0 2px #00a3d91e) drop-shadow(0 0 4px #00a3d91e);
+
+        opacity: 0.9;
+
+        .icon {
+          font-size: 1rem;
+          color: $primary-color;
+          filter: drop-shadow(0 0 1px #00a3d91e) drop-shadow(0 0 2px #00a3d91e) drop-shadow(0 0 4px #00a3d91e);
+        }
+      }
+    }
+  }
+}

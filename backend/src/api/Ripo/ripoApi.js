@@ -120,4 +120,13 @@ module.exports = {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }
   },
+
+  async editRipBasicInformations(req, res) {
+    const { name, price, ripoImage, rarity, public } = req.body;
+
+    try {
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+  },
 };

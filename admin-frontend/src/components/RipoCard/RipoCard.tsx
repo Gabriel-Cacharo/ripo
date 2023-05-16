@@ -1,24 +1,16 @@
-import { Link } from 'react-router-dom';
-
 import { AiOutlineDelete, AiFillStar } from 'react-icons/ai';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 
 import CoinsIcon from '../../assets/images/Coins_Icon.png';
 
-export interface IRipo {
-  ripo: {
-    id: number;
-    name: string;
-    price: string;
-    public: boolean;
-    rarity: number;
-    ripoImage: string;
-    createdAt: string;
-    updatedAt: string;
-  };
-}
+import { IRipoCard } from './types';
 
-const RipoCard = ({ ripo }: IRipo) => {
+const RipoCard = ({ ripo, setModalEditRipoIsOpen, setRipoSelected }: IRipoCard) => {
+  const handleOpenEditRipoModal = () => {
+    setModalEditRipoIsOpen(true);
+    setRipoSelected(ripo);
+  };
+
   return (
     <div className="ripoCard">
       <img src={ripo.ripoImage} alt="User Ripo" />
@@ -40,12 +32,12 @@ const RipoCard = ({ ripo }: IRipo) => {
       </div>
 
       <div className="ripoCardButtonsContainer">
-        <Link to={`/user/${ripo.name}`}>
+        <button type="button" onClick={handleOpenEditRipoModal}>
           <MdOutlineModeEditOutline className="iconMarginRight" /> Editar
-        </Link>
-        <Link to={''}>
+        </button>
+        <button type="button">
           <AiOutlineDelete className="iconMarginRight" /> Excluir
-        </Link>
+        </button>
       </div>
     </div>
   );
