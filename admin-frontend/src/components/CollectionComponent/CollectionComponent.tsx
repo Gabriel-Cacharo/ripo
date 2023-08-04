@@ -7,19 +7,30 @@ import { AiOutlineDelete } from 'react-icons/ai';
 
 import { api } from '../../services/api';
 
-const CollectionCharacter = ({ ripoId, ripoImage, ripoName, rarity, price, functionRemoveRipo }) => {
+import { ICollectionComponent } from './types';
+
+const CollectionComponent = ({
+  id,
+  image,
+  name,
+  rarity,
+  price,
+  functionRemove,
+  type,
+  crateType,
+}: ICollectionComponent) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   return (
     <Popover.Root onOpenChange={() => setPopoverOpen(!popoverOpen)}>
       <Popover.Trigger className="characterCollectionPopoverTrigger">
         <div
-          className={`characterCollection ${
+          className={`characterCollection  ${
             rarity === 0 ? 'common' : rarity === 1 ? 'unusual' : rarity === 2 ? 'rare' : 'legendary'
-          }`}
+          } ${type === 'crate' && 'crateCollection'}`}
         >
-          <img src={ripoImage} alt={ripoName} />
-          <p>{ripoName}</p>
+          <img src={image} alt={name} />
+          <p>{name}</p>
         </div>
       </Popover.Trigger>
 
@@ -27,7 +38,7 @@ const CollectionCharacter = ({ ripoId, ripoImage, ripoName, rarity, price, funct
         <Popover.Content className="characterCollectionPopover">
           <Popover.Arrow className="characterCollectionPopoverArrow" />
           <div className="characterCollectionPopoverInformations">
-            <h4>{ripoName}</h4>
+            {type === 'crate' ? <h4>{crateType}</h4> : <h4>{name}</h4>}
           </div>
           <div className="characterCollectionPopoverSubtitles">
             <div className="characterCollectionPopoverSubtitle">
@@ -40,7 +51,7 @@ const CollectionCharacter = ({ ripoId, ripoImage, ripoName, rarity, price, funct
           </div>
 
           <div className="characterCollectionPopoverActions">
-            <button className="characterCollectionPopoverAction" onClick={functionRemoveRipo}>
+            <button className="characterCollectionPopoverAction" onClick={functionRemove}>
               <AiOutlineDelete className="icon" />
               <p>Remover</p>
             </button>
@@ -51,4 +62,4 @@ const CollectionCharacter = ({ ripoId, ripoImage, ripoName, rarity, price, funct
   );
 };
 
-export default CollectionCharacter;
+export default CollectionComponent;
