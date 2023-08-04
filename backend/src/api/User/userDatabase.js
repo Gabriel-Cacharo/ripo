@@ -1,6 +1,7 @@
 const User = require('../../database/models/User');
 const ForgotPassword = require('../../database/models/ForgotPassword');
 const { Op } = require('sequelize');
+const Crate = require('../../database/models/Crate');
 
 module.exports = {
   async findAllUsers() {
@@ -40,6 +41,24 @@ module.exports = {
       twitch: userInformations.dataValues.twitch,
       instagram: userInformations.dataValues.instagram,
       coins: userInformations.dataValues.coins,
+    };
+  },
+
+  async getUserInformationsWithCratesDatabase(userId) {
+    const userInformations = await User.findByPk(userId);
+    const userCrates = await userInformations.getCrates();
+
+    return {
+      id: userInformations.dataValues.id,
+      username: userInformations.dataValues.username,
+      xp: userInformations.dataValues.xp,
+      fac: userInformations.dataValues.facName,
+      facRipos: userInformations.dataValues.facRipos,
+      ripoId: userInformations.dataValues.ripoId,
+      twitch: userInformations.dataValues.twitch,
+      instagram: userInformations.dataValues.instagram,
+      coins: userInformations.dataValues.coins,
+      crates: userCrates,
     };
   },
 

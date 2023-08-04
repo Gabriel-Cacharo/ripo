@@ -12,6 +12,7 @@ const {
   deleteRequestToForgotPasswordDatabase,
   findUsersSearchDatabase,
   findAllUsers,
+  getUserInformationsWithCratesDatabase,
 } = require('./userDatabase');
 const { getUserRiposController } = require('../Ripo/ripoController');
 const { getRipoById, countRiposPublic } = require('../Ripo/ripoDatabase');
@@ -139,6 +140,44 @@ module.exports = {
   async profileController(userId) {
     try {
       const userInformations = await getUserInformationsDatabase(userId);
+      const userRipos = await getUserRiposController(userId);
+      const userFacRiposIndexes = JSON.parse(userInformations.facRipos);
+
+      const userFacRipos = [];
+
+      if (userFacRiposIndexes && userFacRiposIndexes.length > 0) {
+        await Promise.all(
+          userFacRiposIndexes.map(async (ripoId) => {
+            const ripoInformations = await getRipoById(ripoId);
+
+            if (!ripoInformations) {
+              return;
+            }
+
+            userFacRipos.push(ripoInformations.dataValues);
+          })
+        );
+      }
+
+      const userProfileRipo = await getRipoById(userInformations.ripoId);
+
+      const quantityTotalRipos = await countRiposPublic();
+
+      return {
+        user: userInformations,
+        ripos: userRipos,
+        facRipos: userFacRipos,
+        profileRipo: userProfileRipo ? userProfileRipo.ripoImage : null,
+        quantityTotalRiposPublic: quantityTotalRipos,
+      };
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async profileWithCratesController(userId) {
+    try {
+      const userInformations = await getUserInformationsWithCratesDatabase(userId);
       const userRipos = await getUserRiposController(userId);
       const userFacRiposIndexes = JSON.parse(userInformations.facRipos);
 
