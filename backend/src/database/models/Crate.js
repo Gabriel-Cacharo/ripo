@@ -9,6 +9,7 @@ class Crate extends Model {
           autoIncrement: true,
           primaryKey: true,
         },
+        name: DataTypes.STRING,
         type: DataTypes.STRING,
         price: DataTypes.STRING,
         rarity: DataTypes.STRING,

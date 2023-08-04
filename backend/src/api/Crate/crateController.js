@@ -9,10 +9,22 @@ const {
   getCrateInfosDatabase,
   verifyIfUserHaveThisCrateDatabase,
   removeUserCrateDatabase,
+  getAllCratesDatabase,
+  addUserCrateDatabaseWithoutCoins,
 } = require('./crateDatabase');
 const { checkHours } = require('./utils/checkHours');
 
 module.exports = {
+  async getAllCratesController() {
+    try {
+      const crates = await getAllCratesDatabase();
+
+      return crates;
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
   async getUserCrates(userId) {
     try {
       const userExists = await findOneUserWhere({ where: { id: userId } });
@@ -105,6 +117,23 @@ module.exports = {
 
       return { drawnRipo, userAlreadyHaveThisRipo };
     } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async removeUserCrateController(userId, crateId) {
+    try {
+      return await removeUserCrateDatabase(userId, crateId);
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async addUserCrateController(userId, crateId) {
+    try {
+      return await addUserCrateDatabaseWithoutCoins(userId, crateId);
+    } catch (err) {
+      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

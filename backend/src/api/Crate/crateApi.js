@@ -1,16 +1,46 @@
 const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
-const { buyCrateValidation } = require('./crateValidations');
+const { buyCrateValidation, removeUserCrateValidation } = require('./crateValidations');
 
-const { getUserCrates, redeemCrate, buyCrate, openCrate } = require('./crateController');
+const {
+  getUserCrates,
+  redeemCrate,
+  buyCrate,
+  openCrate,
+  removeUserCrateController,
+  getAllCratesController,
+  addUserCrateController,
+} = require('./crateController');
 
 module.exports = {
+  async getAllCrates(req, res) {
+    try {
+      const allCratesResponse = await getAllCratesController();
+
+      return res.status(200).json(allCratesResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
   async getUserCrates(req, res) {
     try {
       const userTokenPayload = await getUserPayloadByToken(req);
 
       const userCratesResponse = await getUserCrates(userTokenPayload.id);
+
+      return res.status(200).json(userCratesResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async getSpecificUserCrates(req, res) {
+    const { userId } = req.query;
+
+    try {
+      const userCratesResponse = await getUserCrates(userId);
 
       return res.status(200).json(userCratesResponse);
     } catch (err) {
@@ -65,6 +95,42 @@ module.exports = {
       const openCrateResponse = await openCrate(userTokenPayload.id, crateId);
 
       return res.status(200).json(openCrateResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async removeUserCrate(req, res) {
+    const { userId, crateId } = req.body;
+
+    try {
+      removeUserCrateValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const removeUserCrateResponse = await removeUserCrateController(userId, crateId);
+
+      return res.status(200).json(removeUserCrateResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async addUserCrate(req, res) {
+    const { userId, crateId } = req.body;
+
+    try {
+      removeUserCrateValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    try {
+      const addUserCrateResponse = await addUserCrateController(userId, crateId);
+
+      return res.status(200).json(addUserCrateResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

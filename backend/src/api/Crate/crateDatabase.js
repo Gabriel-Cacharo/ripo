@@ -1,10 +1,15 @@
 const User = require('../../database/models/User');
 const Ripo = require('../../database/models/Ripo');
 const Crate = require('../../database/models/Crate');
+const UserCrates = require('../../database/models/UserCrates');
 const dayjs = require('dayjs');
 const { Op } = require('sequelize');
 
 module.exports = {
+  async getAllCratesDatabase() {
+    return await Crate.findAll();
+  },
+
   async getUserCratesDatabase(userId) {
     const user = await User.findByPk(userId);
     const userCrates = await user.getCrates();
@@ -75,5 +80,14 @@ module.exports = {
     const crate = await user.getCrates({ where: { id: crateId } });
 
     return await user.removeCrate(crate, { limit: 1 });
+  },
+
+  async addUserCrateDatabaseWithoutCoins(userId, crateId) {
+    const obj = {
+      userId,
+      crateId,
+    };
+
+    return await UserCrates.create(obj);
   },
 };
