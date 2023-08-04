@@ -20,19 +20,24 @@ const RiposPage = () => {
 
   const [modalEditRipoIsOpen, setModalEditRipoIsOpen] = useState(false);
 
+  const getAllRiposFunction = async () => {
+    const allRiposResponse = await api('/ripos/all');
+
+    setAllRipos(allRiposResponse.data);
+  };
+
   useEffect(() => {
-    const getAllRiposFunction = async () => {
-      const allRiposResponse = await api('/ripos/all');
-
-      setAllRipos(allRiposResponse.data);
-    };
-
     getAllRiposFunction();
   }, []);
 
   return (
     <div className="riposPageContainer">
-      <ModalEditRipo modalEditRipoIsOpen={modalEditRipoIsOpen} setModalEditRipoIsOpen={setModalEditRipoIsOpen} ripoInformations={ripoSelected} />
+      <ModalEditRipo
+        modalEditRipoIsOpen={modalEditRipoIsOpen}
+        setModalEditRipoIsOpen={setModalEditRipoIsOpen}
+        ripoInformations={ripoSelected}
+        getRiposInformationsFunction={getAllRiposFunction}
+      />
 
       <div className="titleAndSearchContainer">
         <SectionTitle title="Ripos" />
