@@ -1,0 +1,230 @@
+.modalAddCrateContent {
+  display: grid;
+  grid-template-rows: 50px 1fr 30px;
+  grid-template-areas: 'header' 'main' 'footer';
+
+  height: 100%;
+  position: relative;
+
+  .modalAddCrateHeader {
+    grid-area: header;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+    padding: 0px 20px;
+
+    h1 {
+      font-size: 1.4rem;
+    }
+
+    button {
+      background: transparent;
+      color: $white;
+      font-size: 1.2rem;
+
+      transition: all 200ms ease-in-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .modalAddCrateMain {
+    grid-area: main;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    h2 {
+      font-size: 1.2rem;
+      opacity: 0.7;
+
+      border-bottom: 1px solid $primary-color;
+
+      margin-bottom: 10px;
+    }
+
+    .modalAddCrateContainer {
+      padding: 20px;
+
+      .searchInput {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        width: 200px;
+
+        button {
+          background: transparent;
+          font-size: 1.1rem;
+          color: $primary-color;
+          filter: drop-shadow(0 0 2px $primary-color-opacity) drop-shadow(0 0 4px $primary-color-opacity)
+            drop-shadow(0 0 6px $primary-color-opacity);
+          position: absolute;
+          right: 5px;
+          top: 8px;
+        }
+
+        input {
+          background: transparent;
+          border: 0;
+          border: 1px solid $primary-color;
+          padding: 8px 5px;
+          width: 200px;
+          border-radius: 6px;
+          color: $white;
+        }
+      }
+
+      .modalAddCrateAllCrates {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+
+        margin: 30px 0px;
+
+        .modalAddCrateCrates {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+
+          .crate {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+
+            margin: 10px;
+            padding: 15px 5px;
+            cursor: pointer;
+            overflow: hidden;
+
+            transition: all 200ms ease-in-out;
+
+            img {
+              height: 70px;
+              width: auto;
+            }
+
+            p {
+              margin-top: 5px;
+              font-size: 0.8rem;
+
+              max-width: 80px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            &:hover {
+              transform: translateY(-0.3rem);
+            }
+          }
+
+          .crate.common {
+            &::after {
+              content: '';
+              background-color: rgb(148, 148, 148);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgba(148, 148, 148, 0.12)) drop-shadow(0 0 2px rgba(148, 148, 148, 0.12))
+                drop-shadow(0 0 4px rgba(148, 148, 148, 0.12));
+            }
+          }
+          .crate.unusual {
+            &::after {
+              content: '';
+              background-color: rgb(0, 180, 0);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgb(0, 180, 0, 0.12)) drop-shadow(0 0 2px rgb(0, 180, 0, 0.12))
+                drop-shadow(0 0 4px rgb(0, 180, 0, 0.12));
+            }
+          }
+          .crate.rare {
+            &::after {
+              content: '';
+              background-color: rgb(130, 17, 128);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgb(130, 17, 128, 0.12)) drop-shadow(0 0 2px rgb(130, 17, 128, 0.12))
+                drop-shadow(0 0 4px rgb(130, 17, 128, 0.12));
+            }
+          }
+          .crate.legendary {
+            &::after {
+              content: '';
+              background-color: rgb(255, 225, 0);
+              height: 7px;
+              width: 70%;
+              transform: translate(50%, -50%);
+              top: 0;
+              right: 50%;
+              position: absolute;
+              border-radius: 12px;
+              filter: drop-shadow(0 0 1px rgb(255, 225, 0, 0.12)) drop-shadow(0 0 2px rgb(255, 225, 0, 0.12))
+                drop-shadow(0 0 4px rgb(255, 225, 0, 0.12));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .modalAddCrateFooter {
+    grid-area: footer;
+    padding: 0px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: $primary-color;
+      color: $white;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      border-radius: 6px;
+
+      transition: all 200ms ease-in-out;
+
+      .icon {
+        margin-left: 5px;
+        font-size: 1.2rem;
+      }
+
+      &:hover {
+        background-color: $white;
+        color: $primary-color;
+        transform: scale(1.03);
+      }
+    }
+  }
+}

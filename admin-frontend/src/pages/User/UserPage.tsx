@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 import SectionTitle from '../../components/SectionTitle/SectionTitle';
-import CollectionCharacter from '../../components/CollectionCharacter/CollectionCharacter';
+import CollectionComponent from '../../components/CollectionComponent/CollectionComponent';
 
 import CharacterNissin from '../../assets/images/Personagem1.png';
 import Car from '../../assets/images/Carro_Ind1.png';
@@ -20,6 +20,7 @@ import { IUser } from './types';
 
 import ModalAddRipo from './components/ModalAddRipo/ModalAddRipo';
 import ModalEditUser from './components/ModalEditProfile/ModalEditProfile';
+import ModalAddCrate from './components/ModalAddCrate/ModalAddCrate';
 
 const UserPage = () => {
   const { username } = useParams();
@@ -31,6 +32,7 @@ const UserPage = () => {
 
   const [modalAddRipoIsOpen, setModalAddRipoIsOpen] = useState(false);
   const [modalEditUserIsOpen, setModalEditUserIsOpen] = useState(false);
+  const [modalAddCrateIsOpen, setModalAddCrateIsOpen] = useState(false);
 
   const searchProfileFunction = async (username: any) => {
     try {
@@ -38,7 +40,7 @@ const UserPage = () => {
         return getUserInformationsFunction();
       }
 
-      const userInformationsResponse = await api(`/user/searchProfile?username=${username}`);
+      const userInformationsResponse = await api(`/admin/user/searchProfile?username=${username}`);
 
       setUserInformations(userInformationsResponse.data);
     } catch (err: any) {
@@ -82,8 +84,28 @@ const UserPage = () => {
       userInformations?.ripos.splice(ripoIndexArray!, 1);
 
       setUserInformations({ ...(userInformations as IUser), ripos: userInformations?.ripos as any });
+
+      toast.success('Ripo removido com sucesso');
     } catch (err) {
       return toast.error('Ocorreu um erro ao remover o Ripo do usuário');
+    }
+  };
+
+  const removeUserCrateFunction = async (crateId: number) => {
+    try {
+      await api.post(`/users/removeCrate`, { userId: userInformations?.user.id, crateId });
+
+      const crateIndexArray = userInformations?.user.crates.findIndex((c) => c.id === crateId);
+      userInformations?.user.crates.splice(crateIndexArray!, 1);
+
+      setUserInformations({
+        ...(userInformations as IUser),
+        user: { ...userInformations.user, crates: userInformations.user.crates },
+      });
+
+      toast.success('Caixa removida com sucesso');
+    } catch (err) {
+      return toast.error('Ocorreu um erro ao remover a Caixa do usuário');
     }
   };
 
@@ -98,6 +120,14 @@ const UserPage = () => {
       <ModalAddRipo
         modalAddRipoIsOpen={modalAddRipoIsOpen}
         setModalAddRipoIsOpen={setModalAddRipoIsOpen}
+        setUserInformations={setUserInformations}
+        userInformations={userInformations}
+        getUserInformationsFunction={getUserInformationsFunction}
+      />
+
+      <ModalAddCrate
+        modalAddCrateIsOpen={modalAddCrateIsOpen}
+        setModalAddCrateIsOpen={setModalAddCrateIsOpen}
         setUserInformations={setUserInformations}
         userInformations={userInformations}
         getUserInformationsFunction={getUserInformationsFunction}
@@ -190,20 +220,49 @@ const UserPage = () => {
         <div className="collectionContainer" data-aos="zoom-out">
           {userInformations?.ripos && userInformations.ripos.length > 0 ? (
             userInformations.ripos.map((ripo, index) => (
-              <CollectionCharacter
-                ripoId={ripo.id}
-                ripoImage={ripo.ripoImage}
-                ripoName={ripo.name}
+              <CollectionComponent
+                id={ripo.id}
+                image={ripo.ripoImage}
+                name={ripo.name}
                 rarity={ripo.rarity}
-                price={ripo.price}
+                price={Number(ripo.price)}
                 key={index}
-                functionRemoveRipo={() => removeUserRipoFunction(ripo.id)}
+                functionRemove={() => removeUserRipoFunction(ripo.id)}
               />
             ))
           ) : (
             <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
           )}
           <button className="cardAddRipo" onClick={() => setModalAddRipoIsOpen(true)}>
+            <MdAdd className="icon" />
+          </button>
+        </div>
+      </section>
+
+      <section className="facCollectionContainer">
+        <h4>
+          CAIXAS <span>{userInformations?.user?.crates && userInformations?.user?.crates.length}</span>
+        </h4>
+
+        <div className="collectionContainer" data-aos="zoom-out">
+          {userInformations?.user?.crates && userInformations?.user?.crates.length > 0 ? (
+            userInformations?.user?.crates.map((crate, index) => (
+              <CollectionComponent
+                type="crate"
+                id={crate.id}
+                image={crate.crateImage}
+                name={crate.name}
+                rarity={2}
+                price={Number(crate.price)}
+                key={index}
+                functionRemove={() => removeUserCrateFunction(crate.id)}
+                crateType={crate.type}
+              />
+            ))
+          ) : (
+            <p style={{ opacity: '0.5' }}>Usuário não possui caixas.</p>
+          )}
+          <button className="cardAddRipo" onClick={() => setModalAddCrateIsOpen(true)}>
             <MdAdd className="icon" />
           </button>
         </div>

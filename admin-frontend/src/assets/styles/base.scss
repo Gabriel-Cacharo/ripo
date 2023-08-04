@@ -25,11 +25,15 @@
 @import '../../pages/User/styles';
 
 // Collection Character
-@import '../../components/CollectionCharacter/styles';
+@import '../../components/CollectionComponent/styles';
 
 // Modal Add Ripo
 @import '../../pages/User/components/ModalAddRipo/styles';
 @import '../../pages/User/components/ModalAddRipo/responsive';
+
+// Modal Add Crate
+@import '../../pages/User/components/ModalAddCrate/styles';
+@import '../../pages/User/components/ModalAddCrate/styles';
 
 // Modal Edit Profile
 @import '../../pages/User/components/ModalEditProfile/responsive';
