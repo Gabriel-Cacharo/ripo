@@ -105,6 +105,8 @@ const ModalAddRipo = ({
 
         <main className="modalAddRipoMain">
           <div className="modalAddRipoContainer" data-aos="fade-in" style={{ width: '100%' }}>
+            {/* TODO: Add input to search ripos */}
+
             <div className="modalAddRipoAllRipos" data-aos="fade-in">
               <h2>Escolher Ripos</h2>
               <div className="modalAddRipoRipos">
