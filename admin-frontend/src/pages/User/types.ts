@@ -9,6 +9,7 @@ export interface IUser {
     username: string;
     xp: string;
     coins: string;
+    crates: ICrate[];
   };
   ripos: IRipo[];
   facRipos: IRipo[];
@@ -30,4 +31,16 @@ interface IRipo {
   name: string;
   rarity: number;
   ripoImage: string;
+}
+
+export interface ICrate {
+  id: number;
+  name: string;
+  canDropItems: boolean;
+  canDropRipo: boolean;
+  crateImage: string;
+  price: string;
+  rarity: string;
+  riposDrop: [];
+  type: string;
 }
