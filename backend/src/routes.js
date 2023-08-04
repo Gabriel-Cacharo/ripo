@@ -13,10 +13,15 @@ router.post('/auth/acceptForgotPassword', User.acceptForgotPassword);
 
 router.post('/auth/admin/login', User.loginAdmin);
 
+router.get('/admin/crates/all', Crate.getAllCrates);
+router.post('/admin/crates/add', Crate.addUserCrate);
+
 router.get('/crates/getUserCrates', authMiddleware, Crate.getUserCrates);
 router.post('/crates/redeem', authMiddleware, Crate.redeemCrate);
 router.post('/crates/buy', authMiddleware, Crate.buyCrate);
 router.post('/crates/open', authMiddleware, Crate.openCrate);
+
+router.get('/admin/crates/getSpecificUserCrates', Crate.getSpecificUserCrates);
 
 router.put('/admin/ripos/editRipoBasicInformations', authMiddleware, Ripo.editRipoBasicInformations);
 
@@ -30,6 +35,7 @@ router.post('/ripos/addUserRipos', Ripo.addUserRipos);
 
 router.get('/users/all', User.getAllUsers);
 router.post('/users/removeRipo', Ripo.removeUserRipo);
+router.post('/users/removeCrate', Crate.removeUserCrate);
 
 router.post('/admin/user/editUserBasicInformations', authMiddleware, User.editUserBasicInformations);
 
@@ -39,5 +45,7 @@ router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
 router.post('/user/resetPassword', authMiddleware, User.resetUserPassword);
 router.post('/user/verifyAccountEmail', authMiddleware, User.verifyAccountEmail);
 router.get('/user/searchProfile/autocomplete', authMiddleware, User.searchProfileResponses);
+
+router.get('/admin/user/searchProfile', authMiddleware, User.searchProfileWithCrates);
 
 module.exports = router;
