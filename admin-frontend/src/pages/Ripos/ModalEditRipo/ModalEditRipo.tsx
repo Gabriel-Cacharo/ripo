@@ -9,7 +9,12 @@ import { MdPublic, MdEdit } from 'react-icons/md';
 import { IModalEditRipo } from './types';
 import { api } from '../../../services/api';
 
-const ModalEditRipo = ({ modalEditRipoIsOpen, setModalEditRipoIsOpen, ripoInformations }: IModalEditRipo) => {
+const ModalEditRipo = ({
+  modalEditRipoIsOpen,
+  setModalEditRipoIsOpen,
+  ripoInformations,
+  getRiposInformationsFunction,
+}: IModalEditRipo) => {
   const [loading, setLoading] = useState(false);
 
   const [ripoInformationsState, setRipoInformationsState] = useState({
@@ -48,6 +53,7 @@ const ModalEditRipo = ({ modalEditRipoIsOpen, setModalEditRipoIsOpen, ripoInform
       });
 
       toast.success('As informações do Ripo foram alteradas com sucesso!');
+      getRiposInformationsFunction();
       setLoading(false);
       handleCloseModalEditRipo();
     } catch (err: any) {

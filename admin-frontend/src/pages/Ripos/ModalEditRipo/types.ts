@@ -4,4 +4,5 @@ export interface IModalEditRipo {
   modalEditRipoIsOpen: boolean;
   setModalEditRipoIsOpen: (arg0: boolean) => void;
   ripoInformations?: IRipo;
+  getRiposInformationsFunction: () => void;
 }
