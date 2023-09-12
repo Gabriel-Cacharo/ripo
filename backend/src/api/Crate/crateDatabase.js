@@ -90,4 +90,8 @@ module.exports = {
 
     return await UserCrates.create(obj);
   },
+
+  async updateCrate(obj, where) {
+    return await Crate.update(obj, where);
+  },
 };

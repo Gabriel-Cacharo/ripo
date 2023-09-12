@@ -1,7 +1,11 @@
 const { ZOD_ERR_CODE, ZOD_ERR_MESSAGE, SERVER_ERR_CODE } = require('../../utils/errorsCode');
 const { getUserPayloadByToken } = require('../../utils/getUserPayload');
 
-const { buyCrateValidation, removeUserCrateValidation } = require('./crateValidations');
+const {
+  buyCrateValidation,
+  removeUserCrateValidation,
+  editCrateBasicInformationsValidation,
+} = require('./crateValidations');
 
 const {
   getUserCrates,
@@ -11,6 +15,7 @@ const {
   removeUserCrateController,
   getAllCratesController,
   addUserCrateController,
+  editCrateBasicInformationsController,
 } = require('./crateController');
 
 module.exports = {
@@ -131,6 +136,36 @@ module.exports = {
       const addUserCrateResponse = await addUserCrateController(userId, crateId);
 
       return res.status(200).json(addUserCrateResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async editCrateBasicInformations(req, res) {
+    const { name, rarity, price, crateImage, canDropItems, canDropRipo, itemsDrop, riposDrop, type } = req.body;
+
+    try {
+      editCrateBasicInformationsValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    let obj = {
+      name,
+      rarity,
+      price,
+      crateImage,
+      canDropItems,
+      canDropRipo,
+      itemsDrop,
+      riposDrop,
+      type,
+    };
+
+    try {
+      const editCrateBasicInformationsResponse = await editCrateBasicInformationsController(req.body.crateId, obj);
+
+      return res.status(200).json(editCrateBasicInformationsResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

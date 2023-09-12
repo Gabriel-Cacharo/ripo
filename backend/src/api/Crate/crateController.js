@@ -11,6 +11,7 @@ const {
   removeUserCrateDatabase,
   getAllCratesDatabase,
   addUserCrateDatabaseWithoutCoins,
+  updateCrate,
 } = require('./crateDatabase');
 const { checkHours } = require('./utils/checkHours');
 
@@ -134,6 +135,16 @@ module.exports = {
       return await addUserCrateDatabaseWithoutCoins(userId, crateId);
     } catch (err) {
       console.log(err);
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async editCrateBasicInformationsController(crateId, obj) {
+    try {
+      const updatedCrateResponse = await updateCrate(obj, { where: { id: crateId } });
+
+      return updatedCrateResponse;
+    } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
