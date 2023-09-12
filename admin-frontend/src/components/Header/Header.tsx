@@ -25,7 +25,7 @@ function Header() {
       <nav>
         <ul>
           <li>
-            <a href="/crate">Caixas</a>
+            <Link to="/crates">Caixas</Link>
           </li>
           <li>
             <Link to="/ripos">Ripos</Link>

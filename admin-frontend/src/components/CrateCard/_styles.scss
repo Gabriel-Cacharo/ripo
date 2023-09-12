@@ -1,0 +1,100 @@
+.crateCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  background-color: $dark-grey;
+  border-radius: 12px;
+
+  width: 200px;
+  height: 300px;
+  margin: 10px;
+  padding-top: 5px;
+
+  img {
+    height: 120px;
+  }
+
+  .crateCardInformations {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 0px 10px;
+
+      img {
+        height: 17px;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+
+      .icon.common {
+        color: rgb(148, 148, 148);
+        filter: drop-shadow(0 0 1px rgba(148, 148, 148, 0.12)) drop-shadow(0 0 2px rgba(148, 148, 148, 0.12))
+          drop-shadow(0 0 4px rgba(148, 148, 148, 0.12));
+      }
+
+      .icon.unusual {
+        color: rgb(0, 180, 0);
+        filter: drop-shadow(0 0 1px rgb(0, 180, 0, 0.12)) drop-shadow(0 0 2px rgb(0, 180, 0, 0.12))
+          drop-shadow(0 0 4px rgb(0, 180, 0, 0.12));
+      }
+
+      .icon.rare {
+        color: rgb(130, 17, 128);
+        filter: drop-shadow(0 0 1px rgb(130, 17, 128, 0.12)) drop-shadow(0 0 2px rgb(130, 17, 128, 0.12))
+          drop-shadow(0 0 4px rgb(130, 17, 128, 0.12));
+      }
+
+      .icon.legendary {
+        color: rgb(255, 225, 0);
+        filter: drop-shadow(0 0 1px rgb(255, 225, 0, 0.12)) drop-shadow(0 0 2px rgb(255, 225, 0, 0.12))
+          drop-shadow(0 0 4px rgb(255, 225, 0, 0.12));
+      }
+    }
+  }
+
+  .crateCardButtonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 80%;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 5px 0px;
+      padding: 5px 10px;
+      width: 90%;
+
+      background: transparent;
+      border: 1px solid $primary-color;
+      border-radius: 6px;
+      color: $primary-color;
+      font-size: 0.9rem;
+
+      transition: all 200ms ease-in-out;
+
+      &:last-child {
+        border: 1px solid #f45050;
+        color: #f45050;
+      }
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+}
