@@ -43,7 +43,7 @@ const ModalEditRipo = ({
     setLoading(true);
 
     try {
-      api.put('/admin/ripos/editRipoBasicInformations', {
+      await api.put('/admin/ripos/editRipoBasicInformations', {
         ripoId: ripoInformations?.id,
         rarity: ripoInformationsState?.rarity,
         name: ripoInformationsState?.name,
@@ -57,7 +57,7 @@ const ModalEditRipo = ({
       setLoading(false);
       handleCloseModalEditRipo();
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err.response.data.error);
       setLoading(false);
       handleCloseModalEditRipo();
     }
