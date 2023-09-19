@@ -8,6 +8,7 @@ import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import { ICrate } from './types';
 import { api } from '../../services/api';
 import ModalEditCrate from './ModalEditCrate/ModalEditCrate';
+import ModalEditCrateDrops from './ModalEditCrateDrops/ModalEditCrateDrops';
 
 const CratesPage = () => {
   const [allCrates, setAllCrates] = useState<ICrate[]>([]);
@@ -17,6 +18,7 @@ const CratesPage = () => {
   const [searchInput, setSearchInput] = useState('');
 
   const [modalEditCrateIsOpen, setModalEditCrateIsOpen] = useState<boolean>(false);
+  const [modalEditCrateDropsIsOpen, setModalEditCrateDropsIsOpen] = useState<boolean>(false);
 
   const getAllCratesFunction = async () => {
     const allCratesResponse = await api('admin/crates/all');
@@ -48,6 +50,14 @@ const CratesPage = () => {
       <ModalEditCrate
         modalEditCrateIsOpen={modalEditCrateIsOpen}
         setModalEditCrateIsOpen={setModalEditCrateIsOpen}
+        crateInformations={crateSelected}
+        getCratesInformationsFunction={getAllCratesFunction}
+        setModalEditCrateDropsOpen={() => setModalEditCrateDropsIsOpen(true)}
+      />
+
+      <ModalEditCrateDrops
+        modalEditCrateDropsIsOpen={modalEditCrateDropsIsOpen}
+        setModalEditCrateDropsIsOpen={setModalEditCrateDropsIsOpen}
         crateInformations={crateSelected}
         getCratesInformationsFunction={getAllCratesFunction}
       />
