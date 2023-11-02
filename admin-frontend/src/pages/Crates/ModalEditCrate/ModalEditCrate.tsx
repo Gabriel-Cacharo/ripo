@@ -23,10 +23,6 @@ const ModalEditCrate = ({
     rarity: '',
     price: '',
     crateImage: '',
-    canDropItems: false,
-    canDropRipo: false,
-    itemsDrop: '',
-    riposDrop: '',
     type: '',
   });
 
@@ -36,10 +32,6 @@ const ModalEditCrate = ({
       rarity: crateInformations?.rarity as any,
       price: crateInformations?.price as string,
       crateImage: crateInformations?.crateImage as string,
-      canDropItems: crateInformations?.canDropItems as boolean,
-      canDropRipo: crateInformations?.canDropRipo as boolean,
-      itemsDrop: crateInformations?.itemsDrop as string,
-      riposDrop: crateInformations?.riposDrop as string,
       type: crateInformations?.type as string,
     });
   }, [modalEditCrateIsOpen === true]);
@@ -58,10 +50,6 @@ const ModalEditCrate = ({
         name: crateInformationsState?.name,
         price: crateInformationsState?.price,
         crateImage: crateInformationsState?.crateImage,
-        canDropItems: crateInformationsState?.canDropItems as boolean,
-        canDropRipo: crateInformationsState?.canDropRipo as boolean,
-        itemsDrop: crateInformationsState?.itemsDrop as string,
-        riposDrop: crateInformationsState?.riposDrop as string,
         type: crateInformationsState?.type as string,
       });
 

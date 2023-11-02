@@ -16,21 +16,21 @@ const ModalEditCrateDrops = ({
   setModalEditCrateDropsIsOpen,
   crateInformations,
   getCratesInformationsFunction,
+  setModalEditCrateIsOpen,
 }: IModalEditCrateDrops) => {
   const [loading, setLoading] = useState(false);
 
   const [crateInformationsState, setCrateInformationsState] = useState({
-    name: '',
-    rarity: '',
-    price: '',
-    crateImage: '',
+    id: 0,
     canDropItems: false,
     canDropRipo: false,
     itemsDrop: '',
     riposDrop: [''],
-    type: '',
   });
   const [allRipos, setAllRipos] = useState<IAllRipos[]>([]);
+  const [newCrateRiposDrop, setNewCrateRiposDrop] = useState<string[]>([]);
+
+  // const [newCrateItemsDrop, setNewCrateItemsDrop] = useState<string[]>([]);
 
   const getAllRipos = async () => {
     try {
@@ -44,19 +44,19 @@ const ModalEditCrateDrops = ({
 
   // TODO: inverter o último else if para o primeiro if
   useEffect(() => {
-    if (crateInformations?.canDropRipo) {
-      getAllRipos();
+    if (crateInformations?.canDropRipo && crateInformations?.canDropItems) {
+      // getAllRipos();
+      // getAllItens()
+      // return;
     } else if (crateInformations?.canDropItems) {
-      console.log('itens');
-    } else if (crateInformations?.canDropRipo && crateInformations?.canDropItems) {
-      console.log('os dois');
+      // getAllItens()
+      // return;
+    } else if (crateInformations?.canDropRipo) {
+      getAllRipos();
     }
 
     setCrateInformationsState({
-      name: crateInformations?.name as string,
-      rarity: crateInformations?.rarity as any,
-      price: crateInformations?.price as string,
-      crateImage: crateInformations?.crateImage as string,
+      id: crateInformations?.id as number,
       canDropItems: crateInformations?.canDropItems as boolean,
       canDropRipo: crateInformations?.canDropRipo as boolean,
       itemsDrop: crateInformations?.itemsDrop as string,
@@ -64,28 +64,29 @@ const ModalEditCrateDrops = ({
         crateInformations && crateInformations.riposDrop.length > 0
           ? crateInformations?.riposDrop.replace('[', '').replace(']', '').split(',')
           : [''],
-      type: crateInformations?.type as string,
     });
+
+    setNewCrateRiposDrop(crateInformations?.riposDrop.replace('[', '').replace(']', '').split(',') as string[]);
   }, [modalEditCrateDropsIsOpen === true]);
 
   const handleCloseModalEditCrateDrops = () => {
     setModalEditCrateDropsIsOpen(false);
   };
 
-  // TODO: verificar entre cratesInformations & allRipos
   const selectRipoToEditFacFunction = (ripo: IAllRipos) => {
-    let aa = newCrateRipos;
-
-    const userAlreadyHaveThisRipo = aa.includes(ripo.id.toString());
+    let newCrateRiposDropArray = [...newCrateRiposDrop];
+    const userAlreadyHaveThisRipo = newCrateRiposDropArray?.includes(ripo.id.toString());
 
     if (userAlreadyHaveThisRipo) {
-      console.log('tem');
-      return toast.error('Usuário já possui esse Ripo');
-    } else {
-      aa.push(ripo.id.toString());
+      const ripoIndex = newCrateRiposDropArray?.findIndex(
+        (newCrateRipo) => newCrateRipo.toString() === ripo.id.toString()
+      );
 
-      // console.log(aa);
-      setNewCrateRipos(aa);
+      newCrateRiposDropArray?.splice(ripoIndex, 1);
+      setNewCrateRiposDrop(newCrateRiposDropArray);
+    } else {
+      newCrateRiposDropArray?.push(ripo.id.toString());
+      setNewCrateRiposDrop(newCrateRiposDropArray);
     }
   };
 
@@ -93,23 +94,19 @@ const ModalEditCrateDrops = ({
     setLoading(true);
 
     try {
-      await api.put('/admin/crates/editCrateBasicInformations', {
-        crateId: crateInformations?.id,
-        rarity: crateInformationsState?.rarity,
-        name: crateInformationsState?.name,
-        price: crateInformationsState?.price,
-        crateImage: crateInformationsState?.crateImage,
+      await api.put('/admin/crates/editCrateDrops', {
+        id: crateInformations?.id,
         canDropItems: crateInformationsState?.canDropItems as boolean,
         canDropRipo: crateInformationsState?.canDropRipo as boolean,
         itemsDrop: crateInformationsState?.itemsDrop as string,
-        riposDrop: crateInformationsState?.riposDrop as string,
-        type: crateInformationsState?.type as string,
+        riposDrop: `[${newCrateRiposDrop}]`,
       });
 
       toast.success('As informações da Caixa foram alteradas com sucesso!');
       getCratesInformationsFunction();
       setLoading(false);
       handleCloseModalEditCrateDrops();
+      setModalEditCrateIsOpen(false);
     } catch (err: any) {
       toast.error(err.response.data.error);
       setLoading(false);
@@ -144,33 +141,74 @@ const ModalEditCrateDrops = ({
         </header>
 
         <main className="modalEditCrateDropsMain">
-          <div className="modalEditCrateDropsRipos">
-            <h2>Escolher Ripos</h2>
-            <div className="modalEditCrateDropsAllRipos">
-              {allRipos && allRipos.length > 0 ? (
-                allRipos.map((ripo, index) => (
-                  <div
-                    className={`drop ${
-                      ripo.rarity === 0
-                        ? 'common'
-                        : ripo.rarity === 1
-                        ? 'unusual'
-                        : ripo.rarity === 2
-                        ? 'rare'
-                        : 'legendary'
-                    } ${allRipos && allRipos.find((userRipo: IAllRipos) => userRipo.id === ripo.id) ? 'selected' : ''}`}
-                    key={index}
-                    onClick={() => selectRipoToEditFacFunction(ripo)}
-                  >
-                    <img src={ripo.ripoImage} alt="" />
-                    <p>{ripo.name}</p>
-                  </div>
-                ))
-              ) : (
-                <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
-              )}
+          {crateInformations?.canDropRipo && (
+            <div className="modalEditCrateDropsContainer">
+              <h2>Escolher Ripos</h2>
+              <div className="modalEditCrateAllDropsContainer">
+                {allRipos && allRipos.length > 0 ? (
+                  allRipos.map((ripo, index) => (
+                    <div
+                      className={`drop ${
+                        ripo.rarity === 0
+                          ? 'common'
+                          : ripo.rarity === 1
+                          ? 'unusual'
+                          : ripo.rarity === 2
+                          ? 'rare'
+                          : 'legendary'
+                      } ${
+                        newCrateRiposDrop && newCrateRiposDrop.find((newRipoDrop) => newRipoDrop === ripo.id.toString())
+                          ? 'selected'
+                          : ''
+                      }`}
+                      key={index}
+                      onClick={() => selectRipoToEditFacFunction(ripo)}
+                    >
+                      <img src={ripo.ripoImage} alt="" />
+                      <p>{ripo.name}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
+                )}
+              </div>
             </div>
-          </div>
+          )}
+
+          {crateInformations?.canDropItems && (
+            <div className="modalEditCrateDropsContainer" style={{ marginTop: '20px' }}>
+              <h2>Escolher Itens</h2>
+              <div className="modalEditCrateAllDropsContainer">
+                {/* TODO: Change to ITEMS */}
+                {/* {allRipos && allRipos.length > 0 ? (
+                  allRipos.map((ripo, index) => (
+                    <div
+                      className={`drop ${
+                        ripo.rarity === 0
+                          ? 'common'
+                          : ripo.rarity === 1
+                          ? 'unusual'
+                          : ripo.rarity === 2
+                          ? 'rare'
+                          : 'legendary'
+                      } ${
+                        newCrateRiposDrop && newCrateRiposDrop.find((newRipoDrop) => newRipoDrop === ripo.id.toString())
+                          ? 'selected'
+                          : ''
+                      }`}
+                      key={index}
+                      onClick={() => selectRipoToEditFacFunction(ripo)}
+                    >
+                      <img src={ripo.ripoImage} alt="" />
+                      <p>{ripo.name}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p style={{ opacity: '0.5' }}>Usuário não possui ripos.</p>
+                )} */}
+              </div>
+            </div>
+          )}
         </main>
 
         <footer className="modalEditCrateDropsFooter">

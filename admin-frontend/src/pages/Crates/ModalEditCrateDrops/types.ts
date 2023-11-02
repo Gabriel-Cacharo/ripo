@@ -5,4 +5,5 @@ export interface IModalEditCrateDrops {
   setModalEditCrateDropsIsOpen: (arg0: boolean) => void;
   crateInformations?: ICrate;
   getCratesInformationsFunction: () => void;
+  setModalEditCrateIsOpen: (arg0: boolean) => void;
 }
