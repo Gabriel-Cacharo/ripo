@@ -11,11 +11,17 @@ const editCrateBasicInformationsValidation = z
     rarity: z.number(),
     price: z.string(),
     crateImage: z.string(),
+    type: z.string(),
+  })
+  .strict();
+
+const editCrateDropsValidation = z
+  .object({
+    id: z.number(),
     canDropItems: z.boolean(),
     canDropRipo: z.boolean(),
     itemsDrop: z.string().nullish(),
     riposDrop: z.string().nullish(),
-    type: z.string(),
   })
   .strict();
 
@@ -23,4 +29,5 @@ module.exports = {
   buyCrateValidation,
   removeUserCrateValidation,
   editCrateBasicInformationsValidation,
+  editCrateDropsValidation,
 };

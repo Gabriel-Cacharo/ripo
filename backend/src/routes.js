@@ -16,6 +16,7 @@ router.post('/auth/admin/login', User.loginAdmin);
 router.get('/admin/crates/all', Crate.getAllCrates);
 router.post('/admin/crates/add', Crate.addUserCrate);
 router.put('/admin/crates/editCrateBasicInformations', Crate.editCrateBasicInformations);
+router.put('/admin/crates/editCrateDrops', Crate.editCrateDrops);
 
 router.get('/crates/getUserCrates', authMiddleware, Crate.getUserCrates);
 router.post('/crates/redeem', authMiddleware, Crate.redeemCrate);

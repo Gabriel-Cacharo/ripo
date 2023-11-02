@@ -5,6 +5,7 @@ const {
   buyCrateValidation,
   removeUserCrateValidation,
   editCrateBasicInformationsValidation,
+  editCrateDropsValidation,
 } = require('./crateValidations');
 
 const {
@@ -16,6 +17,7 @@ const {
   getAllCratesController,
   addUserCrateController,
   editCrateBasicInformationsController,
+  editCrateDropsController,
 } = require('./crateController');
 
 module.exports = {
@@ -166,6 +168,31 @@ module.exports = {
       const editCrateBasicInformationsResponse = await editCrateBasicInformationsController(req.body.crateId, obj);
 
       return res.status(200).json(editCrateBasicInformationsResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async editCrateDrops(req, res) {
+    const { id, canDropItems, canDropRipo, itemsDrop, riposDrop } = req.body;
+
+    try {
+      editCrateDropsValidation.parse(req.body);
+    } catch (err) {
+      return res.status(ZOD_ERR_CODE).json({ error: ZOD_ERR_MESSAGE });
+    }
+
+    let obj = {
+      canDropItems,
+      canDropRipo,
+      itemsDrop,
+      riposDrop,
+    };
+
+    try {
+      const editCrateDropsResponse = await editCrateDropsController(id, obj);
+
+      return res.status(200).json(editCrateDropsResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

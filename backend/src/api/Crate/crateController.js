@@ -148,4 +148,14 @@ module.exports = {
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
+
+  async editCrateDropsController(crateId, obj) {
+    try {
+      const updatedCrateDropsResponse = await updateCrate(obj, { where: { id: crateId } });
+
+      return updatedCrateDropsResponse;
+    } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
 };
