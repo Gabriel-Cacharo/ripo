@@ -4,18 +4,18 @@ import { AiOutlineSearch } from 'react-icons/ai';
 
 import CrateCard from '../../components/CrateCard/CrateCard';
 import SectionTitle from '../../components/SectionTitle/SectionTitle';
+import ModalEditCrate from './ModalEditCrate/ModalEditCrate';
+import ModalEditCrateDrops from './ModalEditCrateDrops/ModalEditCrateDrops';
 
 import { ICrate } from './types';
 import { api } from '../../services/api';
-import ModalEditCrate from './ModalEditCrate/ModalEditCrate';
-import ModalEditCrateDrops from './ModalEditCrateDrops/ModalEditCrateDrops';
 
 const CratesPage = () => {
   const [allCrates, setAllCrates] = useState<ICrate[]>([]);
   const [crateSelected, setCrateSelected] = useState<ICrate>();
-  const [searchAutocomplete, setSearchAutocomplete] = useState<any[]>([]);
 
   const [searchInput, setSearchInput] = useState('');
+  const searchCratesResult = allCrates.filter((crate) => crate.name.toLowerCase().includes(searchInput.toLowerCase()));
 
   const [modalEditCrateIsOpen, setModalEditCrateIsOpen] = useState<boolean>(false);
   const [modalEditCrateDropsIsOpen, setModalEditCrateDropsIsOpen] = useState<boolean>(false);
@@ -30,20 +30,11 @@ const CratesPage = () => {
     getAllCratesFunction();
   }, []);
 
-  // Search autocomplete
-  const getAutoCompleteFunction = async () => {
-    const autoCompleteResponse = await api.get(`/user/searchProfile/autocomplete?username=${searchInput}`);
-    setSearchAutocomplete(autoCompleteResponse.data);
+  const handleClickSearchCrate = (crate: ICrate) => {
+    setCrateSelected(crate);
+    setSearchInput('');
+    setModalEditCrateIsOpen(true);
   };
-
-  useEffect(() => {
-    if (!searchInput) {
-      setSearchAutocomplete([]);
-      return;
-    }
-
-    getAutoCompleteFunction();
-  }, [searchInput]);
 
   return (
     <div className="cratesPageContainer">
@@ -60,19 +51,30 @@ const CratesPage = () => {
         setModalEditCrateDropsIsOpen={setModalEditCrateDropsIsOpen}
         crateInformations={crateSelected}
         getCratesInformationsFunction={getAllCratesFunction}
+        setModalEditCrateIsOpen={setModalEditCrateIsOpen}
       />
 
       <div className="titleAndSearchContainer">
         <SectionTitle title="Caixas" />
 
         <div className="searchInput">
-          <input type="text" placeholder="Procure uma caixa" onChange={(e) => setSearchInput(e.target.value)} />
+          <input
+            type="text"
+            placeholder="Procure uma caixa"
+            onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
+          />
           <div className="searchResultsContainer">
-            {searchAutocomplete &&
-              searchAutocomplete.map((autocomplete, index) => (
-                <div className="searchResult" key={index} data-aos="fade-in">
-                  <img src="" alt="" />
-                  <p>{autocomplete.name}</p>
+            {searchInput &&
+              searchCratesResult.slice(0, 4).map((autCompleteCrate, index) => (
+                <div
+                  className="searchResult"
+                  key={index}
+                  data-aos="fade-in"
+                  onClick={() => handleClickSearchCrate(autCompleteCrate)}
+                >
+                  <img src={autCompleteCrate.crateImage} alt="" />
+                  <p>{autCompleteCrate.name}</p>
                 </div>
               ))}
           </div>

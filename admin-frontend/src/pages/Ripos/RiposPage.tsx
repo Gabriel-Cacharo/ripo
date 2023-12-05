@@ -2,21 +2,19 @@ import { useEffect, useState } from 'react';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 
-import Character from '../../assets/images/Boneco_Ind.png';
-
 import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import RipoCard from '../../components/RipoCard/RipoCard';
+import ModalEditRipo from './ModalEditRipo/ModalEditRipo';
 
 import { IRipo } from './types';
 import { api } from '../../services/api';
-import ModalEditRipo from './ModalEditRipo/ModalEditRipo';
 
 const RiposPage = () => {
   const [allRipos, setAllRipos] = useState<IRipo[]>([]);
   const [ripoSelected, setRipoSelected] = useState<IRipo>();
-  const [searchAutocomplete, setSearchAutocomplete] = useState<any[]>([]);
 
   const [searchInput, setSearchInput] = useState('');
+  const searchRiposResult = allRipos.filter((ripo) => ripo.name.toLowerCase().includes(searchInput.toLowerCase()));
 
   const [modalEditRipoIsOpen, setModalEditRipoIsOpen] = useState(false);
 
@@ -29,6 +27,12 @@ const RiposPage = () => {
   useEffect(() => {
     getAllRiposFunction();
   }, []);
+
+  const handleClickSearchRipo = (ripo: IRipo) => {
+    setRipoSelected(ripo);
+    setSearchInput('');
+    setModalEditRipoIsOpen(true);
+  };
 
   return (
     <div className="riposPageContainer">
@@ -43,13 +47,23 @@ const RiposPage = () => {
         <SectionTitle title="Ripos" />
 
         <div className="searchInput">
-          <input type="text" placeholder="Procure um ripo" onChange={(e) => setSearchInput(e.target.value)} />
+          <input
+            type="text"
+            placeholder="Procure um ripo"
+            onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
+          />
           <div className="searchResultsContainer">
-            {searchAutocomplete &&
-              searchAutocomplete.map((autocomplete, index) => (
-                <div className="searchResult" key={index} data-aos="fade-in" onClick={() => console.log('oi')}>
-                  <img src={autocomplete.ripoId ? autocomplete.ripoId : Character} alt="User Ripo" />
-                  <p>{autocomplete.username}</p>
+            {searchInput &&
+              searchRiposResult.slice(0, 4).map((autCompleteRipo, index) => (
+                <div
+                  className="searchResult"
+                  key={index}
+                  data-aos="fade-in"
+                  onClick={() => handleClickSearchRipo(autCompleteRipo)}
+                >
+                  <img src={autCompleteRipo.ripoImage} alt="" />
+                  <p>{autCompleteRipo.name}</p>
                 </div>
               ))}
           </div>

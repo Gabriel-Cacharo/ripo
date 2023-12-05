@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { AiOutlineSearch } from 'react-icons/ai';
-
-import Character from '../../assets/images/Boneco_Ind.png';
 
 import UserCard from '../../components/UserCard/UserCard';
 import SectionTitle from '../../components/SectionTitle/SectionTitle';
@@ -11,10 +10,12 @@ import { ISearch, IUser } from './types';
 import { api } from '../../services/api';
 
 const UsersPage = () => {
+  const navigate = useNavigate();
+
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
-  const [searchAutocomplete, setSearchAutocomplete] = useState<ISearch[]>([]);
 
   const [searchInput, setSearchInput] = useState('');
+  const searchUsersResult = allUsers.filter((user) => user.username.toLowerCase().includes(searchInput.toLowerCase()));
 
   useEffect(() => {
     const getAllUsersFunction = async () => {
@@ -26,20 +27,10 @@ const UsersPage = () => {
     getAllUsersFunction();
   }, []);
 
-  // Search autocomplete
-  const getAutoCompleteFunction = async () => {
-    const autoCompleteResponse = await api.get(`/user/searchProfile/autocomplete?username=${searchInput}`);
-    setSearchAutocomplete(autoCompleteResponse.data);
+  const handleClickSearchUser = (user: IUser) => {
+    setSearchInput('');
+    navigate(`/user/${user.username}`);
   };
-
-  useEffect(() => {
-    if (!searchInput) {
-      setSearchAutocomplete([]);
-      return;
-    }
-
-    getAutoCompleteFunction();
-  }, [searchInput]);
 
   return (
     <div className="usersPageContainer">
@@ -47,18 +38,23 @@ const UsersPage = () => {
         <SectionTitle title="Usuários" />
 
         <div className="searchInput">
-          <input type="text" placeholder="Procure um usuário" onChange={(e) => setSearchInput(e.target.value)} />
+          <input
+            type="text"
+            placeholder="Procure um usuário"
+            onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
+          />
           <div className="searchResultsContainer">
-            {searchAutocomplete &&
-              searchAutocomplete.map((autocomplete, index) => (
+            {searchInput &&
+              searchUsersResult.slice(0, 4).map((autoCompleteUser, index) => (
                 <div
                   className="searchResult"
                   key={index}
                   data-aos="fade-in"
-                  onClick={() => handleClickToSearchProfile(autocomplete.username)}
+                  onClick={() => handleClickSearchUser(autoCompleteUser)}
                 >
-                  <img src={autocomplete.ripoId ? autocomplete.ripoId : Character} alt="User Ripo" />
-                  <p>{autocomplete.username}</p>
+                  <img src={autoCompleteUser.ripoId.ripoImage} alt="" />
+                  <p>{autoCompleteUser.username}</p>
                 </div>
               ))}
           </div>
