@@ -5,9 +5,9 @@ import { api } from '../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-import { IAuthProvider, IUser } from './types';
+import { IAuthProvider, IUser, IAuthContext } from './types';
 
-export const AuthContext = createContext({} as any);
+export const AuthContext = createContext({} as IAuthContext);
 
 export const AuthProvider = ({ children }: IAuthProvider) => {
   const navigate = useNavigate();
@@ -41,9 +41,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
       let loggedUserInfo = {
         email,
         id: apiLoginAdminResponse.data.user.id,
-        coins: apiLoginAdminResponse.data.user.coins,
         userName: apiLoginAdminResponse.data.user.username,
-        ripoId: String(apiLoginAdminResponse.data.user.ripoId),
         verifiedEmail: apiLoginAdminResponse.data.user.verifiedEmail,
         admin: apiLoginAdminResponse.data.user.admin,
       };
