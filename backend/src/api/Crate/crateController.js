@@ -63,6 +63,10 @@ module.exports = {
         }
       }
     } catch (err) {
+      if (err.name.includes('Sequelize')) {
+        throw new Error(SERVER_ERR_MESSAGE);
+      }
+
       throw new Error(err.message || SERVER_ERR_MESSAGE);
     }
   },
