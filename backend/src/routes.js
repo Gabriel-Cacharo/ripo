@@ -17,7 +17,7 @@ router.put('/admin/crates/editCrateDrops', authAdminMiddleware, Crate.editCrateD
 router.get('/admin/user/searchProfile', authAdminMiddleware, User.searchProfileWithCrates);
 router.post('/admin/user/editUserBasicInformations', authAdminMiddleware, User.editUserBasicInformations);
 
-router.get('/admin/crates/getSpecificUserCrates', Crate.getSpecificUserCrates);
+router.get('/admin/crates/getSpecificUserCrates', authAdminMiddleware, Crate.getSpecificUserCrates);
 
 router.put('/admin/ripos/editRipoBasicInformations', authMiddleware, Ripo.editRipoBasicInformations);
 
@@ -32,8 +32,9 @@ router.post('/ripos/sell', authMiddleware, Ripo.sellRipo);
 router.post('/ripos/createUserRipo', authMiddleware, Ripo.createUserRipo);
 router.get('/ripos/allClothes', authMiddleware, Ripo.getAllRipoClothes);
 router.get('/ripos/owner', authMiddleware, User.getPublicRipoOwner);
-router.get('/ripos/all', Ripo.getAllRipos);
-router.post('/ripos/addUserRipos', Ripo.addUserRipos);
+router.get('/ripos/all', authMiddleware, Ripo.getAllRipos);
+router.post('/ripos/addUserRipos', authMiddleware, Ripo.addUserRipos);
+router.delete('/ripos/deleteUserRipo', authMiddleware, Ripo.deleteUserRipo);
 
 router.get('/crates/getUserCrates', authMiddleware, Crate.getUserCrates);
 router.post('/crates/redeem', authMiddleware, Crate.redeemCrate);
@@ -44,6 +45,7 @@ router.get('/users/all', User.getAllUsers);
 router.post('/users/removeRipo', Ripo.removeUserRipo);
 router.post('/users/removeCrate', Crate.removeUserCrate);
 
+router.get('/user/getUserRipo/:userId', authMiddleware, User.getUserRipo);
 router.get('/user/searchProfile', authMiddleware, User.searchProfile);
 router.get('/user/profile', authMiddleware, User.profile);
 router.post('/user/updateFacRipos', authMiddleware, User.updateUserFacRipos);
