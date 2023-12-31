@@ -49,9 +49,13 @@ const ForgotPasswordPage = () => {
       try {
         const forgotPasswordResponse = await api.post('/auth/forgotPassword', { email });
 
-        return toast.success(forgotPasswordResponse.data.message);
+        toast.success(forgotPasswordResponse.data.message);
+
+        return navigate('/');
       } catch (err) {
-        return toast.error(err.response.data.error);
+        toast.error(err.response.data.error);
+
+        return navigate('/');
       }
     }
   };
