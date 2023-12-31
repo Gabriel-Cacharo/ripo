@@ -1,4 +1,4 @@
-import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
+import { Route, Routes, Outlet, Navigate, useParams } from 'react-router-dom';
 import { useContext } from 'react';
 
 import { AuthContext } from './context/AuthContext';
@@ -37,8 +37,23 @@ function AppRoutes() {
     return !user.ripoId || user.ripoId === 'null' || user.ripoId === 'undefined' ? (
       <Outlet />
     ) : (
-      <Navigate to="/profile" />
+      <Navigate to="/createRipo/recreate" />
     );
+  }
+
+  function EditRipoRoute() {
+    const { user, loading } = useContext(AuthContext);
+    const { recreate } = useParams();
+
+    if (!recreate || recreate !== 'recreate') {
+      <Navigate to="/profile" />;
+    }
+
+    if (loading) {
+      return <Home />;
+    }
+
+    return <Outlet />;
   }
 
   return (
@@ -56,6 +71,10 @@ function AppRoutes() {
 
       <Route path="createRipo" element={<CreateRipoRoute />}>
         <Route path="/createRipo" element={<CreateRipoPage />} />
+      </Route>
+
+      <Route path="createRipo/:recreate" element={<EditRipoRoute />}>
+        <Route path="/createRipo/:recreate" element={<CreateRipoPage />} />
       </Route>
 
       <Route path="/auth" exact element={<Auth />} />

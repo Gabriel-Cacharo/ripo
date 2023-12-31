@@ -7,6 +7,10 @@ module.exports = {
     return await Ripo.create(obj);
   },
 
+  async destroyRipoDatabase(ripoId) {
+    return await Ripo.destroy({ where: { id: ripoId } });
+  },
+
   async getUserRipos(userId) {
     const user = await User.findByPk(userId);
     const userRipos = await user.getRipos();

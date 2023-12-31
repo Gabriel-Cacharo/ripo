@@ -13,6 +13,7 @@ const {
   findUsersSearchDatabase,
   findAllUsers,
   getUserInformationsWithCratesDatabase,
+  getUserRipoDatabase,
 } = require('./userDatabase');
 const { getUserRiposController } = require('../Ripo/ripoController');
 const { getRipoById, countRiposPublic } = require('../Ripo/ripoDatabase');
@@ -20,6 +21,7 @@ const { addCrateToUserAfterVerifyEmailDatabase } = require('../Crate/crateDataba
 
 const { SERVER_ERR_MESSAGE } = require('../../utils/errorsCode');
 const transport = require('../../services/nodemailer');
+const dayjs = require('dayjs');
 
 module.exports = {
   async registerController(obj) {
@@ -376,6 +378,10 @@ module.exports = {
 
       return await updateUser({ password: encryptedPassword }, { where: { id: userInformations.id } });
     } catch (err) {
+      if (err.message === 'jwt expired') {
+        throw new Error('O token fornecido já expirou, faça um novo pedido de redefinição de senha.');
+      }
+
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },
@@ -427,6 +433,17 @@ module.exports = {
 
       return updatedUserResponse;
     } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async getUserRipoController(userId) {
+    try {
+      const userRipoResponse = await getUserRipoDatabase(userId);
+
+      return userRipoResponse.dataValues.ripoImage;
+    } catch (err) {
+      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

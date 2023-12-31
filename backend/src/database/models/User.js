@@ -38,7 +38,7 @@ class User extends Model {
 
   static associate(models) {
     this.belongsToMany(models.Crate, { foreignKey: 'userId', through: 'userCrates', as: 'crates', unique: false });
-    this.belongsToMany(models.Ripo, { foreignKey: 'userId', through: 'userRipos', as: 'ripos', unique: false });
+    this.belongsToMany(models.Ripo, { foreignKey: 'userId', through: 'userRipos', unique: false });
   }
 }
 

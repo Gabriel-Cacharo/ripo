@@ -12,6 +12,7 @@ class Ripo extends Model {
         rarity: DataTypes.STRING,
         price: DataTypes.STRING,
         ripoImage: DataTypes.STRING,
+        publicId: DataTypes.STRING,
         name: DataTypes.STRING,
         public: DataTypes.BOOLEAN,
       },
@@ -24,7 +25,7 @@ class Ripo extends Model {
 
   static associate(models) {
     this.belongsToMany(models.Crate, { through: 'id' });
-    this.belongsToMany(models.User, { foreignKey: 'ripoId', through: 'userRipos', as: 'users', unique: false });
+    this.belongsToMany(models.User, { foreignKey: 'ripoId', through: 'userRipos', unique: false });
   }
 }
 

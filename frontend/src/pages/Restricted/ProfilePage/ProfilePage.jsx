@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -16,12 +16,14 @@ import Knife from '../../../assets/images/Arma_Ind2.png';
 import { AiFillStar } from 'react-icons/ai';
 import { GoSearch } from 'react-icons/go';
 import { MdEdit } from 'react-icons/md';
-import { FaTwitch, FaInstagram } from 'react-icons/fa';
+import { FaTwitch, FaInstagram, FaEdit } from 'react-icons/fa';
 
 import { api } from '../../../services/api';
 import ModalEditProfile from './components/ModalEditProfile/ModalEditProfile';
 
 const FactionPage = () => {
+  const navigate = useNavigate();
+
   const { username } = useParams();
   const userLocalStorageInformations = localStorage.getItem('user');
 
@@ -98,6 +100,10 @@ const FactionPage = () => {
     setUsernameInput('');
   };
 
+  const handleGoToEditPersonRipo = () => {
+    navigate('/createRipo');
+  };
+
   return (
     <div className="factionPageContainer">
       {/* Modal Edit Profile */}
@@ -169,6 +175,9 @@ const FactionPage = () => {
 
       <section className="facMembersInformationContainer">
         <div className="facOwnerImage" data-aos="zoom-in">
+          <button type="button" onClick={() => handleGoToEditPersonRipo()}>
+            <MdEdit />
+          </button>
           <img src={userInformations.profileRipo || CharacterNissin} alt="User Ripo" />
         </div>
 

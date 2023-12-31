@@ -1,9 +1,9 @@
-const { uploadImageCloudinary } = require('../../services/cloudinary');
+const { uploadImageCloudinary, destroyImageCloudinary } = require('../../services/cloudinary');
 
 const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/errorsCode');
 const { renderImageByBase64 } = require('../../utils/renderImage');
 
-const { findOneUserWhere, addUserCoins, updateUser } = require('../User/userDatabase');
+const { findOneUserWhere, addUserCoins, updateUser, getUserRipoDatabase } = require('../User/userDatabase');
 const {
   getUserRipos,
   verifyIfUserAlreadyHaveThisRipoDatabase,
@@ -14,6 +14,7 @@ const {
   removeUserRipoDatabase,
   getAllRiposDatabase,
   editRipoBasicInformationsDatabase,
+  destroyRipoDatabase,
 } = require('./ripoDatabase');
 
 module.exports = {
@@ -57,6 +58,7 @@ module.exports = {
         rarity: 0,
         price: '300',
         ripoImage: imageUploadedResponse.url,
+        publicId: imageUploadedResponse.public_id,
         name: ripoName,
         public: false,
       };
@@ -130,6 +132,21 @@ module.exports = {
 
       return await editRipoBasicInformationsDatabase(ripoId, ripoObj);
     } catch (err) {
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async deleteUserRipoController(userId) {
+    try {
+      const userRipo = await getUserRipoDatabase(userId);
+
+      await destroyImageCloudinary(userRipo.dataValues.publicId);
+
+      await destroyRipoDatabase(userRipo.dataValues.id);
+
+      return await updateUser({ ripoId: null }, { where: { id: userId } });
+    } catch (err) {
+      console.log(err);
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

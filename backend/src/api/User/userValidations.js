@@ -14,7 +14,9 @@ const resetPasswordValidation = z.object({ newPassword: z.string(), oldPassword:
 
 const forgotPasswordValidation = z.object({ email: z.string() }).strict();
 
-const acceptForgotPasswordValidation = z.object({ token: z.string(), newPassword: z.string() }).strict();
+const getUserRipoValidation = z.object({ userId: z.string() }).strict();
+
+const acceptForgotPasswordValidation = z.object({ token: z.string(), newPassword: z.string().min(3) }).strict();
 
 const editBasicUserInformationsValidation = z
   .object({
@@ -36,4 +38,5 @@ module.exports = {
   forgotPasswordValidation,
   acceptForgotPasswordValidation,
   editBasicUserInformationsValidation,
+  getUserRipoValidation,
 };

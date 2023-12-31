@@ -2,6 +2,7 @@ const User = require('../../database/models/User');
 const ForgotPassword = require('../../database/models/ForgotPassword');
 const { Op } = require('sequelize');
 const Crate = require('../../database/models/Crate');
+const Ripo = require('../../database/models/Ripo');
 
 module.exports = {
   async findAllUsers() {
@@ -26,6 +27,15 @@ module.exports = {
 
   async updateUser(obj, where) {
     return await User.update(obj, where);
+  },
+
+  async getUserRipoDatabase(userId) {
+    return await User.findOne({ where: { id: userId }, attributes: ['ripoId'] }).then((user) => {
+      return Ripo.findOne({
+        where: { id: user.dataValues.ripoId },
+        attributes: ['id', 'ripoImage', 'publicId'],
+      });
+    });
   },
 
   async getUserInformationsDatabase(userId) {

@@ -261,3 +261,106 @@
     }
   }
 }
+
+// Modal Confirm Recreate Ripo
+.modalConfirmRecreateRipo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+
+  height: 100%;
+  width: 100%;
+
+  .riposImagesContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+
+    img {
+      height: 250px;
+
+      &:first-child {
+        background-image: url('../../assets/images/BolaPersonagens.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+
+      &:last-child {
+        background-image: url('../../assets/images/BolaPersonagensVerde.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+    }
+  }
+
+  .buttonsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      width: 170px;
+      height: 40px;
+      background-color: transparent;
+      border-radius: 8px;
+
+      font-size: 1.1rem;
+
+      transition: all 200ms ease-in-out;
+
+      &:first-child {
+        color: $primary-color;
+        border: 1px solid $primary-color;
+
+        &:hover {
+          background-color: $primary-color;
+          color: white;
+          filter: drop-shadow(0 0 1px $primary-color-opacity) drop-shadow(0 0 2px $primary-color-opacity)
+            drop-shadow(0 0 4px $primary-color-opacity);
+        }
+      }
+
+      &:last-child {
+        color: $error-color;
+        border: 1px solid $error-color;
+
+        &:hover {
+          background-color: $error-color;
+          color: white;
+          filter: drop-shadow(0 0 1px $error-color-opacity) drop-shadow(0 0 2px $error-color-opacity)
+            drop-shadow(0 0 4px $error-color-opacity);
+        }
+      }
+
+      &:hover {
+        transform: translateY(-0.2rem);
+      }
+    }
+  }
+
+  &::after {
+    content: '';
+    height: 20px;
+    width: 50%;
+    background-color: $primary-color;
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, 0px);
+    border-radius: 12px 12px 0px 0px;
+    filter: drop-shadow(0 0 1px $primary-color-opacity) drop-shadow(0 0 2px $primary-color-opacity)
+      drop-shadow(0 0 4px $primary-color-opacity);
+  }
+}
