@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 
 import UsersPage from './pages/Users/UsersPage';
 import UserPage from './pages/User/UserPage';
@@ -10,15 +10,23 @@ import CratesPage from './pages/Crates/CratesPage';
 import { AuthContext } from './context/AuthContext';
 
 const AppRoutes = () => {
-  function PrivateRoute() {
-    const { isAuthenticated, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
 
+  const { isAuthenticated, loading } = useContext(AuthContext);
+
+  function PrivateRoute() {
     if (loading) {
       return <div></div>;
     }
 
     return isAuthenticated ? <Outlet /> : <Navigate to="/auth/login" />;
   }
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return navigate('/auth/login');
+    }
+  }, []);
 
   return (
     <Routes>
