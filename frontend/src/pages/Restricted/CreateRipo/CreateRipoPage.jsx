@@ -35,6 +35,7 @@ const CreateRipoPage = () => {
   const [userRipoImage, setUserRipoImage] = useState('');
 
   const [isRecreate, setIsRecreate] = useState(false);
+  const [newRipoImage, setNewRipoImage] = useState('');
   const [modalConfirmRecreateIsOpen, setModalConfirmReacreateIsOpen] = useState(false);
 
   const [pageSelected, setPageSelected] = useState(0);
@@ -69,6 +70,20 @@ const CreateRipoPage = () => {
 
   const { contextSetUserRipoId } = useContext(AuthContext);
 
+  // Generate new Ripo image before open the confirm recreate modal is open
+  const handleOpenConfirmEditRipoModal = async () => {
+    await html2canvas(document.querySelector('.character'), { backgroundColor: 'null', useCORS: true }).then(
+      async (canvas) => {
+        var dataURL = canvas.toDataURL('image/png');
+
+        setNewRipoImage(dataURL);
+      }
+    );
+
+    setModalConfirmReacreateIsOpen(true);
+  };
+
+  // Create/recreate ripo
   const createUserRipoFunction = async () => {
     setLoading(true);
 
@@ -85,9 +100,26 @@ const CreateRipoPage = () => {
         async (canvas) => {
           var dataURL = canvas.toDataURL('image/png');
 
-          await api.post('/ripos/createUserRipo', { ripoName, ripoUrl: dataURL, instagram, twitch });
-          await contextSetUserRipoId();
-          toast.success('O seu Ripo foi criado com sucesso');
+          if (recreate) {
+            await api.put('/ripos/editRipoImage', {
+              ripoId: JSON.parse(loggedUserInfo).ripoId,
+              ripoName,
+              ripoUrl: dataURL,
+            });
+
+            await contextSetUserRipoId(JSON.parse(loggedUserInfo).ripoId);
+          } else {
+            const createdUserRipoResponse = await api.post('/ripos/createUserRipo', {
+              ripoName,
+              ripoUrl: dataURL,
+              instagram,
+              twitch,
+            });
+
+            await contextSetUserRipoId(createdUserRipoResponse.data.id);
+          }
+
+          toast.success(recreate ? 'O seu Ripo foi recriado com sucesso' : 'O seu Ripo foi criado com sucesso');
           setLoading(false);
           navigate('/crate');
         }
@@ -99,17 +131,6 @@ const CreateRipoPage = () => {
       });
       return toast.error('Ocorreu um erro ao criar o seu Ripo. Tente novamente mais tarde');
     }
-  };
-
-  const getAllClothesData = async () => {
-    const allClothesResponse = await api.get('/ripos/allClothes');
-
-    setAllClothesData({
-      hair: allClothesResponse.data.filter((clothes) => clothes.type === 0),
-      beard: allClothesResponse.data.filter((clothes) => clothes.type === 1),
-      shirt: allClothesResponse.data.filter((clothes) => clothes.type === 2),
-      pants: allClothesResponse.data.filter((clothes) => clothes.type === 3),
-    });
   };
 
   const getUserRipoImage = async () => {
@@ -124,19 +145,15 @@ const CreateRipoPage = () => {
     }
   };
 
-  const handleRecreateRipo = async () => {
-    setLoading(true);
+  const getAllClothesData = async () => {
+    const allClothesResponse = await api.get('/ripos/allClothes');
 
-    try {
-      const destroyedRipoResponse = await api.delete('/ripos/deleteUserRipo');
-
-      console.log(destroyedRipoResponse);
-
-      return createUserRipoFunction();
-    } catch (err) {
-      setLoading(false);
-      return toast.error(err.message);
-    }
+    setAllClothesData({
+      hair: allClothesResponse.data.filter((clothes) => clothes.type === 0),
+      beard: allClothesResponse.data.filter((clothes) => clothes.type === 1),
+      shirt: allClothesResponse.data.filter((clothes) => clothes.type === 2),
+      pants: allClothesResponse.data.filter((clothes) => clothes.type === 3),
+    });
   };
 
   useEffect(() => {
@@ -203,11 +220,11 @@ const CreateRipoPage = () => {
             <span>
               <MdOutlineDoubleArrow size={50} />
             </span>
-            <img src={userRipoImage} alt="" />
+            <img src={newRipoImage} alt="" />
           </div>
 
           <div className="buttonsContainer">
-            <button type="button" onClick={handleRecreateRipo}>
+            <button type="button" onClick={createUserRipoFunction}>
               {loading ? (
                 <Lottie
                   options={animationLoadingSmallSettings}
@@ -499,7 +516,7 @@ const CreateRipoPage = () => {
 
               <button
                 className="finishCreateRipoButton"
-                onClick={() => (recreate ? setModalConfirmReacreateIsOpen(true) : createUserRipoFunction())}
+                onClick={() => (recreate ? handleOpenConfirmEditRipoModal() : createUserRipoFunction())}
                 disabled={loading}
               >
                 {loading ? (

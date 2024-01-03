@@ -126,9 +126,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const contextSetUserRipoId = async () => {
+  const contextSetUserRipoId = async (id) => {
     try {
-      const updatedUser = { ...user, ripoId: '1' };
+      const updatedUser = { ...user, ripoId: id };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
     } catch (err) {
