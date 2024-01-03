@@ -11,6 +11,8 @@ const {
   addUserRiposController,
   editRipoBasicInformationsController,
   deleteUserRipoController,
+  getRipoImageController,
+  editRipoImageController,
 } = require('./ripoController');
 const {
   createUserRipoValidation,
@@ -160,6 +162,30 @@ module.exports = {
       const destroyedRipoResponse = await deleteUserRipoController(userTokenPayload.id);
 
       return res.status(200).json(destroyedRipoResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async getRipoImage(req, res) {
+    const { ripoId } = req.params;
+
+    try {
+      const ripoImageResponse = await getRipoImageController(ripoId);
+
+      return res.status(200).json(ripoImageResponse);
+    } catch (err) {
+      return res.status(SERVER_ERR_CODE).json({ error: err.message });
+    }
+  },
+
+  async editRipoImage(req, res) {
+    const { ripoId, ripoUrl, ripoName } = req.body;
+
+    try {
+      const ripoEditedImageResponse = await editRipoImageController(ripoId, ripoUrl, ripoName);
+
+      return res.status(200).json(ripoEditedImageResponse);
     } catch (err) {
       return res.status(SERVER_ERR_CODE).json({ error: err.message });
     }

@@ -31,4 +31,20 @@ module.exports = {
       throw new Error(err);
     }
   },
+
+  async editImageCloudinary(publicId, imageName) {
+    try {
+      const editedImageResponse = await cloudinary.uploader.upload(imageName, {
+        public_id: publicId,
+        resource_type: 'image',
+        unique_filename: true,
+        width: 400,
+        height: 600,
+      });
+
+      return editedImageResponse;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
 };

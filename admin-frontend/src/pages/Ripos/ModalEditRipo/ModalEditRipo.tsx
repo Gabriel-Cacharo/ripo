@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 import { BsCheck, BsStar, BsCoin } from 'react-icons/bs';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -15,6 +16,8 @@ const ModalEditRipo = ({
   ripoInformations,
   getRiposInformationsFunction,
 }: IModalEditRipo) => {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
 
   const [ripoInformationsState, setRipoInformationsState] = useState({
@@ -188,7 +191,7 @@ const ModalEditRipo = ({
         </main>
 
         <footer className="modalEditRipoFooter">
-          <button type="button" onClick={handleSaveRipoInformations} disabled={true}>
+          <button type="button" onClick={() => navigate(`/recreateRipo/${ripoInformations?.id}`)}>
             Ir para edição <MdEdit className="icon" />
           </button>
           <button type="submit" onClick={handleSaveRipoInformations} disabled={loading}>

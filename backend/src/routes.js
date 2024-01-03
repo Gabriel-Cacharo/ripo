@@ -20,6 +20,7 @@ router.post('/admin/user/editUserBasicInformations', authAdminMiddleware, User.e
 router.get('/admin/crates/getSpecificUserCrates', authAdminMiddleware, Crate.getSpecificUserCrates);
 
 router.put('/admin/ripos/editRipoBasicInformations', authMiddleware, Ripo.editRipoBasicInformations);
+router.put('/admin/ripos/editRipoImage', authAdminMiddleware, Ripo.editRipoImage);
 
 // User Routes
 router.post('/auth/register', User.register);
@@ -35,6 +36,7 @@ router.get('/ripos/owner', authMiddleware, User.getPublicRipoOwner);
 router.get('/ripos/all', authMiddleware, Ripo.getAllRipos);
 router.post('/ripos/addUserRipos', authMiddleware, Ripo.addUserRipos);
 router.delete('/ripos/deleteUserRipo', authMiddleware, Ripo.deleteUserRipo);
+router.get('/ripos/getRipoImage/:ripoId', authMiddleware, Ripo.getRipoImage);
 
 router.get('/crates/getUserCrates', authMiddleware, Crate.getUserCrates);
 router.post('/crates/redeem', authMiddleware, Crate.redeemCrate);

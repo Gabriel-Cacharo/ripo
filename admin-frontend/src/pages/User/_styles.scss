@@ -110,6 +110,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
 
       background-image: url('../../assets/images/BolaPersonagens.png');
       background-repeat: no-repeat;
@@ -127,6 +128,24 @@
 
       img {
         height: 90%;
+      }
+
+      button {
+        position: absolute;
+        top: 10%;
+        right: 10px;
+        background-color: $primary-color;
+        border-radius: 50%;
+        color: $white;
+        height: 30px;
+        width: 30px;
+
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+          background-color: $white;
+          color: $primary-color;
+        }
       }
     }
 

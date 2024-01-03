@@ -8,6 +8,7 @@ import RiposPage from './pages/Ripos/RiposPage';
 import CratesPage from './pages/Crates/CratesPage';
 
 import { AuthContext } from './context/AuthContext';
+import EditRipoPage from './pages/RecreateRipo/RecreateRipoPage';
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -48,6 +49,10 @@ const AppRoutes = () => {
 
       <Route path="/crates" element={<PrivateRoute />}>
         <Route path="/crates" element={<CratesPage />} />
+      </Route>
+
+      <Route path="/recreateRipo/:ripoId" element={<PrivateRoute />}>
+        <Route path="/recreateRipo/:ripoId" element={<EditRipoPage />} />
       </Route>
 
       <Route path="/auth/login" element={<LoginPage />} />

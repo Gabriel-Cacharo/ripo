@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 
@@ -24,6 +24,7 @@ import ModalAddCrate from './components/ModalAddCrate/ModalAddCrate';
 
 const UserPage = () => {
   const { username } = useParams();
+  const navigate = useNavigate();
   const userLocalStorageInformations = localStorage.getItem('user');
 
   const [userInformations, setUserInformations] = useState<IUser>({} as IUser);
@@ -163,6 +164,9 @@ const UserPage = () => {
 
       <section className="facMembersInformationContainer">
         <div className="facOwnerImage" data-aos="zoom-in">
+          <button type="button" onClick={() => navigate(`/recreateRipo/${userInformations.user.ripoId}`)}>
+            <MdEdit className="icon" />
+          </button>
           <img src={userInformations?.profileRipo || CharacterNissin} alt="User Ripo" />
         </div>
 

@@ -1,4 +1,4 @@
-const { uploadImageCloudinary, destroyImageCloudinary } = require('../../services/cloudinary');
+const { uploadImageCloudinary, destroyImageCloudinary, editImageCloudinary } = require('../../services/cloudinary');
 
 const { SERVER_ERR_MESSAGE, USER_NOT_EXISTS_MESSAGE } = require('../../utils/errorsCode');
 const { renderImageByBase64 } = require('../../utils/renderImage');
@@ -15,6 +15,7 @@ const {
   getAllRiposDatabase,
   editRipoBasicInformationsDatabase,
   destroyRipoDatabase,
+  getRipoById,
 } = require('./ripoDatabase');
 
 module.exports = {
@@ -147,6 +148,40 @@ module.exports = {
       return await updateUser({ ripoId: null }, { where: { id: userId } });
     } catch (err) {
       console.log(err);
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async getRipoImageController(ripoId) {
+    try {
+      const ripoImageResponse = await getRipoById(ripoId);
+
+      return ripoImageResponse.dataValues.ripoImage;
+    } catch (err) {
+      console.log(err);
+      throw new Error(SERVER_ERR_MESSAGE);
+    }
+  },
+
+  async editRipoImageController(ripoId, ripoUrl, ripoName) {
+    try {
+      const ripoResponse = await getRipoById(ripoId);
+
+      await renderImageByBase64(ripoUrl);
+
+      // Edit image at cloudinary
+      const imageUploadedResponse = await editImageCloudinary(ripoResponse.dataValues.publicId, 'image.png');
+
+      const ripoObj = {
+        ripoImage: imageUploadedResponse.url,
+        publicId: imageUploadedResponse.public_id,
+        name: ripoName,
+      };
+
+      await editRipoBasicInformationsDatabase(ripoId, ripoObj);
+
+      return { ripoImage: imageUploadedResponse.url, ripoName: ripoName };
+    } catch (err) {
       throw new Error(SERVER_ERR_MESSAGE);
     }
   },

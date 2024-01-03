@@ -1,0 +1,31 @@
+@media (max-width: 990px) {
+  .createRipoPageContainer .createRipoContainer .createRipoOptionsContainer .buttonsBottomContainer .ripoNameInput {
+    &:first-child {
+      margin: 10px;
+    }
+  }
+}
+
+@media (max-width: 850px) {
+  .createRipoPageContainer .createRipoContainer {
+    flex-direction: column;
+    justify-content: center;
+
+    .characterImageContainer {
+      margin: 0;
+    }
+
+    .createRipoOptionsContainer {
+      align-items: center;
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .createRipoPageContainer {
+    h3 {
+      align-self: center;
+      font-size: 1.75rem;
+    }
+  }
+}

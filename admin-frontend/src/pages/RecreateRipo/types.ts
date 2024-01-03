@@ -1,0 +1,36 @@
+export interface IClothes {
+  beige: string;
+  black: string;
+  blue: string;
+  createdAt: string;
+  cyan: string;
+  darkPink: string;
+  darkRed: string;
+  darkWhite: string;
+  darkYellow: string;
+  default: string;
+  gray: string;
+  green: string;
+  ice: string;
+  id: number;
+  lightBlue: string;
+  lightCyan: string;
+  lightGray: string;
+  lightGreen: string;
+  lightOrange: string;
+  lightPink: string;
+  lightPurple: string;
+  lightPurpleWithBlue: string;
+  lightRed: string;
+  lime: string;
+  name: string;
+  orange: string;
+  pink: string;
+  purple: string;
+  red: string;
+  salmon: string;
+  type: number;
+  updatedAt: string;
+  white: string;
+  yellow: string;
+}
