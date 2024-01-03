@@ -67,10 +67,9 @@ module.exports = {
       const createdRipoResponse = await createRipo(ripoObj);
 
       // Link ripoId into user
-      return await updateUser(
-        { ripoId: createdRipoResponse.dataValues.id, twitch, instagram },
-        { where: { id: userId } }
-      );
+      await updateUser({ ripoId: createdRipoResponse.dataValues.id, twitch, instagram }, { where: { id: userId } });
+
+      return createdRipoResponse;
 
       // Add ripo to user
       // return await addUserRipo(userId, createdRipoResponse.dataValues.id);
