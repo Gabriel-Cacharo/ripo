@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "shank",
-    "password": "pudim991",
+    "username": "",
+    "password": "",
     "database": "ripo",
     "host": "127.0.0.1",
     "dialect": "mysql",
